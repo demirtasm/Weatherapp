@@ -1,6 +1,10 @@
+import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+}
+val localProperties = Properties().apply {
+    load(rootProject.file("local.properties").inputStream())
 }
 
 android {
@@ -13,8 +17,8 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "APP_ID", "\"${localProperties["APP_ID"]}\"")
     }
 
     buildTypes {
@@ -35,7 +39,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
-
+        buildConfig = true
     }
 }
 
