@@ -6,9 +6,10 @@ import android.net.NetworkCapabilities
 import android.os.Build
 
 object Constants {
-
+//https://api.open-meteo.com/v1/forecast?latitude=40.9751592&longitude=27.4933325&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code
     const val APP_ID: String  =  BuildConfig.APP_ID
-    const val BASE_URL:String = "https://api.openweathermap.org/data/"
+    const val BASE_URL_OPEN_WEATHER:String = "https://api.openweathermap.org/data/"
+    const val BASE_URL_OPEN_METEO:String = "https://api.open-meteo.com/v1/"
     const val METRIC_UNIT:String = "metric"
 
     fun isNetworkAvailable(context: Context): Boolean {
