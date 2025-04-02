@@ -1,4 +1,4 @@
-package com.example.weatherapp
+package com.example.weatherapp.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherapp.R
 import com.example.weatherapp.models.HourlyWeather
 import com.example.weatherapp.utils.WeatherCodeUtils
 import kotlin.math.roundToInt

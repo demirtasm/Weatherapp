@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="09:00"
         android:layout_gravity="center"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="10sp"
         android:fontFamily="@font/inter_thin" />
 
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:text="12°C"
             android:layout_gravity="center"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp"/>
 
 
@@ -50,7 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="14sp"/>
     </LinearLayout>
 
