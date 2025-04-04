@@ -6,6 +6,8 @@ import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -20,6 +22,10 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.adapter.HourlyWeatherAdapter
 import com.example.weatherapp.databinding.ActivityMainBinding
@@ -28,6 +34,10 @@ import com.example.weatherapp.models.OpenMeteoResponse
 import com.example.weatherapp.models.WeatherResponse
 import com.example.weatherapp.network.WeatherService
 import com.example.weatherapp.utils.WeatherCodeUtils
+import com.example.weatherapp.viewmodel.LocationViewModel
+import com.example.weatherapp.viewmodel.WeatherViewModel
+import com.example.weatherapp.views.TodayFragment
+import com.example.weatherapp.views.TodayFragmentDirections
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -59,26 +69,41 @@ import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
+    private var currentLat: Double? = null
+    private var currentLon: Double? = null
+    private var navController: NavController? = null
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private var mProgressDialog: Dialog? = null
     private lateinit var binding: ActivityMainBinding
-    val hourlyList = mutableListOf<HourlyWeather>()
+    private lateinit var locationViewModel: LocationViewModel
+    private lateinit var weatherViewModel: WeatherViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
+        weatherViewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
 
-        val backgroundScope = CoroutineScope(Dispatchers.IO)
-        backgroundScope.launch {
-            MobileAds.initialize(this@MainActivity) {
-                val adRequest = AdRequest.Builder().build()
-                binding.bannerAdView.loadAd(adRequest)
-            }
-        }
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
+        navController = navHostFragment?.findNavController()
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+
+        binding.btnToday.setOnClickListener {
+            updateTabSelection(R.id.btnToday)
+            navController?.navigate(R.id.todayFragment)
+        }
+
+
+        binding.btnTomorrow.setOnClickListener {
+            updateTabSelection(R.id.btnTomorrow)
+            navController?.navigate(R.id.tomorrowFragment)
+
+        }
+
 
 
         if (!isLocationEnabled()) {
@@ -115,6 +140,26 @@ class MainActivity : AppCompatActivity() {
                 }).onSameThread().check()
         }
 
+    }
+
+    private fun updateTabSelection(selectedButtonId: Int) {
+        val selectedColor = Color.parseColor("#E1B6FF")
+        val defaultColor = Color.parseColor("#FFFFFF")
+
+        binding.btnToday.backgroundTintList = ColorStateList.valueOf(defaultColor)
+        binding.btnTomorrow.backgroundTintList = ColorStateList.valueOf(defaultColor)
+        binding.btn10Days.backgroundTintList = ColorStateList.valueOf(defaultColor)
+
+        when (selectedButtonId) {
+            R.id.btnToday -> binding.btnToday.backgroundTintList =
+                ColorStateList.valueOf(selectedColor)
+
+            R.id.btnTomorrow -> binding.btnTomorrow.backgroundTintList =
+                ColorStateList.valueOf(selectedColor)
+
+            R.id.btn10Days -> binding.btn10Days.backgroundTintList =
+                ColorStateList.valueOf(selectedColor)
+        }
     }
 
     private fun getLocationWeatherDetails(latitude: Double, longitude: Double) {
@@ -167,88 +212,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    private fun getLocationOpenMeteoWeatherDetails(latitude: Double, longitude: Double) {
-        val retrofit: Retrofit =
-            Retrofit.Builder().baseUrl(Constants.BASE_URL_OPEN_METEO).addConverterFactory(
-                GsonConverterFactory.create()
-            ).build()
-        val service: WeatherService =
-            retrofit.create<WeatherService>(WeatherService::class.java)
-        val call = service.getOpenMeteoWeather(
-            latitude,
-            longitude,
-            current = "temperature_2m",
-            hourly = "temperature_2m,relative_humidity_2m,precipitation,weather_code,temperature_80m,temperature_120m,temperature_180m,rain,precipitation_probability",
-            daily = "weather_code",
-            timezone = "Europe/Moscow"
-
-        )
-        val now = LocalDateTime.now()
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
-        val endOfDay = now.toLocalDate().atTime(23, 0)
-        val maxRainExpected = 5.0
-        call.enqueue(object : Callback<OpenMeteoResponse> {
-            override fun onResponse(call: Call<OpenMeteoResponse>, response: Response<OpenMeteoResponse>) {
-                if (response.isSuccessful) {
-                    val weatherData = response.body()
-                    weatherData?.let {
-                        val hourly = it.hourly
-                        setUpMateoUI(it)
-                        val size = hourly?.time?.size
-
-                        for (i in 0 until size!!) {
-                            val time = hourly.time[i]
-                            val temperature = hourly?.temperature_2m?.get(i)
-                            val precipitation = hourly?.precipitation_probability?.get(i)
-                            val weatherCode = hourly?.weather_code?.get(i)
-                           val rain = hourly?.rain?.get(i)
-                            val dateTime = LocalDateTime.parse(time, formatter)
-                            val calculatedPercent = ((rain!! / maxRainExpected) * 100)
-
-                            Log.d("Weather", "Saat: $time | Sıcaklık: $temperature°C | Yağış: $rain mm | Gündüz mü: ${calculatedPercent}")
-
-                            if (dateTime.toLocalDate() == now.toLocalDate() &&
-                                (dateTime.isAfter(now) || dateTime.hour == now.hour) &&
-                                !dateTime.isAfter(endOfDay)
-                            ) {
-                                val splitTime = time.split("T").get(1)
-                                hourlyList.add(
-                                    HourlyWeather(
-                                        time = splitTime,
-                                        temperature = temperature!!,
-                                        precipitation = precipitation!!,
-                                        weatherCode = weatherCode!!
-                                        //isDay = isDay
-                                    )
-                                )
-                            }
-
-                        }
-                        val recyclerView = binding.hourlyRecyclerView
-                        recyclerView.layoutManager = LinearLayoutManager(
-                            recyclerView.context,
-                            LinearLayoutManager.HORIZONTAL,
-                            false
-                        )
-                        recyclerView.adapter = HourlyWeatherAdapter(hourlyList)
-                    }
-
-                }
-            }
-
-            override fun onFailure(call: Call<OpenMeteoResponse>, t: Throwable) {
-                // Handle failure
-            }
-        })
-    }
-
-    private fun setUpMateoUI(it: OpenMeteoResponse) {
-        binding.dateTime.text = getFormattedDateTime()
-
-        binding.ivMain.setImageResource( WeatherCodeUtils.getWeatherIconResId(it.daily?.weather_code?.get(0)?.toInt()!!))
-
-    }
 
     private val mLocationCallback = object : LocationCallback() {
 
@@ -258,7 +221,11 @@ class MainActivity : AppCompatActivity() {
             val longitude = mLastLocation.longitude
             Log.e("TAGX", "LATİTUDE: ${latitude} ,Longıtude: ${longitude}")
             getLocationWeatherDetails(latitude, longitude)
-            getLocationOpenMeteoWeatherDetails(latitude, longitude)
+            locationViewModel.setLocation(latitude, longitude)
+            mFusedLocationClient.removeLocationUpdates(this)
+            runOnUiThread {
+                binding.btnToday.performClick()
+            }
         }
     }
 
@@ -336,20 +303,27 @@ class MainActivity : AppCompatActivity() {
         for (i in weatherList.weather.indices) {
             //Log.i("Weather Name", weatherList.weather.toString())
             binding.tvMain.text = weatherList.weather[i].main
-           //binding.tvMainDescription.text = weatherList.weather[i].description
-            binding.tvTemp.text = weatherList.main.temp.roundToInt().toString() + getUnit(application.resources.configuration.toString())
-           // binding.tvSunriseTime.text = unixTime(weatherList.sys.sunrise)
-           // binding.tvSunsetTime.text = unixTime(weatherList.sys.sunset)
+            //binding.tvMainDescription.text = weatherList.weather[i].description
+            binding.tvTemp.text = weatherList.main.temp.roundToInt().toString() + getUnit(
+                application.resources.configuration.toString()
+            )
+            binding.dateTime.text = getFormattedDateTime()
+
+            //binding.ivMain.setImageResource( WeatherCodeUtils.getWeatherIconResId(it.daily?.weather_code?.get(0)?.toInt()!!))
+
+            // binding.tvSunriseTime.text = unixTime(weatherList.sys.sunrise)
+            // binding.tvSunsetTime.text = unixTime(weatherList.sys.sunset)
             //binding.tvHumidity.text = weatherList.main.humidity.toString() + "%"
             //binding.tvMin.text = weatherList.main.temp_min.toString()
-             //binding.tvMax.text =weatherList.main.temp_max.toString()
+            //binding.tvMax.text =weatherList.main.temp_max.toString()
             // binding.tvSpeed.text =weatherList.wind.speed.toString()
-           // binding.tvClouds.text = weatherList.clouds.all.toString() + "%"
-            binding.tvName.text =" ${weatherList.name}, ${weatherList.sys.country}"
+            // binding.tvClouds.text = weatherList.clouds.all.toString() + "%"
+            binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
             // binding.tvCountry.text = weatherList.sys.country
             binding.tvFeelsLike.text = "Feels like ${weatherList.main.feels_like.toString()}"
-            //binding.tvSunsetTime.text =unixTime(weatherList.sys.sunset)
-
+            weatherViewModel.weatherCode.observe(this) { code ->
+                binding.ivMain.setImageResource( WeatherCodeUtils.getWeatherIconResId(code.toInt()))
+            }
         }
     }
 
@@ -376,6 +350,7 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
     private fun getFormattedDateTime(): String {
         val now = LocalDateTime.now()
         val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
@@ -383,13 +358,5 @@ class MainActivity : AppCompatActivity() {
         val nowFormatted = now.format(inputFormatter)
         val displayText = LocalDateTime.parse(nowFormatted, inputFormatter).format(outputFormatter)
         return displayText
-    }
-
-    private fun unixTime(timex: Long): String? {
-        val date = Date(timex * 1000L)
-        @SuppressLint("SimpleDateFormat") val sdf =
-            SimpleDateFormat("HH:mm")
-        sdf.timeZone = TimeZone.getDefault()
-        return sdf.format(date)
     }
 }

@@ -2,6 +2,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id ("androidx.navigation.safeargs.kotlin")
 }
 val localProperties = Properties().apply {
     load(rootProject.file("local.properties").inputStream())
@@ -44,6 +45,7 @@ android {
 }
 
 dependencies {
+    val nav_version = "2.8.9"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -64,6 +66,10 @@ dependencies {
 
     //admob
     implementation("com.google.android.gms:play-services-ads:23.1.0")
+
+    //navigation
+    implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
 
 
 }
