@@ -71,5 +71,10 @@ dependencies {
     implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
 
+    //graph
+    // Charts
+    implementation ("com.diogobernardino:williamchart:3.10.1")
+
+
 
 }
