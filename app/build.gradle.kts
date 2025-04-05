@@ -64,6 +64,8 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.airbnb.android:lottie:6.1.0")
 
+    implementation ("com.google.android.flexbox:flexbox:3.0.0")
+
     //admob
     implementation("com.google.android.gms:play-services-ads:23.1.0")
 
@@ -74,6 +76,8 @@ dependencies {
     //graph
     // Charts
     implementation ("com.diogobernardino:williamchart:3.10.1")
+
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
 
 

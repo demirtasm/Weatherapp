@@ -1,6 +1,7 @@
 package com.example.weatherapp.views
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.graphics.Point
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +26,15 @@ import com.example.weatherapp.models.OpenMeteoResponse
 import com.example.weatherapp.network.WeatherService
 import com.example.weatherapp.viewmodel.LocationViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModel
+import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.MobileAds
 import kotlinx.coroutines.Dispatchers
@@ -39,9 +49,11 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.TimeZone
+import kotlin.math.roundToInt
 
 
 class TodayFragment : Fragment() {
+    private lateinit var barChart: BarChart
     private lateinit var binding: FragmentTodayBinding
     val hourlyList = mutableListOf<HourlyWeather>()
     val airPollutionList = mutableListOf<AirPollution>()
@@ -61,7 +73,7 @@ class TodayFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         locationViewModel = ViewModelProvider(requireActivity())[LocationViewModel::class.java]
         weatherViewModel = ViewModelProvider(requireActivity())[WeatherViewModel::class.java]
-
+barChart = binding.chart
 
         lifecycleScope.launch(Dispatchers.Main) {
             MobileAds.initialize(requireContext()) {
@@ -135,14 +147,17 @@ class TodayFragment : Fragment() {
                             )
                         )
 
-                        val recyclerView = binding.rainChanceRecyclerView
+
+                        /*val recyclerView = binding.rainChanceRecyclerView
                         recyclerView.layoutManager = LinearLayoutManager(
                             recyclerView.context,
                             LinearLayoutManager.VERTICAL,
                             false
                         )
-                        recyclerView.adapter = AirPollutionAdapter(airPollutionList)
+                        recyclerView.adapter = AirPollutionAdapter(airPollutionList)*/
+
                     }
+                    setupAqiChart(airPollutionList)
                 }
             }
 
@@ -150,6 +165,121 @@ class TodayFragment : Fragment() {
                 Log.e("AIR", "Hava kirliliği verisi alınamadı: ${t.message}")
             }
         })
+    }
+    private fun setupAqiChart(data: List<AirPollution>) {
+        val chartData = data.take(5).mapIndexed { index, item ->
+            BarEntry(index.toFloat(), item.aqi.toFloat())
+        }
+
+        val dataSet = BarDataSet(chartData, "AQI").apply {
+            color = ContextCompat.getColor(requireContext(), R.color.purple)
+            valueTextSize = 12f
+            setDrawValues(false)
+        }
+
+        val barData = BarData(dataSet).apply {
+            barWidth = 0.6f
+        }
+
+        barChart.data = barData
+
+        val timeLabels = data.take(5).map { it.time }
+
+        barChart.xAxis.apply {
+            valueFormatter = IndexAxisValueFormatter(timeLabels)
+            position = XAxis.XAxisPosition.BOTTOM
+            granularity = 1f
+            textSize = 12f
+            textColor = Color.DKGRAY
+            setDrawGridLines(false)
+        }
+        barChart.setScaleEnabled(false)
+        barChart.setPinchZoom(false)
+        barChart.setDoubleTapToZoomEnabled(false)
+        barChart.isDragEnabled = false
+        barChart.isScaleXEnabled = false
+        barChart.isScaleYEnabled = false
+         barChart.axisLeft.apply {
+            axisMinimum = 0f
+            axisMaximum = 5f
+            granularity = 1f
+            textSize = 12f
+            textColor = Color.DKGRAY
+            isEnabled = false
+        }
+
+        barChart.axisRight.isEnabled = false
+        barChart.description.isEnabled = false
+        barChart.legend.isEnabled = false
+        barChart.setTouchEnabled(true)
+        barChart.animateY(0)
+        barChart.invalidate()
+        if (chartData.isNotEmpty()) {
+            val firstEntry = chartData[0]
+            barChart.highlightValue(Highlight(firstEntry.x, firstEntry.y, 0))
+        }
+        data.firstOrNull()?.let {
+            val coValue = it.co
+            val pm10 = it.pm10
+            val o3 = it.o3
+            val aqi = it.aqi
+            binding.textCoValue.text = coValue.roundToInt().toString()
+            binding.textPM10Value.text = pm10.roundToInt().toString()
+            binding.texto3Value.text = o3.roundToInt().toString()
+            binding.aqiValue.text = aqi.toString()
+            airPopulationIndex(it.aqi)
+        }
+        barChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+                if (e != null && h != null) {
+                    val index = e.x.toInt()
+                    val selectedItem = data.getOrNull(index)
+                    selectedItem?.let {
+                        val coValue = it.co
+                        val pm10 = it.pm10
+                        val o3 = it.o3
+                        val aqi = it.aqi
+                        binding.textCoValue.text = coValue.roundToInt().toString()
+                        binding.textPM10Value.text = pm10.roundToInt().toString()
+                        binding.texto3Value.text = o3.roundToInt().toString()
+                        binding.aqiValue.text = aqi.toString()
+                        airPopulationIndex(it.aqi)
+                    }
+                }
+            }
+
+            override fun onNothingSelected() {
+                binding.textCoValue.text = ""
+            }
+
+        })
+
+    }
+
+    private fun airPopulationIndex(aqi: Int){
+        when(aqi){
+            1-> {
+                binding.qualityText.text = getString(R.string.air_quality_index_one_text)
+                binding.qualityDescription.text = getString(R.string.air_quality_index_one_text)
+            }
+            2-> {
+                binding.qualityText.text = getString(R.string.air_quality_index_two_text)
+                binding.qualityDescription.text = getString(R.string.air_quality_index_two_desc)
+            }
+            3-> {
+                binding.qualityText.text = getString(R.string.air_quality_index_three_text)
+                binding.qualityDescription.text = getString(R.string.air_quality_index_three_desc)
+            }
+            4-> {
+                binding.qualityText.text = getString(R.string.air_quality_index_four_text)
+                binding.qualityDescription.text = getString(R.string.air_quality_index_four_desc)
+            }
+            5-> {
+                binding.qualityText.text = getString(R.string.air_quality_index_five_text)
+                binding.qualityDescription.text = getString(R.string.air_quality_index_five_desc)
+            }
+        }
+
     }
 
     private fun getLocationOpenMeteoWeatherDetails(latitude: Double, longitude: Double) {

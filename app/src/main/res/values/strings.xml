@@ -6,4 +6,18 @@
     <string name="action_refresh">Refresh</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- air quality string -->
+    <string name="air_quality_index_one_text">Good</string>
+    <string name="air_quality_index_one_desc">Air quality is excellent, perfect for outdoor activities.</string>
+    <string name="air_quality_index_two_desc">Air quality is good; sensitive individuals may feel mild effects.</string>
+    <string name="air_quality_index_two_text">Fair</string>
+    <string name="air_quality_index_three_desc">Moderate air quality; those with respiratory issues should take caution.</string>
+    <string name="air_quality_index_three_text">Moderate</string>
+    <string name="air_quality_index_four_desc">Air may be unhealthy; limit time spent outdoors.</string>
+    <string name="air_quality_index_four_text">Poor</string>
+    <string name="air_quality_index_five_desc">Very poor air quality; avoid going outside if possible.</string>
+    <string name="air_quality_index_five_text">Very Poor</string>
+
+
 </resources>

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherapp.R
 import com.example.weatherapp.models.AirPollution
+import com.github.mikephil.charting.charts.BarChart
 
 
 class AirPollutionAdapter(private val items: List<AirPollution>): RecyclerView.Adapter<AirPollutionAdapter.AirPollutionHolder>() {
@@ -33,5 +34,6 @@ class AirPollutionAdapter(private val items: List<AirPollution>): RecyclerView.A
         holder.timeText.text = item.time
         holder.percentText.text = "${item.aqi}%"
         holder.progressBar.progress = item.aqi
+
     }
 }

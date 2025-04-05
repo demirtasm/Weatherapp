@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="air_quality_index_one_text">İdeal</string>
+    <string name="air_quality_index_one_desc">Hava kalitesi mükemmel, dışarıda vakit geçirmek için ideal.</string>
+    <string name="air_quality_index_two_desc">Hava kalitesi iyi, hassas bünyeler hafif etkilenebilir.</string>
+    <string name="air_quality_index_two_text">İyi</string>
+    <string name="air_quality_index_three_desc">Hava orta seviyede, solunum hassasiyeti olanlar dikkat etmeli.</string>
+    <string name="air_quality_index_three_text">Orta</string>
+    <string name="air_quality_index_four_desc">Hava sağlıksız olabilir, dışarıda kalış süresini sınırlayın.</string>
+    <string name="air_quality_index_four_text">Kötü</string>
+    <string name="air_quality_index_five_desc">Hava kalitesi çok kötü, mümkünse dışarı çıkmayın.</string>
+    <string name="air_quality_index_five_text">Çok Kötü</string>
+</resources>

@@ -2,10 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="8dp"
     android:gravity="center_vertical"
     android:background="#EBDEFF">
+
+
 
     <TextView
         android:id="@+id/textTime"
