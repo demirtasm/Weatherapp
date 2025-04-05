@@ -18,6 +18,10 @@
     <string name="air_quality_index_four_text">Poor</string>
     <string name="air_quality_index_five_desc">Very poor air quality; avoid going outside if possible.</string>
     <string name="air_quality_index_five_text">Very Poor</string>
+    <string name="rain_change_txt">Rain Change</string>
+    <string name="wind_speed_txt">Wind Speed</string>
+    <string name="humidity_txt">Humidity</string>
+    <string name="uv_index_txt">UV Index</string>
 
 
 </resources>

@@ -11,4 +11,8 @@
     <string name="air_quality_index_four_text">Kötü</string>
     <string name="air_quality_index_five_desc">Hava kalitesi çok kötü, mümkünse dışarı çıkmayın.</string>
     <string name="air_quality_index_five_text">Çok Kötü</string>
+    <string name="rain_change_txt">Yağmur</string>
+    <string name="wind_speed_txt">Rüzgar Hızı</string>
+    <string name="humidity_txt">Nem</string>
+    <string name="uv_index_txt">UV İndeksi</string>
 </resources>

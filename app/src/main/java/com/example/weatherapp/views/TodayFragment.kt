@@ -1,8 +1,6 @@
 package com.example.weatherapp.views
 
-import android.annotation.SuppressLint
 import android.graphics.Color
-import android.graphics.Point
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -13,10 +11,8 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.db.williamchart.view.LineChartView
 import com.example.weatherapp.Constants
 import com.example.weatherapp.R
-import com.example.weatherapp.adapter.AirPollutionAdapter
 import com.example.weatherapp.adapter.HourlyWeatherAdapter
 import com.example.weatherapp.databinding.FragmentTodayBinding
 import com.example.weatherapp.models.AirPollution
@@ -27,12 +23,16 @@ import com.example.weatherapp.network.WeatherService
 import com.example.weatherapp.viewmodel.LocationViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.android.gms.ads.AdRequest
@@ -54,11 +54,15 @@ import kotlin.math.roundToInt
 
 class TodayFragment : Fragment() {
     private lateinit var barChart: BarChart
+    private lateinit var lineChart: LineChart
     private lateinit var binding: FragmentTodayBinding
     val hourlyList = mutableListOf<HourlyWeather>()
     val airPollutionList = mutableListOf<AirPollution>()
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var weatherViewModel: WeatherViewModel
+    val windSpeedList = mutableListOf<Entry>()
+    val timesForLabels = mutableListOf<String>()
+    val weatherWindDirection = mutableListOf<Double>()
 
 
     override fun onCreateView(
@@ -73,7 +77,8 @@ class TodayFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         locationViewModel = ViewModelProvider(requireActivity())[LocationViewModel::class.java]
         weatherViewModel = ViewModelProvider(requireActivity())[WeatherViewModel::class.java]
-barChart = binding.chart
+        barChart = binding.barChart
+        lineChart = binding.lineChart
 
         lifecycleScope.launch(Dispatchers.Main) {
             MobileAds.initialize(requireContext()) {
@@ -85,20 +90,6 @@ barChart = binding.chart
             getLocationOpenMeteoWeatherDetails(lat, lon)
             getAirPollutionForecast(lat, lon)
         }
-        /* val chart = view.findViewById<LineChartView>(R.id.lineChart)
-         val data = listOf(
-             "00:00" to 8f,
-             "03:00" to 12f,
-             "06:00" to 10f,
-             "09:00" to 15f,
-             "12:00" to 20f,
-             "15:00" to 18f,
-             "18:00" to 10f,
-             "21:00" to 6f
-         )
-
-         chart.animation.duration = 1000
-         chart.show(data)*/
 
 
     }
@@ -148,14 +139,6 @@ barChart = binding.chart
                         )
 
 
-                        /*val recyclerView = binding.rainChanceRecyclerView
-                        recyclerView.layoutManager = LinearLayoutManager(
-                            recyclerView.context,
-                            LinearLayoutManager.VERTICAL,
-                            false
-                        )
-                        recyclerView.adapter = AirPollutionAdapter(airPollutionList)*/
-
                     }
                     setupAqiChart(airPollutionList)
                 }
@@ -166,6 +149,7 @@ barChart = binding.chart
             }
         })
     }
+
     private fun setupAqiChart(data: List<AirPollution>) {
         val chartData = data.take(5).mapIndexed { index, item ->
             BarEntry(index.toFloat(), item.aqi.toFloat())
@@ -199,7 +183,7 @@ barChart = binding.chart
         barChart.isDragEnabled = false
         barChart.isScaleXEnabled = false
         barChart.isScaleYEnabled = false
-         barChart.axisLeft.apply {
+        barChart.axisLeft.apply {
             axisMinimum = 0f
             axisMaximum = 5f
             granularity = 1f
@@ -256,25 +240,29 @@ barChart = binding.chart
 
     }
 
-    private fun airPopulationIndex(aqi: Int){
-        when(aqi){
-            1-> {
+    private fun airPopulationIndex(aqi: Int) {
+        when (aqi) {
+            1 -> {
                 binding.qualityText.text = getString(R.string.air_quality_index_one_text)
                 binding.qualityDescription.text = getString(R.string.air_quality_index_one_text)
             }
-            2-> {
+
+            2 -> {
                 binding.qualityText.text = getString(R.string.air_quality_index_two_text)
                 binding.qualityDescription.text = getString(R.string.air_quality_index_two_desc)
             }
-            3-> {
+
+            3 -> {
                 binding.qualityText.text = getString(R.string.air_quality_index_three_text)
                 binding.qualityDescription.text = getString(R.string.air_quality_index_three_desc)
             }
-            4-> {
+
+            4 -> {
                 binding.qualityText.text = getString(R.string.air_quality_index_four_text)
                 binding.qualityDescription.text = getString(R.string.air_quality_index_four_desc)
             }
-            5-> {
+
+            5 -> {
                 binding.qualityText.text = getString(R.string.air_quality_index_five_text)
                 binding.qualityDescription.text = getString(R.string.air_quality_index_five_desc)
             }
@@ -293,7 +281,7 @@ barChart = binding.chart
             latitude,
             longitude,
             current = "temperature_2m",
-            hourly = "temperature_2m,relative_humidity_2m,precipitation,weather_code,temperature_80m,temperature_120m,temperature_180m,rain,precipitation_probability",
+            hourly = "temperature_2m,precipitation,weather_code,rain,precipitation_probability,wind_speed_10m,wind_direction_10m",
             daily = "weather_code,wind_gusts_10m_mean,uv_index_max,relative_humidity_2m_mean,sunrise,sunset",
             timezone = "Europe/Moscow"
 
@@ -301,7 +289,6 @@ barChart = binding.chart
         val now = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
         val endOfDay = now.toLocalDate().atTime(23, 0)
-        val maxRainExpected = 5.0
         call.enqueue(object : Callback<OpenMeteoResponse> {
             override fun onResponse(
                 call: Call<OpenMeteoResponse>,
@@ -316,22 +303,20 @@ barChart = binding.chart
 
                         for (i in 0 until size!!) {
                             val time = hourly.time[i]
+                            val windSpeed = hourly.wind_speed_10m?.get(i)
+                            val windDirection = hourly?.wind_direction_10m?.get(i)
                             val temperature = hourly?.temperature_2m?.get(i)
                             val precipitation = hourly?.precipitation_probability?.get(i)
                             val weatherCode = hourly?.weather_code?.get(i)
                             val rain = hourly?.rain?.get(i)
                             val dateTime = LocalDateTime.parse(time, formatter)
-                            val calculatedPercent = ((rain!! / maxRainExpected) * 100)
 
-                            Log.d(
-                                "Weather",
-                                "Saat: $time | Sıcaklık: $temperature°C | Yağış: $rain mm | Gündüz mü: ${calculatedPercent}"
-                            )
 
                             if (dateTime.toLocalDate() == now.toLocalDate() &&
                                 (dateTime.isAfter(now) || dateTime.hour == now.hour) &&
                                 !dateTime.isAfter(endOfDay)
                             ) {
+                                windSpeedList.add(Entry(i.toFloat(), windSpeed?.toFloat() ?: 0f))
                                 val splitTime = time.split("T").get(1)
                                 hourlyList.add(
                                     HourlyWeather(
@@ -339,9 +324,10 @@ barChart = binding.chart
                                         temperature = temperature!!,
                                         precipitation = precipitation!!,
                                         weatherCode = weatherCode!!
-                                        //isDay = isDay
                                     )
                                 )
+                                timesForLabels.add(splitTime)
+                                weatherWindDirection.add(windDirection!!)
                             }
 
                         }
@@ -353,6 +339,48 @@ barChart = binding.chart
                         )
                         recyclerView.adapter = HourlyWeatherAdapter(hourlyList)
                     }
+                    val lineDataSet = LineDataSet(windSpeedList, "Wind Speed (10m)")
+                    lineDataSet.color = ContextCompat.getColor(requireContext(), R.color.purple)
+                    lineDataSet.setCircleColor(ContextCompat.getColor(requireContext(), R.color.purple))
+                    lineDataSet.lineWidth = 2f
+                    lineDataSet.circleRadius = 4f
+                    lineDataSet.setDrawValues(false)
+
+                    val lineData = LineData(lineDataSet)
+                    lineChart.data = lineData
+                    lineChart.description.text = "Wind Speed throughout the Day"
+                    lineChart.invalidate()
+
+                    lineChart.xAxis.apply {
+                        valueFormatter = IndexAxisValueFormatter(timesForLabels)
+                        position = XAxis.XAxisPosition.BOTTOM
+                        granularity = 1f
+                        isGranularityEnabled = true
+                        setDrawGridLines(false)
+                        textColor = Color.DKGRAY
+                        textSize = 12f
+                        labelRotationAngle = 0f
+                        setLabelCount(timesForLabels.size, true)
+                    }
+                    lineChart.xAxis.valueFormatter = object : ValueFormatter() {
+                        override fun getFormattedValue(value: Float): String {
+                            val hour = value.toInt().toString().padStart(2, '0')
+                            return "$hour:00"
+                        }
+                    }
+                    lineChart.axisRight.isEnabled = false
+                    lineChart.axisLeft.textColor = Color.DKGRAY
+                    lineChart.setTouchEnabled(true)
+                    lineChart.setPinchZoom(false)
+                    lineChart.setScaleEnabled(false)
+                    lineChart.legend.isEnabled = false
+                    lineChart.description.isEnabled = false
+                    lineChart.setExtraOffsets(10f, 10f, 10f, 30f)
+                    lineChart.invalidate()
+
+                    val markerView = LineChartMarkerView(requireContext(), R.layout.line_chart_marker_view, timesForLabels, weatherWindDirection)
+                    markerView.chartView = lineChart
+                    lineChart.marker = markerView
 
                 }
             }
