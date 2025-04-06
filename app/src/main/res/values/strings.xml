@@ -22,6 +22,10 @@
     <string name="wind_speed_txt">Wind Speed</string>
     <string name="humidity_txt">Humidity</string>
     <string name="uv_index_txt">UV Index</string>
+    <string name="hourly_forecast_txt">Hourly Forecast</string>
+    <string name="air_forecast_txt">Air Forecast</string>
+    <string name="sunrise_txt">Sunrise</string>
+    <string name="sunset_txt">Sunset</string>
 
 
 </resources>

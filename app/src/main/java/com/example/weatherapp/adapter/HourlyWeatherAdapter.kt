@@ -11,7 +11,7 @@ import com.example.weatherapp.models.HourlyWeather
 import com.example.weatherapp.utils.WeatherCodeUtils
 import kotlin.math.roundToInt
 
-class HourlyWeatherAdapter(private val items: List<HourlyWeather>) :
+class HourlyWeatherAdapter(private val items: List<HourlyWeather>,  private val currentHour: String) :
     RecyclerView.Adapter<HourlyWeatherAdapter.HourlyViewHolder>() {
     class HourlyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val timeText: TextView = itemView.findViewById(R.id.textTime)
@@ -36,6 +36,10 @@ class HourlyWeatherAdapter(private val items: List<HourlyWeather>) :
         holder.weatherCodeImage.setImageResource(
             WeatherCodeUtils.getWeatherIconResId(item.weatherCode)
         )
-
+        if (item.time.startsWith(currentHour)) {
+            holder.itemView.setBackgroundResource(R.drawable.bg_selected_hourly_item)
+        } else {
+            holder.itemView.setBackgroundResource(0) // varsayılan boş
+        }
     }
 }

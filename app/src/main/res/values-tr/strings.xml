@@ -15,4 +15,8 @@
     <string name="wind_speed_txt">Rüzgar Hızı</string>
     <string name="humidity_txt">Nem</string>
     <string name="uv_index_txt">UV İndeksi</string>
+    <string name="hourly_forecast_txt">Saatlik Tahmin</string>
+    <string name="air_forecast_txt">Hava Kalitesi</string>
+    <string name="sunrise_txt">Gün doğuşu</string>
+    <string name="sunset_txt">Gün batışı</string>
 </resources>

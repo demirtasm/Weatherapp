@@ -288,7 +288,6 @@ class TodayFragment : Fragment() {
         )
         val now = LocalDateTime.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
-        val endOfDay = now.toLocalDate().atTime(23, 0)
         call.enqueue(object : Callback<OpenMeteoResponse> {
             override fun onResponse(
                 call: Call<OpenMeteoResponse>,
@@ -312,10 +311,7 @@ class TodayFragment : Fragment() {
                             val dateTime = LocalDateTime.parse(time, formatter)
 
 
-                            if (dateTime.toLocalDate() == now.toLocalDate() &&
-                                (dateTime.isAfter(now) || dateTime.hour == now.hour) &&
-                                !dateTime.isAfter(endOfDay)
-                            ) {
+                            if (dateTime.toLocalDate() == now.toLocalDate()){
                                 windSpeedList.add(Entry(i.toFloat(), windSpeed?.toFloat() ?: 0f))
                                 val splitTime = time.split("T").get(1)
                                 hourlyList.add(
@@ -337,7 +333,13 @@ class TodayFragment : Fragment() {
                             LinearLayoutManager.HORIZONTAL,
                             false
                         )
-                        recyclerView.adapter = HourlyWeatherAdapter(hourlyList)
+                        val currentHourStr = LocalDateTime.now().hour.toString().padStart(2, '0') + ":00"
+                        val selectedIndex = hourlyList.indexOfFirst { it.time.startsWith(currentHourStr) }
+
+                        recyclerView.adapter = HourlyWeatherAdapter(hourlyList, currentHourStr)
+                        if (selectedIndex != -1) {
+                            recyclerView.scrollToPosition(selectedIndex)
+                        }
                     }
                     val lineDataSet = LineDataSet(windSpeedList, "Wind Speed (10m)")
                     lineDataSet.color = ContextCompat.getColor(requireContext(), R.color.purple)
@@ -346,41 +348,8 @@ class TodayFragment : Fragment() {
                     lineDataSet.circleRadius = 4f
                     lineDataSet.setDrawValues(false)
 
-                    val lineData = LineData(lineDataSet)
-                    lineChart.data = lineData
-                    lineChart.description.text = "Wind Speed throughout the Day"
-                    lineChart.invalidate()
+                    setupWindSpeedChart(lineDataSet)
 
-                    lineChart.xAxis.apply {
-                        valueFormatter = IndexAxisValueFormatter(timesForLabels)
-                        position = XAxis.XAxisPosition.BOTTOM
-                        granularity = 1f
-                        isGranularityEnabled = true
-                        setDrawGridLines(false)
-                        textColor = Color.DKGRAY
-                        textSize = 12f
-                        labelRotationAngle = 0f
-                        setLabelCount(timesForLabels.size, true)
-                    }
-                    lineChart.xAxis.valueFormatter = object : ValueFormatter() {
-                        override fun getFormattedValue(value: Float): String {
-                            val hour = value.toInt().toString().padStart(2, '0')
-                            return "$hour:00"
-                        }
-                    }
-                    lineChart.axisRight.isEnabled = false
-                    lineChart.axisLeft.textColor = Color.DKGRAY
-                    lineChart.setTouchEnabled(true)
-                    lineChart.setPinchZoom(false)
-                    lineChart.setScaleEnabled(false)
-                    lineChart.legend.isEnabled = false
-                    lineChart.description.isEnabled = false
-                    lineChart.setExtraOffsets(10f, 10f, 10f, 30f)
-                    lineChart.invalidate()
-
-                    val markerView = LineChartMarkerView(requireContext(), R.layout.line_chart_marker_view, timesForLabels, weatherWindDirection)
-                    markerView.chartView = lineChart
-                    lineChart.marker = markerView
 
                 }
             }
@@ -391,6 +360,54 @@ class TodayFragment : Fragment() {
         })
 
 
+    }
+
+    private fun setupWindSpeedChart(lineDataSet: LineDataSet) {
+        val lineData = LineData(lineDataSet)
+        lineChart.data = lineData
+        lineChart.setVisibleXRangeMaximum(6f)
+        val currentHour = LocalDateTime.now().hour.toFloat()
+        lineChart.moveViewToX(currentHour)
+        lineChart.isDragEnabled = true
+        lineChart.setScaleEnabled(false)
+        lineChart.setPinchZoom(false)
+        lineChart.description.text = "Wind Speed throughout the Day"
+        lineChart.invalidate()
+
+        lineChart.xAxis.apply {
+            valueFormatter = IndexAxisValueFormatter(timesForLabels)
+            position = XAxis.XAxisPosition.BOTTOM
+            granularity = 1f
+            isGranularityEnabled = true
+            setDrawGridLines(false)
+            textColor = Color.DKGRAY
+            textSize = 12f
+            labelRotationAngle = 0f
+            setLabelCount(6, false)
+        }
+        val selectedEntry = windSpeedList.firstOrNull { it.x.toInt().toFloat() == currentHour }
+        selectedEntry?.let {
+            lineChart.highlightValue(it.x, it.y, 0)
+        }
+        lineChart.xAxis.valueFormatter = object : ValueFormatter() {
+            override fun getFormattedValue(value: Float): String {
+                val hour = value.toInt().toString().padStart(2, '0')
+                return "$hour:00"
+            }
+        }
+        lineChart.axisRight.isEnabled = false
+        lineChart.axisLeft.textColor = Color.DKGRAY
+        lineChart.setTouchEnabled(true)
+        lineChart.setPinchZoom(false)
+        lineChart.setScaleEnabled(false)
+        lineChart.legend.isEnabled = false
+        lineChart.description.isEnabled = false
+
+        lineChart.invalidate()
+
+        val markerView = LineChartMarkerView(requireContext(), R.layout.line_chart_marker_view, timesForLabels, weatherWindDirection)
+        markerView.chartView = lineChart
+        lineChart.marker = markerView
     }
 
     private fun setUpMateoUI(it: OpenMeteoResponse) {

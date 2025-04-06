@@ -231,10 +231,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter"
+                android:fontFamily="@font/inter_thin"
                 android:paddingLeft="20dp"
                 android:paddingTop="20dp"
-                android:text="Hourly Forecast"
+                android:text="@string/hourly_forecast_txt"
                 android:textSize="14sp" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/hourlyRecyclerView"
@@ -280,7 +280,7 @@
                     android:fontFamily="@font/inter_thin"
                     android:paddingLeft="20dp"
                     android:paddingTop="20dp"
-                    android:text="Air Forecast"
+                    android:text="@string/air_forecast_txt"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -520,7 +520,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Sunrise"
+                            android:text="@string/sunrise_txt"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -568,7 +568,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Sunset"
+                            android:text="@string/sunset_txt"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
