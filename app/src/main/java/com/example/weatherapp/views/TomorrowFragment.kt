@@ -1,25 +1,23 @@
 package com.example.weatherapp.views
 
-import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.example.weatherapp.R
-
-class TomorrowFragment : Fragment() {
+import java.time.LocalDateTime
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+class TomorrowFragment  :  BaseWeatherFragment()  {
+    override fun getTargetDate(): Int {
+        return 1
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tomorrow, container, false)
+    override fun getLocaleDate(): LocalDateTime {
+        return LocalDateTime.now().plusDays(1)
     }
+
+    override fun getShouldHighlightHour(): Boolean {
+        return false
+    }
+
+    override fun getShouldScrollToHour(): Boolean {
+        return false
+    }
+
 }
