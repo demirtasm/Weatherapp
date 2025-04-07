@@ -19,5 +19,14 @@
         android:id="@+id/tomorrowFragment"
         android:name="com.example.weatherapp.views.TomorrowFragment"
         android:label="fragment_tomorrow"
-        tools:layout="@layout/fragment_tomorrow" />
+        tools:layout="@layout/fragment_tomorrow" >
+        <action
+            android:id="@+id/action_tomorrowFragment_to_oneWeekFragment"
+            app:destination="@id/oneWeekFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/oneWeekFragment"
+        android:name="com.example.weatherapp.views.OneWeekFragment"
+        android:label="fragment_one_week"
+        tools:layout="@layout/fragment_one_week" />
 </navigation>

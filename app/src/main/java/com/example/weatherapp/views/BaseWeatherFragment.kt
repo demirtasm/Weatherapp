@@ -285,7 +285,7 @@ abstract class BaseWeatherFragment : Fragment() {
             longitude,
             current = "temperature_2m",
             hourly = "temperature_2m,precipitation,weather_code,rain,precipitation_probability,wind_speed_10m,wind_direction_10m",
-            daily = "weather_code,wind_gusts_10m_mean,uv_index_max,relative_humidity_2m_mean,sunrise,sunset",
+            daily = "weather_code,wind_gusts_10m_mean,uv_index_max,relative_humidity_2m_mean,sunrise,sunset,temperature_2m_max,temperature_2m_min",
             timezone = "Europe/Moscow"
 
         )
@@ -435,6 +435,10 @@ abstract class BaseWeatherFragment : Fragment() {
         weatherCode?.let { code ->
             weatherViewModel.setWeatherCode(code)
         }
+        weatherViewModel.setOneWeekWeatherCode(it.daily?.weather_code!!)
+        weatherViewModel.setOneWeekTimes(it.daily?.time!!)
+        weatherViewModel.setOneWeekMaxTemperature(it.daily.temperature_2m_max)
+        weatherViewModel.setOneWeekMinTemperature(it.daily.temperature_2m_min)
         binding.windSpeed.text =
             "${it.daily?.wind_gusts_10m_mean?.get(getTargetDate()).toString()} km/h"
         binding.uvIndex.text = it.daily?.uv_index_max?.get(getTargetDate()).toString()

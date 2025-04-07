@@ -22,6 +22,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -103,6 +104,20 @@ class MainActivity : AppCompatActivity() {
             navController?.navigate(R.id.tomorrowFragment)
 
         }
+        binding.btn1Week.setOnClickListener {
+            updateTabSelection(R.id.btn1Week)
+            navController?.navigate(R.id.oneWeekFragment)
+        }
+
+        binding.appBar.addOnOffsetChangedListener{ appBarLayout, verticalOffset ->
+            val totalScrollRange = appBarLayout.totalScrollRange
+            if (Math.abs(verticalOffset) >= totalScrollRange) {
+                binding.toolbar.setBackgroundResource(R.drawable.toolbar_gradient_color)
+
+            }else{
+                binding.toolbar.setBackgroundColor(Color.TRANSPARENT)
+            }
+        }
 
 
 
@@ -148,7 +163,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnToday.backgroundTintList = ColorStateList.valueOf(defaultColor)
         binding.btnTomorrow.backgroundTintList = ColorStateList.valueOf(defaultColor)
-        binding.btn10Days.backgroundTintList = ColorStateList.valueOf(defaultColor)
+        binding.btn1Week.backgroundTintList = ColorStateList.valueOf(defaultColor)
 
         when (selectedButtonId) {
             R.id.btnToday -> binding.btnToday.backgroundTintList =
@@ -157,7 +172,7 @@ class MainActivity : AppCompatActivity() {
             R.id.btnTomorrow -> binding.btnTomorrow.backgroundTintList =
                 ColorStateList.valueOf(selectedColor)
 
-            R.id.btn10Days -> binding.btn10Days.backgroundTintList =
+            R.id.btn1Week -> binding.btn1Week.backgroundTintList =
                 ColorStateList.valueOf(selectedColor)
         }
     }
@@ -301,39 +316,22 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupUI(weatherList: WeatherResponse) {
         for (i in weatherList.weather.indices) {
-            //Log.i("Weather Name", weatherList.weather.toString())
             binding.tvMain.text = weatherList.weather[i].main
-            //binding.tvMainDescription.text = weatherList.weather[i].description
-            binding.tvTemp.text = weatherList.main.temp.roundToInt().toString() + getUnit(
+            binding.tvTemp.text = weatherList.main.temp.roundToInt().toString() + WeatherCodeUtils.getUnit(
                 application.resources.configuration.toString()
             )
             binding.dateTime.text = getFormattedDateTime()
-
-            //binding.ivMain.setImageResource( WeatherCodeUtils.getWeatherIconResId(it.daily?.weather_code?.get(0)?.toInt()!!))
-
-            // binding.tvSunriseTime.text = unixTime(weatherList.sys.sunrise)
-            // binding.tvSunsetTime.text = unixTime(weatherList.sys.sunset)
-            //binding.tvHumidity.text = weatherList.main.humidity.toString() + "%"
-            //binding.tvMin.text = weatherList.main.temp_min.toString()
-            //binding.tvMax.text =weatherList.main.temp_max.toString()
-            // binding.tvSpeed.text =weatherList.wind.speed.toString()
-            // binding.tvClouds.text = weatherList.clouds.all.toString() + "%"
             binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
-            // binding.tvCountry.text = weatherList.sys.country
-            binding.tvFeelsLike.text = "Feels like ${weatherList.main.feels_like.toString()}"
+            binding.tvFeelsLike.text = "${getString(R.string.feels_like_txt)} ${weatherList.main.feels_like.roundToInt()} ${WeatherCodeUtils.getUnit(
+                application.resources.configuration.toString()
+            )}"
             weatherViewModel.weatherCode.observe(this) { code ->
-                binding.ivMain.setImageResource( WeatherCodeUtils.getWeatherIconResId(code.toInt()))
+                binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(code.toInt()))
             }
         }
     }
 
-    private fun getUnit(value: String): String? {
-        var value = "°"
-        if ("US" == value || "LR" == value || "MM" == value) {
-            value = "°F"
-        }
-        return value
-    }
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -354,7 +352,7 @@ class MainActivity : AppCompatActivity() {
     private fun getFormattedDateTime(): String {
         val now = LocalDateTime.now()
         val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
-        val outputFormatter = DateTimeFormatter.ofPattern("MMMM dd, HH:mm", Locale.ENGLISH)
+        val outputFormatter = DateTimeFormatter.ofPattern("MMMM dd, HH:mm", Locale.getDefault())
         val nowFormatted = now.format(inputFormatter)
         val displayText = LocalDateTime.parse(nowFormatted, inputFormatter).format(outputFormatter)
         return displayText

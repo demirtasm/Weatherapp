@@ -19,4 +19,9 @@
     <string name="air_forecast_txt">Hava Kalitesi</string>
     <string name="sunrise_txt">Gün doğuşu</string>
     <string name="sunset_txt">Gün batışı</string>
+    <string name="feels_like_txt">Hissedilen</string>
+    <string name="today_txt">Bugün</string>
+    <string name="tomorrow_txt">Yarın</string>
+    <string name="btn_one_week_txt">1 Hafta</string>
+    <string name="today">Bugün</string>
 </resources>

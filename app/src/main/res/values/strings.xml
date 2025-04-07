@@ -18,6 +18,8 @@
     <string name="air_quality_index_four_text">Poor</string>
     <string name="air_quality_index_five_desc">Very poor air quality; avoid going outside if possible.</string>
     <string name="air_quality_index_five_text">Very Poor</string>
+
+    <!-- fragments string -->
     <string name="rain_change_txt">Rain Change</string>
     <string name="wind_speed_txt">Wind Speed</string>
     <string name="humidity_txt">Humidity</string>
@@ -26,6 +28,13 @@
     <string name="air_forecast_txt">Air Forecast</string>
     <string name="sunrise_txt">Sunrise</string>
     <string name="sunset_txt">Sunset</string>
+
+    <!-- Main Activity string -->
+    <string name="feels_like_txt">Feels like</string>
+    <string name="today_txt">Today</string>
+    <string name="tomorrow_txt">Tomorrow</string>
+    <string name="btn_one_week_txt">1 Week</string>
+    <string name="today">Today</string>
 
 
 </resources>

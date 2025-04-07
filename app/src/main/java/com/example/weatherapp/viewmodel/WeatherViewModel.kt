@@ -8,7 +8,38 @@ class WeatherViewModel: ViewModel() {
     private val _weatherCode = MutableLiveData<String>()
     val weatherCode: LiveData<String> = _weatherCode
 
+    private val _oneWeekWeatherCode = MutableLiveData<List<String>>(emptyList())
+    val oneWeekWeatherCode: LiveData<List<String>> = _oneWeekWeatherCode
+
+
+    private val _oneWeekTimes =  MutableLiveData<List<String>>(emptyList())
+    val oneWeekTimes : LiveData<List<String>> = _oneWeekTimes
+
+    private val _oneWeekMaxTemperature = MutableLiveData<List<Double>>()
+    val oneWeekMaxTemperature : LiveData<List<Double>> = _oneWeekMaxTemperature
+
+    private val _oneWeekMinTemperature = MutableLiveData<List<Double>>()
+    val oneWeekMinTemperature : LiveData<List<Double>> = _oneWeekMinTemperature
+
     fun setWeatherCode(code: String) {
         _weatherCode.value = code
     }
+
+    fun setOneWeekWeatherCode(code: List<String>){
+        _oneWeekWeatherCode.value = code
+    }
+
+    fun setOneWeekTimes(code: List<String>){
+        _oneWeekTimes.value = code
+    }
+
+    fun setOneWeekMaxTemperature(code: List<Double>){
+        _oneWeekMaxTemperature.value = code
+    }
+
+    fun setOneWeekMinTemperature(code: List<Double>){
+        _oneWeekMinTemperature.value = code
+    }
+
+
 }
