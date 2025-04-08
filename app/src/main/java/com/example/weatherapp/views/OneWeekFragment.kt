@@ -30,8 +30,8 @@ class OneWeekFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         weatherViewModel = ViewModelProvider(requireActivity())[WeatherViewModel::class.java]
+        weatherViewModel.setTargetOneWeek(true)
 
-        Log.d("taggx", "" + weatherViewModel.weatherCode.value)
         val times = weatherViewModel.oneWeekTimes
         val codes =weatherViewModel.oneWeekWeatherCode.value.orEmpty()
         val tempMax =weatherViewModel.oneWeekMaxTemperature.value.orEmpty()

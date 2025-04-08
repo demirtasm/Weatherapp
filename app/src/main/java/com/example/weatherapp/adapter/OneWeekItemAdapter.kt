@@ -56,5 +56,6 @@ class OneWeekItemAdapter(private val context: Context, private val items: List<O
             context.resources.configuration.toString()
         )}"
         holder.imageWeather.setImageResource(WeatherCodeUtils.getWeatherIconResId(item.weatherCode.toInt()))
+        holder.descriptionText.text = WeatherCodeUtils.getWeatherDescription(context, item.weatherCode.toInt())
     }
 }

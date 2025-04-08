@@ -9,16 +9,16 @@
         android:id="@+id/textTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="09:00"
+        android:text="-"
         android:layout_gravity="center"
         android:textColor="@color/black"
         android:textSize="10sp"
-        android:fontFamily="@font/inter_thin" />
+        android:fontFamily="@font/inter" />
 
         <ImageView
             android:id="@+id/iv_weather_code"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="@dimen/ic_size_medium"
+            android:layout_height="@dimen/ic_size_medium"
             android:layout_gravity="center"
             android:clipChildren="false"
             android:contentDescription="@string/image_contentDescription"
@@ -27,7 +27,8 @@
             android:id="@+id/textTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12°C"
+            android:text="-"
+            android:fontFamily="@font/inter"
             android:layout_gravity="center"
             android:textColor="@color/black"
             android:textSize="14sp"/>
@@ -40,8 +41,8 @@
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/iv_sunset"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="@dimen/ic_size_min"
+            android:layout_height="@dimen/ic_size_min"
             android:layout_gravity="center"
             android:clipChildren="false"
             app:srcCompat="@drawable/ic_union" />

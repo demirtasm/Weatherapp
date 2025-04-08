@@ -39,8 +39,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="@dimen/ic_size_max"
+                        android:layout_height="@dimen/ic_size_max"
                         android:layout_gravity="center"
                         android:clipChildren="true"
                         android:src="@drawable/ic_rain_change" />
@@ -55,14 +55,17 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/rain_change_txt"
+                            android:fontFamily="@font/inter_bold"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tvRainChange"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="24%"
-                            android:textSize="18sp" />
+                            android:fontFamily="@font/inter"
+                            tools:text="-"
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -86,8 +89,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="@dimen/ic_size_max"
+                        android:layout_height="@dimen/ic_size_max"
                         android:layout_gravity="center"
                         android:clipChildren="true"
                         android:src="@drawable/ic_wind_speed" />
@@ -102,6 +105,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/wind_speed_txt"
+                            android:fontFamily="@font/inter_bold"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -109,8 +113,9 @@
                             android:id="@+id/wind_speed"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="12km/h"
-                            android:textSize="18sp" />
+                            android:fontFamily="@font/inter"
+                            tools:text="-"
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -134,8 +139,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="@dimen/ic_size_max"
+                        android:layout_height="@dimen/ic_size_max"
                         android:layout_gravity="center"
                         android:clipChildren="true"
                         android:src="@drawable/ic_humidity" />
@@ -150,6 +155,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/humidity_txt"
+                            android:fontFamily="@font/inter_bold"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -157,8 +163,9 @@
                             android:id="@+id/humidty"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="720"
-                            android:textSize="18sp" />
+                            tools:text="-"
+                            android:fontFamily="@font/inter"
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -181,8 +188,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="@dimen/ic_size_max"
+                        android:layout_height="@dimen/ic_size_max"
                         android:layout_gravity="center"
                         android:clipChildren="true"
                         android:src="@drawable/ic_uv_index" />
@@ -197,6 +204,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/uv_index_txt"
+                            android:fontFamily="@font/inter_bold"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
@@ -204,8 +212,9 @@
                             android:id="@+id/uv_index"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="2,3"
-                            android:textSize="18sp" />
+                            tools:text="-"
+                            android:fontFamily="@font/inter"
+                            android:textSize="15sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -223,27 +232,43 @@
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:cardUseCompatPadding="false">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_thin"
-                android:paddingLeft="20dp"
-                android:paddingTop="20dp"
-                android:text="@string/hourly_forecast_txt"
-                android:textSize="14sp" />
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/hourlyRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@android:color/transparent"
-                android:clipToPadding="false"
-                android:scrollbars="horizontal" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/ic_size_max"
+                        android:layout_height="@dimen/ic_size_max"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="5dp"
+                        android:clipChildren="true"
+                        android:src="@drawable/ic_hourly" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/inter_bold"
+                        android:gravity="center_vertical"
+                        android:text="@string/hourly_forecast_txt"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/hourlyRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/transparent"
+                    android:clipToPadding="false"
+                    android:scrollbars="horizontal" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -255,7 +280,7 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="10dp"
             ads:adSize="LARGE_BANNER"
-            ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
+            ads:adUnitId="ca-app-pub-3438221392612643/9740710913" />
 
 
         <androidx.cardview.widget.CardView
@@ -274,15 +299,29 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_thin"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"
-                    android:text="@string/air_forecast_txt"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:padding="12dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/ic_size_max"
+                        android:layout_height="@dimen/ic_size_max"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="5dp"
+                        android:clipChildren="true"
+                        android:src="@drawable/ic_air" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/inter_bold"
+                        android:gravity="center_vertical"
+                        android:text="@string/air_forecast_txt"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -301,17 +340,18 @@
                             android:id="@+id/qualityText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Good"
+                            tools:text="Good"
                             android:textColor="@color/purple"
                             android:textSize="32sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/inter_bold" />
 
                         <TextView
                             android:id="@+id/qualityDescription"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="Air quality is satisfactory"
+                            tools:text="Air quality is satisfactory"
+                            android:fontFamily="@font/inter"
                             android:textColor="#A47DAB"
                             android:textSize="14sp" />
                     </LinearLayout>
@@ -334,18 +374,19 @@
                                 android:id="@+id/aqiLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="AQI"
+                                android:text="@string/aqi_txt"
                                 android:textColor="@color/white"
+                                android:fontFamily="@font/inter"
                                 android:textSize="12sp" />
 
                             <TextView
                                 android:id="@+id/aqiValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="48"
+                                tools:text="48"
                                 android:textColor="@color/white"
                                 android:textSize="24sp"
-                                android:textStyle="bold" />
+                                android:fontFamily="@font/inter_bold" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
@@ -354,7 +395,7 @@
                 <com.github.mikephil.charting.charts.BarChart
                     android:id="@+id/bar_chart"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp"
+                    android:layout_height="200dp"
                     android:layout_above="@+id/seekBar1" />
 
                 <androidx.cardview.widget.CardView
@@ -362,17 +403,17 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_margin="12dp"
-                    app:cardCornerRadius="12dp"
                     android:backgroundTint="@color/purple"
+                    app:cardCornerRadius="12dp"
                     app:cardElevation="0dp">
 
                     <com.google.android.flexbox.FlexboxLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="15dp"
+                        app:alignItems="stretch"
                         app:flexDirection="row"
-                        app:justifyContent="space_between"
-                        app:alignItems="stretch">
+                        app:justifyContent="space_between">
 
 
                         <LinearLayout
@@ -385,9 +426,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Karbon monoksit"
+                                android:text="@string/carbonMonoxide"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
+                                android:fontFamily="@font/inter"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -397,14 +439,16 @@
                                 android:text="28"
                                 android:textColor="@color/white"
                                 android:textSize="22sp"
-                                android:textStyle="bold" />
+                                android:fontFamily="@font/inter_bold"
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="µg/m³"
                                 android:textColor="@color/white"
-                                android:textSize="12sp" />
+                                android:textSize="12sp"
+                                android:fontFamily="@font/inter"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -417,10 +461,11 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Partikül madde"
+                                android:text="@string/pm10_txt"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
-                                android:textSize="10sp" />
+                                android:textSize="10sp"
+                                android:fontFamily="@font/inter"/>
 
                             <TextView
                                 android:id="@+id/textPM10Value"
@@ -429,13 +474,15 @@
                                 android:text="51"
                                 android:textColor="@color/white"
                                 android:textSize="22sp"
-                                android:textStyle="bold" />
+                                android:fontFamily="@font/inter_bold"
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="µg/m³"
                                 android:textColor="@color/white"
+                                android:fontFamily="@font/inter"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -449,9 +496,10 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Ozon"
+                                android:text="@string/ozone_txt"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
+                                android:fontFamily="@font/inter"
                                 android:textSize="10sp" />
 
                             <TextView
@@ -461,13 +509,15 @@
                                 android:text="51"
                                 android:textColor="@color/white"
                                 android:textSize="22sp"
-                                android:textStyle="bold" />
+                                android:fontFamily="@font/inter_bold"
+                                />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="µg/m³"
                                 android:textColor="@color/white"
+                                android:fontFamily="@font/inter"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -505,8 +555,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="@dimen/ic_size_max"
+                        android:layout_height="@dimen/ic_size_max"
                         android:layout_gravity="center"
                         android:clipChildren="true"
                         android:src="@drawable/ic_sunrise" />
@@ -522,14 +572,16 @@
                             android:layout_height="wrap_content"
                             android:text="@string/sunrise_txt"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/inter_bold"
+                            />
 
                         <TextView
                             android:id="@+id/tv_sunrise_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="4:20"
-                            android:textSize="18sp" />
+                            tools:text="4:20"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/inter"/>
                     </LinearLayout>
                 </LinearLayout>
 
@@ -553,8 +605,8 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="@dimen/ic_size_max"
+                        android:layout_height="@dimen/ic_size_max"
                         android:layout_gravity="center"
                         android:clipChildren="true"
                         android:src="@drawable/ic_sunset" />
@@ -570,19 +622,22 @@
                             android:layout_height="wrap_content"
                             android:text="@string/sunset_txt"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:fontFamily="@font/inter_bold"
+                            />
 
                         <TextView
                             android:id="@+id/tv_sunset_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="4:50"
-                            android:textSize="18sp" />
+                            tools:text="4:50"
+                            android:textSize="15sp"
+                            android:fontFamily="@font/inter"/>
                     </LinearLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
         </GridLayout>
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -592,30 +647,53 @@
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp"
             app:cardUseCompatPadding="false">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="12dp">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_thin"
-                    android:paddingLeft="20dp"
-                    android:paddingTop="20dp"
-                    android:text="Rüzgar hızı"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/ic_size_max"
+                        android:layout_height="@dimen/ic_size_max"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="5dp"
+                        android:clipChildren="true"
+                        android:src="@drawable/ic_wind" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/inter_bold"
+                        android:gravity="center_vertical"
+                        android:text="@string/wind_speed_txt"
+                        android:textSize="14sp"
+                        />
+                </LinearLayout>
 
                 <com.github.mikephil.charting.charts.LineChart
                     android:id="@+id/line_chart"
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="16dp"
-                    android:layout_height="300dp" />
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="16dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/banner_ad_view_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="10dp"
+            ads:adSize="LARGE_BANNER"
+            ads:adUnitId="ca-app-pub-3438221392612643/6858530738" />
     </LinearLayout>
 
 </FrameLayout>

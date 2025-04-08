@@ -35,6 +35,33 @@
     <string name="tomorrow_txt">Tomorrow</string>
     <string name="btn_one_week_txt">1 Week</string>
     <string name="today">Today</string>
+    <string name="kmh">km/h</string>
+
+    <!-- Weather Description String -->
+    <string name="weather_clear">Clear sky</string>
+    <string name="weather_mainly_clear">Mainly clear</string>
+    <string name="weather_partly_cloudy">Partly cloudy</string>
+    <string name="weather_cloudy">Overcast</string>
+    <string name="weather_fog">Foggy</string>
+    <string name="weather_light_rain">Light rain</string>
+    <string name="weather_moderate_rain">Moderate rain</string>
+    <string name="weather_heavy_rain">Heavy rain</string>
+    <string name="weather_light_freezing_rain">Light freezing rain</string>
+    <string name="weather_moderate_freezing_rain">Moderate freezing rain</string>
+    <string name="weather_freezing_rain">Freezing rain</string>
+    <string name="weather_light_snow">Light snow</string>
+    <string name="weather_moderate_snow">Moderate snow</string>
+    <string name="weather_heavy_snow">Heavy snow</string>
+    <string name="weather_snow_grains">Snow grains</string>
+    <string name="weather_unknown">Unknown weather</string>
+    <string name="carbonMonoxide">Carbon Monoxide</string>
+    <string name="pm10_txt">Dust Particles</string>
+    <string name="ozone_txt">Ozone</string>
+    <string name="aqi_txt">AQI</string>
+    <string name="night_txt">Night</string>
+    <string name="day_txt">Day</string>
+    <string name="daytime_weekly">Daytime (Weekly Avg.)</string>
+    <string name="nighttime_weekly">Nighttime (Weekly Avg.)</string>
 
 
 </resources>

@@ -39,7 +39,7 @@ class HourlyWeatherAdapter(private val items: List<HourlyWeather>,  private val 
         if (item.time.startsWith(currentHour)) {
             holder.itemView.setBackgroundResource(R.drawable.bg_selected_hourly_item)
         } else {
-            holder.itemView.setBackgroundResource(0) // varsayılan boş
+            holder.itemView.setBackgroundResource(0)
         }
     }
 }

@@ -70,8 +70,6 @@ import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
-    private var currentLat: Double? = null
-    private var currentLon: Double? = null
     private var navController: NavController? = null
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private var mProgressDialog: Dialog? = null
@@ -109,12 +107,12 @@ class MainActivity : AppCompatActivity() {
             navController?.navigate(R.id.oneWeekFragment)
         }
 
-        binding.appBar.addOnOffsetChangedListener{ appBarLayout, verticalOffset ->
+        binding.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             val totalScrollRange = appBarLayout.totalScrollRange
             if (Math.abs(verticalOffset) >= totalScrollRange) {
                 binding.toolbar.setBackgroundResource(R.drawable.toolbar_gradient_color)
 
-            }else{
+            } else {
                 binding.toolbar.setBackgroundColor(Color.TRANSPARENT)
             }
         }
@@ -166,14 +164,21 @@ class MainActivity : AppCompatActivity() {
         binding.btn1Week.backgroundTintList = ColorStateList.valueOf(defaultColor)
 
         when (selectedButtonId) {
-            R.id.btnToday -> binding.btnToday.backgroundTintList =
-                ColorStateList.valueOf(selectedColor)
+            R.id.btnToday -> {
+                binding.btnToday.backgroundTintList =
+                    ColorStateList.valueOf(selectedColor)
+            }
 
-            R.id.btnTomorrow -> binding.btnTomorrow.backgroundTintList =
-                ColorStateList.valueOf(selectedColor)
+            R.id.btnTomorrow -> {
+                binding.btnTomorrow.backgroundTintList =
+                    ColorStateList.valueOf(selectedColor)
+            }
 
-            R.id.btn1Week -> binding.btn1Week.backgroundTintList =
-                ColorStateList.valueOf(selectedColor)
+            R.id.btn1Week -> {
+                binding.btn1Week.backgroundTintList =
+                    ColorStateList.valueOf(selectedColor)
+
+            }
         }
     }
 
@@ -315,22 +320,45 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupUI(weatherList: WeatherResponse) {
+        val degree = WeatherCodeUtils.getUnit(application.resources.configuration.toString())
         for (i in weatherList.weather.indices) {
-            binding.tvMain.text = weatherList.weather[i].main
-            binding.tvTemp.text = weatherList.main.temp.roundToInt().toString() + WeatherCodeUtils.getUnit(
-                application.resources.configuration.toString()
-            )
             binding.dateTime.text = getFormattedDateTime()
             binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
-            binding.tvFeelsLike.text = "${getString(R.string.feels_like_txt)} ${weatherList.main.feels_like.roundToInt()} ${WeatherCodeUtils.getUnit(
-                application.resources.configuration.toString()
-            )}"
+            binding.tvFeelsLike.text =
+                "${getString(R.string.feels_like_txt)} ${weatherList.main.feels_like.roundToInt()} ${degree}"
             weatherViewModel.weatherCode.observe(this) { code ->
                 binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(code.toInt()))
+                binding.tvMain.text =
+                    WeatherCodeUtils.getWeatherDescription(applicationContext, code.toInt())
             }
+            weatherViewModel.isTargetOneWeek.observe(this) { code ->
+                if(code){
+                    weatherViewModel.oneWeekMaxTemperature.observe(this) { it ->
+                        binding.tvDayTemp.text = it.average().roundToInt().toString()+degree
+                    }
+                    weatherViewModel.oneWeekMinTemperature.observe(this) {
+                        binding.tvNightTemp.text = it.average().roundToInt().toString()+degree
+                    }
+                    binding.tvDayText.text = getString(R.string.daytime_weekly)
+                    binding.tvNightText.text = getString(R.string.nighttime_weekly)
+                }else{
+                    weatherViewModel.temperature2mMax.observe(this) { it ->
+                        binding.tvDayTemp.text = it + degree
+                    }
+                    weatherViewModel.temperature2mMin.observe(this) { it ->
+                        binding.tvNightTemp.text = it + degree
+                    }
+                    binding.tvDayText.text = getString(R.string.day_txt)
+                    binding.tvNightText.text = getString(R.string.night_txt)
+                }
+
+            }
+            weatherViewModel.temperature.observe(this) { code ->
+                binding.tvTemp.text = code + degree
+            }
+
         }
     }
-
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
