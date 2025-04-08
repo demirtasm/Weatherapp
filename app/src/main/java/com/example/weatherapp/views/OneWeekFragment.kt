@@ -11,7 +11,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.adapter.OneWeekItemAdapter
 import com.example.weatherapp.databinding.FragmentOneWeekBinding
 import com.example.weatherapp.models.OneWeek
+import com.example.weatherapp.network.OpenMeteoService
+import com.example.weatherapp.network.WeatherService
+import com.example.weatherapp.repository.WeatherRepository
 import com.example.weatherapp.viewmodel.WeatherViewModel
+import com.example.weatherapp.viewmodel.WeatherViewModelFactory
 
 
 class OneWeekFragment : Fragment() {
@@ -29,15 +33,21 @@ class OneWeekFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        weatherViewModel = ViewModelProvider(requireActivity())[WeatherViewModel::class.java]
+        val weatherApi = WeatherService.create()
+        val meteoApi = OpenMeteoService.create()
+        val repository = WeatherRepository(weatherApi, meteoApi)
+        val factory = WeatherViewModelFactory(repository)
+
+        weatherViewModel = ViewModelProvider(requireActivity(), factory)[WeatherViewModel::class.java]
         weatherViewModel.setTargetOneWeek(true)
 
-        val times = weatherViewModel.oneWeekTimes
-        val codes =weatherViewModel.oneWeekWeatherCode.value.orEmpty()
-        val tempMax =weatherViewModel.oneWeekMaxTemperature.value.orEmpty()
-        val tempMin =weatherViewModel.oneWeekMinTemperature.value.orEmpty()
+
 
         weatherViewModel.oneWeekTimes.observe(viewLifecycleOwner) { times ->
+           // val times = weatherViewModel.oneWeekTimes
+            val codes =weatherViewModel.oneWeekWeatherCode.value.orEmpty()
+            val tempMax =weatherViewModel.oneWeekMaxTemperature.value.orEmpty()
+            val tempMin =weatherViewModel.oneWeekMinTemperature.value.orEmpty()
             val oneWeekItems = times.indices.map { i ->
                 OneWeek(time = times[i], weatherCode = codes[i], tempMax = tempMax[i], tempMin = tempMin[i])
             }

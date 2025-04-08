@@ -18,6 +18,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
@@ -33,10 +34,13 @@ import com.example.weatherapp.databinding.ActivityMainBinding
 import com.example.weatherapp.models.HourlyWeather
 import com.example.weatherapp.models.OpenMeteoResponse
 import com.example.weatherapp.models.WeatherResponse
+import com.example.weatherapp.network.OpenMeteoService
 import com.example.weatherapp.network.WeatherService
+import com.example.weatherapp.repository.WeatherRepository
 import com.example.weatherapp.utils.WeatherCodeUtils
 import com.example.weatherapp.viewmodel.LocationViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModel
+import com.example.weatherapp.viewmodel.WeatherViewModelFactory
 import com.example.weatherapp.views.TodayFragment
 import com.example.weatherapp.views.TodayFragmentDirections
 import com.google.android.gms.ads.AdRequest
@@ -83,8 +87,29 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
-        weatherViewModel = ViewModelProvider(this)[WeatherViewModel::class.java]
+        val weatherApi = WeatherService.create()
+        val meteoApi = OpenMeteoService.create()
+        val repository = WeatherRepository(weatherApi, meteoApi)
+        val factory = WeatherViewModelFactory(repository)
 
+        weatherViewModel = ViewModelProvider(this, factory)[WeatherViewModel::class.java]
+
+
+        weatherViewModel.meteoData.observe(this) { meteo ->
+            meteo?.let {
+                setUpMeteoUI(it)
+            }
+        }
+
+
+        weatherViewModel.currentWeather.observe(this) { currentWeather ->
+            currentWeather?.let {
+                setUpCurrentWeatherUI(it)
+            }
+
+        }
+
+        setUpCurrentUI()
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
         navController = navHostFragment?.findNavController()
 
@@ -155,6 +180,51 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun setUpCurrentUI() {
+
+        binding.dateTime.text = getFormattedDateTime()
+
+    }
+
+    private fun setUpCurrentWeatherUI(weatherList: WeatherResponse) {
+        val degree = WeatherCodeUtils.getUnit(application.resources.configuration.toString())
+        binding.tvFeelsLike.text = "${getString(R.string.feels_like_txt)} ${weatherList.main.feels_like.roundToInt()} ${degree}"
+        binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
+    }
+
+    private fun setUpMeteoUI(meteo: OpenMeteoResponse?) {
+        val degree = WeatherCodeUtils.getUnit(application.resources.configuration.toString())
+        weatherViewModel.temperature.observe(this) { code ->
+             binding.tvTemp.text = code + degree
+        }
+        weatherViewModel.isTargetOneWeek.observe(this) { code ->
+            if (code) {
+                weatherViewModel.oneWeekMaxTemperature.observe(this) { it ->
+                    binding.tvDayTemp.text = it.average().roundToInt().toString() + degree
+                }
+                weatherViewModel.oneWeekMinTemperature.observe(this) {
+                    binding.tvNightTemp.text = it.average().roundToInt().toString() + degree
+                }
+                binding.tvDayText.text = getString(R.string.daytime_weekly)
+                binding.tvNightText.text = getString(R.string.nighttime_weekly)
+            } else {
+                weatherViewModel.temperature2mMax.observe(this) { it ->
+                    binding.tvDayTemp.text = it + degree
+                }
+                weatherViewModel.temperature2mMin.observe(this) { it ->
+                    binding.tvNightTemp.text = it + degree
+                }
+                binding.tvDayText.text = getString(R.string.day_txt)
+                binding.tvNightText.text = getString(R.string.night_txt)
+            }
+        }
+        weatherViewModel.weatherCode.observe(this) { code ->
+            binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(code.toInt()))
+            binding.tvMain.text =
+                WeatherCodeUtils.getWeatherDescription(applicationContext, code.toInt())
+        }
+    }
+
     private fun updateTabSelection(selectedButtonId: Int) {
         val selectedColor = Color.parseColor("#E1B6FF")
         val defaultColor = Color.parseColor("#FFFFFF")
@@ -182,57 +252,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun getLocationWeatherDetails(latitude: Double, longitude: Double) {
-        if (Constants.isNetworkAvailable(this)) {
-            val retrofit: Retrofit =
-                Retrofit.Builder().baseUrl(Constants.BASE_URL_OPEN_WEATHER).addConverterFactory(
-                    GsonConverterFactory.create()
-                ).build()
-
-            val service: WeatherService =
-                retrofit.create<WeatherService>(WeatherService::class.java)
-            val listCall: Call<WeatherResponse> =
-                service.getWeather(latitude, longitude, Constants.METRIC_UNIT, Constants.APP_ID)
-            showProgressDialog()
-            listCall.enqueue(object : Callback<WeatherResponse> {
-                override fun onResponse(
-                    call: Call<WeatherResponse>,
-                    response: Response<WeatherResponse>
-                ) {
-                    if (response.isSuccessful) {
-                        hideProgressDialog()
-
-                        val weatherList: WeatherResponse = response.body()!!
-                        setupUI(weatherList)
-                        Log.e("TAGX", weatherList.toString())
-                    } else {
-                        val rc = response.code()
-                        when (rc) {
-                            400 -> Log.e("Error", "Bad connection")
-                            404 -> Log.e("Error", "Not Found")
-                            else -> Log.e("Error", "Generic error")
-                        }
-                    }
-                }
-
-                override fun onFailure(call: Call<WeatherResponse>, t: Throwable) {
-                    Log.e("Error", t.message.toString())
-                    hideProgressDialog()
-
-                }
-
-            })
-        } else {
-            Toast.makeText(
-                this@MainActivity,
-                "No internet",
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-
-    }
-
-
     private val mLocationCallback = object : LocationCallback() {
 
         override fun onLocationResult(locationResult: LocationResult) {
@@ -240,7 +259,8 @@ class MainActivity : AppCompatActivity() {
             val latitude = mLastLocation.latitude
             val longitude = mLastLocation.longitude
             Log.e("TAGX", "LATİTUDE: ${latitude} ,Longıtude: ${longitude}")
-            getLocationWeatherDetails(latitude, longitude)
+            locationViewModel.setLocation(latitude, longitude)
+            weatherViewModel.loadWeatherData(latitude, longitude)
             locationViewModel.setLocation(latitude, longitude)
             mFusedLocationClient.removeLocationUpdates(this)
             runOnUiThread {
@@ -316,47 +336,6 @@ class MainActivity : AppCompatActivity() {
     private fun hideProgressDialog() {
         if (mProgressDialog != null) {
             mProgressDialog!!.dismiss()
-        }
-    }
-
-    private fun setupUI(weatherList: WeatherResponse) {
-        val degree = WeatherCodeUtils.getUnit(application.resources.configuration.toString())
-        for (i in weatherList.weather.indices) {
-            binding.dateTime.text = getFormattedDateTime()
-            binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
-            binding.tvFeelsLike.text =
-                "${getString(R.string.feels_like_txt)} ${weatherList.main.feels_like.roundToInt()} ${degree}"
-            weatherViewModel.weatherCode.observe(this) { code ->
-                binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(code.toInt()))
-                binding.tvMain.text =
-                    WeatherCodeUtils.getWeatherDescription(applicationContext, code.toInt())
-            }
-            weatherViewModel.isTargetOneWeek.observe(this) { code ->
-                if(code){
-                    weatherViewModel.oneWeekMaxTemperature.observe(this) { it ->
-                        binding.tvDayTemp.text = it.average().roundToInt().toString()+degree
-                    }
-                    weatherViewModel.oneWeekMinTemperature.observe(this) {
-                        binding.tvNightTemp.text = it.average().roundToInt().toString()+degree
-                    }
-                    binding.tvDayText.text = getString(R.string.daytime_weekly)
-                    binding.tvNightText.text = getString(R.string.nighttime_weekly)
-                }else{
-                    weatherViewModel.temperature2mMax.observe(this) { it ->
-                        binding.tvDayTemp.text = it + degree
-                    }
-                    weatherViewModel.temperature2mMin.observe(this) { it ->
-                        binding.tvNightTemp.text = it + degree
-                    }
-                    binding.tvDayText.text = getString(R.string.day_txt)
-                    binding.tvNightText.text = getString(R.string.night_txt)
-                }
-
-            }
-            weatherViewModel.temperature.observe(this) { code ->
-                binding.tvTemp.text = code + degree
-            }
-
         }
     }
 

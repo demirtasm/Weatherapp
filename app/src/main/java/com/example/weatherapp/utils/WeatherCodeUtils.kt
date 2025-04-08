@@ -16,12 +16,9 @@ object WeatherCodeUtils {
             56 -> R.drawable.ic_light_freezing_rainy_day
             57 -> R.drawable.ic_moderate_freezing_rainy_day
             66, 67 -> R.drawable.ic_freezing_rain_day
-            71 -> R.drawable.ic_clear_day
-            73 -> R.drawable.ic_clear_day
-            75 -> R.drawable.ic_clear_day
-            77 -> R.drawable.ic_clear_day
-            85 -> R.drawable.ic_clear_day
-            86 -> R.drawable.ic_clear_day
+            71, 85,77 -> R.drawable.ic_light_snow
+            73-> R.drawable.ic_moderate_snow
+            75, 86 -> R.drawable.ic_heavy_snow
             else -> R.drawable.ic_clear_day
         }
     }

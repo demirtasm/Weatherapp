@@ -3,8 +3,20 @@ package com.example.weatherapp.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.weatherapp.models.AirPollutionResponse
+import com.example.weatherapp.models.OpenMeteoResponse
+import com.example.weatherapp.models.WeatherResponse
+import com.example.weatherapp.repository.WeatherRepository
+import kotlinx.coroutines.launch
 
-class WeatherViewModel: ViewModel() {
+class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
+
+    val meteoData = MutableLiveData<OpenMeteoResponse>()
+    val airPollutionData = MutableLiveData<AirPollutionResponse>()
+    val currentWeather = MutableLiveData<WeatherResponse>()
+
+
     private val _weatherCode = MutableLiveData<String>()
     val weatherCode: LiveData<String> = _weatherCode
 
@@ -32,6 +44,20 @@ class WeatherViewModel: ViewModel() {
 
     private val _oneWeekMinTemperature = MutableLiveData<List<Double>>()
     val oneWeekMinTemperature : LiveData<List<Double>> = _oneWeekMinTemperature
+
+
+    fun loadWeatherData(lat: Double, lon: Double){
+        viewModelScope.launch {
+            val meteo = repository.getOpenMeteoWeather(lat, lon)
+            val air = repository.getAirPollutionForecast(lat, lon)
+            val current = repository.getCurrentWeather(lat, lon)
+
+            meteo?.let { meteoData.postValue(it) }
+            air?.let { airPollutionData.postValue(it) }
+            current?.let { currentWeather.postValue(it) }
+        }
+    }
+
 
     fun setWeatherCode(code: String) {
         _weatherCode.value = code
