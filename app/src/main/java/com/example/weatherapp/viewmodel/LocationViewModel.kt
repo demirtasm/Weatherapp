@@ -12,4 +12,12 @@ class LocationViewModel: ViewModel() {
         _location.value = Pair(lat, lon)
     }
 
+    fun getLatitude(): Double? {
+        return _location.value?.first
+    }
+
+    fun getLongitude(): Double? {
+        return _location.value?.second
+    }
+
 }

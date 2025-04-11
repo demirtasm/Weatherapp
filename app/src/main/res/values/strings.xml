@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WeatherApp</string>
+    <string name="app_name">Weatherly</string>
     <string name="please_wait">Please Wait&#8230;</string>
     <string name="image_contentDescription">image</string>
     <string name="miles_per_hour">miles/hour</string>
@@ -62,6 +62,18 @@
     <string name="day_txt">Day</string>
     <string name="daytime_weekly">Daytime (Weekly Avg.)</string>
     <string name="nighttime_weekly">Nighttime (Weekly Avg.)</string>
+    <string name="next"><![CDATA[>]]></string>
+    <string name="intro_onboarding_txt">Stay informed about real-time weather conditions, no matter where you are.
+Be prepared for severe weather in advance and plan your day with confidence.
+Start setting up your personal weather assistant in just 4 simple steps.</string>
+    <string name="intro_title">Welcome to Weatherly</string>
+    <string name="get_started_btn_txt">Get Started</string>
+    <string name="location_title">Get Real-Time Forecasts Wherever You Are</string>
+    <string name="location_desc">By allowing location access, you’ll receive accurate, location-based weather forecasts.Be prepared for sudden rain, strong winds, or heatwaves before they hit.Granting location access is entirely up to you — and if you change your mind, you can always update your settings later.</string>
+    <string name="notification_title">Don’t Let the Weather Catch You Off Guard!</string>
+    <string name="notification_desc">Enable notifications to get timely alerts about sudden weather changes.\nWe’ll let you know if storms, rain, or heatwaves are coming your way.\n\nDon’t worry — you can always change this later in your app settings.</string>
+    <string name="welcome_to_txt">WELCOME TO</string>
+    <string name="splash_screen_subtext">Take your umbrella before the rain starts</string>
 
 
 </resources>

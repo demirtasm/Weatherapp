@@ -49,4 +49,12 @@
     <string name="day_txt">Gündüz</string>
     <string name="daytime_weekly">Gündüz (Haftalık Ort.)</string>
     <string name="nighttime_weekly">Gece (Haftalık Ort.)</string>
+    <string name="intro_onboarding_txt">Nerede olursanız olun, anlık hava durumundan haberdar olun.Sert hava koşullarına karşı önceden hazırlıklı olun ve günlük planlarınızı güvenle yapın.Sadece 4 adımda kişisel hava asistanınızı kurmaya başlayın.</string>
+    <string name="intro_title">Weatherly\'e Hoş Geldiniz</string>
+    <string name="get_started_btn_txt">Başlayalım</string>
+    <string name="location_title">Bulunduğunuz Her Yerde Hava Durumunu Anlık Takip Edin</string>
+    <string name="location_desc">Konum izni vererek bulunduğunuz yere özel, doğru hava durumu tahminleri alın.  Bu sayede aniden bastıran yağmurlar, sert rüzgarlar veya sıcak hava dalgalarına karşı önceden hazırlıklı olabilirsiniz.  Konum iznini vermek tamamen sizin tercihinizdir. İzin vermekten vazgeçerseniz, uygulama ayarlarından her zaman güncelleyebilirsiniz.</string>
+    <string name="notification_title">Hava Koşulları Sizi Şaşırtmasın!</string>
+    <string name="notification_desc">Bildirim izni vererek ani hava değişikliklerinden haberdar olun. Fırtına, yağmur veya sıcak hava dalgası yaklaştığında size haber verelim.  Endişelenmeyin — bu izni her zaman ayarlarınızdan değiştirebilirsiniz.</string>
+    <string name="splash_screen_subtext">Yağmur başlamadan önce şemsiyeni al.</string>
 </resources>
