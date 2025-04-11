@@ -9,7 +9,7 @@
         android:id="@+id/todayFragment"
         android:name="com.example.weatherapp.views.TodayFragment"
         android:label="fragment_today"
-        tools:layout="@layout/fragment_today" >
+        tools:layout="@layout/fragment_base_weather" >
 
         <action
             android:id="@+id/action_todayFragment_to_tomorrowFragment"

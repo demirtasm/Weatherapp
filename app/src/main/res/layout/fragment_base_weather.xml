@@ -25,17 +25,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_small"
                 android:layout_marginStart="@dimen/card_view_marginStartEnd"
                 android:layout_marginEnd="@dimen/card_view_marginStartEnd"
-                android:backgroundTint="#EBDEFF"
-                app:cardCornerRadius="16dp"
+                android:backgroundTint="@color/card_background_color"
+                app:cardCornerRadius="@dimen/card_radius"
                 app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -49,14 +49,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="12dp">
+                        android:padding="@dimen/padding_small">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/rain_change_txt"
                             android:fontFamily="@font/inter_bold"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/medium_text_size"
                             android:textStyle="bold" />
 
                         <TextView
@@ -65,7 +65,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
                             tools:text="-"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/medium_large_text_size" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -75,17 +75,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_small"
                 android:layout_marginStart="@dimen/card_view_marginStartEnd"
                 android:layout_marginEnd="@dimen/card_view_marginStartEnd"
-                android:backgroundTint="#EBDEFF"
-                app:cardCornerRadius="16dp"
+                android:backgroundTint="@color/card_background_color"
+                app:cardCornerRadius="@dimen/card_radius"
                 app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -99,14 +99,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="12dp">
+                        android:padding="@dimen/padding_small">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/wind_speed_txt"
                             android:fontFamily="@font/inter_bold"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/medium_text_size"
                             android:textStyle="bold" />
 
                         <TextView
@@ -115,7 +115,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
                             tools:text="-"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/medium_large_text_size" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -125,17 +125,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_small"
                 android:layout_marginStart="@dimen/card_view_marginStartEnd"
                 android:layout_marginEnd="@dimen/card_view_marginStartEnd"
-                android:backgroundTint="#EBDEFF"
-                app:cardCornerRadius="16dp"
+                android:backgroundTint="@color/card_background_color"
+                app:cardCornerRadius="@dimen/card_radius"
                 app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -149,14 +149,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="12dp">
+                        android:padding="@dimen/padding_small">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/humidity_txt"
                             android:fontFamily="@font/inter_bold"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/medium_text_size"
                             android:textStyle="bold" />
 
                         <TextView
@@ -165,7 +165,7 @@
                             android:layout_height="wrap_content"
                             tools:text="-"
                             android:fontFamily="@font/inter"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/medium_large_text_size" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -174,17 +174,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_small"
                 android:layout_marginStart="@dimen/card_view_marginStartEnd"
                 android:layout_marginEnd="@dimen/card_view_marginStartEnd"
-                android:backgroundTint="#EBDEFF"
-                app:cardCornerRadius="16dp"
+                android:backgroundTint="@color/card_background_color"
+                app:cardCornerRadius="@dimen/card_radius"
                 app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -198,14 +198,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="12dp">
+                        android:padding="@dimen/padding_small">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/uv_index_txt"
                             android:fontFamily="@font/inter_bold"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/medium_text_size"
                             android:textStyle="bold" />
 
                         <TextView
@@ -214,7 +214,7 @@
                             android:layout_height="wrap_content"
                             tools:text="-"
                             android:fontFamily="@font/inter"
-                            android:textSize="15sp" />
+                            android:textSize="@dimen/medium_large_text_size" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -225,11 +225,11 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_xsmall"
             android:padding="0dp"
             app:cardBackgroundColor="#EBDEFF"
-            app:cardCornerRadius="16dp"
+            app:cardCornerRadius="@dimen/card_radius"
             app:cardElevation="0dp"
             app:cardUseCompatPadding="false">
 
@@ -242,13 +242,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="@dimen/padding_small">
 
                     <ImageView
                         android:layout_width="@dimen/ic_size_max"
                         android:layout_height="@dimen/ic_size_max"
                         android:layout_gravity="center"
-                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginHorizontal="@dimen/margin_xsmall"
                         android:clipChildren="true"
                         android:src="@drawable/ic_hourly" />
 
@@ -258,14 +258,14 @@
                         android:fontFamily="@font/inter_bold"
                         android:gravity="center_vertical"
                         android:text="@string/hourly_forecast_txt"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/medium_text_size" />
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/hourlyRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:background="@android:color/transparent"
                     android:clipToPadding="false"
                     android:scrollbars="horizontal" />
@@ -278,7 +278,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/margin_small"
             ads:adSize="LARGE_BANNER"
             ads:adUnitId="ca-app-pub-3438221392612643/9740710913" />
 
@@ -286,11 +286,11 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginHorizontal="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_xsmall"
             android:padding="0dp"
-            app:cardBackgroundColor="#EBDEFF"
-            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@color/card_background_color"
+            app:cardCornerRadius="@dimen/card_radius"
             app:cardElevation="0dp"
             app:cardUseCompatPadding="false">
 
@@ -303,13 +303,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal"
-                    android:padding="12dp">
+                    android:padding="@dimen/padding_small">
 
                     <ImageView
                         android:layout_width="@dimen/ic_size_max"
                         android:layout_height="@dimen/ic_size_max"
                         android:layout_gravity="center"
-                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginHorizontal="@dimen/margin_xsmall"
                         android:clipChildren="true"
                         android:src="@drawable/ic_air" />
 
@@ -319,8 +319,7 @@
                         android:fontFamily="@font/inter_bold"
                         android:gravity="center_vertical"
                         android:text="@string/air_forecast_txt"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/medium_text_size" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -328,7 +327,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:padding="16dp">
+                    android:padding="@dimen/padding_medium">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -342,26 +341,26 @@
                             android:layout_height="wrap_content"
                             tools:text="Good"
                             android:textColor="@color/purple"
-                            android:textSize="32sp"
+                            android:textSize="@dimen/xlarge_text_size"
                             android:fontFamily="@font/inter_bold" />
 
                         <TextView
                             android:id="@+id/qualityDescription"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
+                            android:layout_marginTop="@dimen/margin_xsmall"
                             tools:text="Air quality is satisfactory"
                             android:fontFamily="@font/inter"
-                            android:textColor="#A47DAB"
-                            android:textSize="14sp" />
+                            android:textColor="@color/purple"
+                            android:textSize="@dimen/medium_text_size" />
                     </LinearLayout>
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="80dp"
                         android:layout_height="60dp"
-                        android:layout_marginStart="16dp"
+                        android:layout_marginStart="@dimen/margin_medium"
                         card_view:cardBackgroundColor="@color/purple"
-                        card_view:cardCornerRadius="16dp"
+                        card_view:cardCornerRadius="@dimen/card_radius"
                         card_view:cardElevation="0dp">
 
                         <LinearLayout
@@ -377,15 +376,15 @@
                                 android:text="@string/aqi_txt"
                                 android:textColor="@color/white"
                                 android:fontFamily="@font/inter"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/small_text_size" />
 
                             <TextView
                                 android:id="@+id/aqiValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="48"
+                                tools:text="4"
                                 android:textColor="@color/white"
-                                android:textSize="24sp"
+                                android:textSize="@dimen/xlarge_text_size"
                                 android:fontFamily="@font/inter_bold" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
@@ -402,15 +401,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_margin="12dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:backgroundTint="@color/purple"
-                    app:cardCornerRadius="12dp"
+                    app:cardCornerRadius="@dimen/card_radius_small"
                     app:cardElevation="0dp">
 
                     <com.google.android.flexbox.FlexboxLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
+                        android:padding="@dimen/padding_medium"
                         app:alignItems="stretch"
                         app:flexDirection="row"
                         app:justifyContent="space_between">
@@ -421,7 +420,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center_horizontal"
                             android:orientation="vertical"
-                            android:padding="5dp">
+                            android:padding="@dimen/padding_xsmall">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -430,15 +429,15 @@
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:fontFamily="@font/inter"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/small_text_size" />
 
                             <TextView
                                 android:id="@+id/textCoValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="28"
+                                tools:text="28"
                                 android:textColor="@color/white"
-                                android:textSize="22sp"
+                                android:textSize="@dimen/large_text_size"
                                 android:fontFamily="@font/inter_bold"
                                 />
 
@@ -447,7 +446,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="µg/m³"
                                 android:textColor="@color/white"
-                                android:textSize="12sp"
+                                android:textSize="@dimen/small_text_size"
                                 android:fontFamily="@font/inter"/>
                         </LinearLayout>
 
@@ -456,7 +455,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center_horizontal"
                             android:orientation="vertical"
-                            android:padding="5dp">
+                            android:padding="@dimen/padding_xsmall">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -464,16 +463,16 @@
                                 android:text="@string/pm10_txt"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
-                                android:textSize="10sp"
+                                android:textSize="@dimen/small_text_size"
                                 android:fontFamily="@font/inter"/>
 
                             <TextView
                                 android:id="@+id/textPM10Value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="51"
+                                tools:text="51"
                                 android:textColor="@color/white"
-                                android:textSize="22sp"
+                                android:textSize="@dimen/large_text_size"
                                 android:fontFamily="@font/inter_bold"
                                 />
 
@@ -483,7 +482,7 @@
                                 android:text="µg/m³"
                                 android:textColor="@color/white"
                                 android:fontFamily="@font/inter"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/small_text_size" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -491,7 +490,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center_horizontal"
                             android:orientation="vertical"
-                            android:padding="5dp">
+                            android:padding="@dimen/padding_xsmall">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -500,15 +499,15 @@
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:fontFamily="@font/inter"
-                                android:textSize="10sp" />
+                                android:textSize="@dimen/small_text_size" />
 
                             <TextView
                                 android:id="@+id/texto3Value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="51"
+                                tools:text="51"
                                 android:textColor="@color/white"
-                                android:textSize="22sp"
+                                android:textSize="@dimen/large_text_size"
                                 android:fontFamily="@font/inter_bold"
                                 />
 
@@ -518,7 +517,7 @@
                                 android:text="µg/m³"
                                 android:textColor="@color/white"
                                 android:fontFamily="@font/inter"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/small_text_size" />
                         </LinearLayout>
 
 
@@ -532,7 +531,7 @@
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/margin_medium"
             android:columnCount="2"
             android:columnOrderPreserved="false"
             android:rowCount="2">
@@ -541,17 +540,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_small"
                 android:layout_marginStart="@dimen/card_view_marginStartEnd"
                 android:layout_marginEnd="@dimen/card_view_marginStartEnd"
-                android:backgroundTint="#EBDEFF"
-                app:cardCornerRadius="16dp"
+                android:backgroundTint="@color/card_background_color"
+                app:cardCornerRadius="@dimen/card_radius"
                 app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -565,13 +564,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="12dp">
+                        android:padding="@dimen/padding_small">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/sunrise_txt"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/medium_text_size"
                             android:fontFamily="@font/inter_bold"
                             />
 
@@ -580,7 +579,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             tools:text="4:20"
-                            android:textSize="15sp"
+                            android:textSize="@dimen/medium_large_text_size"
                             android:fontFamily="@font/inter"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -591,17 +590,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="10dp"
+                android:layout_margin="@dimen/margin_small"
                 android:layout_marginStart="@dimen/card_view_marginStartEnd"
                 android:layout_marginEnd="@dimen/card_view_marginStartEnd"
-                android:backgroundTint="#EBDEFF"
-                app:cardCornerRadius="16dp"
+                android:backgroundTint="@color/card_background_color"
+                app:cardCornerRadius="@dimen/card_radius"
                 app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
+                    android:layout_margin="@dimen/margin_small"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -615,13 +614,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="12dp">
+                        android:padding="@dimen/padding_small">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/sunset_txt"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/medium_text_size"
                             android:fontFamily="@font/inter_bold"
                             />
 
@@ -630,7 +629,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             tools:text="4:50"
-                            android:textSize="15sp"
+                            android:textSize="@dimen/medium_large_text_size"
                             android:fontFamily="@font/inter"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -641,10 +640,10 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="5dp"
-            app:cardBackgroundColor="#EBDEFF"
-            app:cardCornerRadius="16dp"
+            android:layout_marginHorizontal="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            app:cardBackgroundColor="@color/card_background_color"
+            app:cardCornerRadius="@dimen/card_radius"
             app:cardElevation="0dp"
             app:cardUseCompatPadding="false">
 
@@ -652,7 +651,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="@dimen/padding_small">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -663,7 +662,7 @@
                         android:layout_width="@dimen/ic_size_max"
                         android:layout_height="@dimen/ic_size_max"
                         android:layout_gravity="center"
-                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginHorizontal="@dimen/margin_xsmall"
                         android:clipChildren="true"
                         android:src="@drawable/ic_wind" />
 
@@ -673,7 +672,7 @@
                         android:fontFamily="@font/inter_bold"
                         android:gravity="center_vertical"
                         android:text="@string/wind_speed_txt"
-                        android:textSize="14sp"
+                        android:textSize="@dimen/medium_text_size"
                         />
                 </LinearLayout>
 
@@ -681,7 +680,7 @@
                     android:id="@+id/line_chart"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:layout_marginBottom="16dp" />
+                    android:layout_marginBottom="@dimen/margin_medium" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -691,7 +690,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/margin_small"
             ads:adSize="LARGE_BANNER"
             ads:adUnitId="ca-app-pub-3438221392612643/6858530738" />
     </LinearLayout>

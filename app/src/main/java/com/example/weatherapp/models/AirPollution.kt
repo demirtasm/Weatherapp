@@ -10,5 +10,5 @@ data class AirPollution(
     val pm10: Double,
     val nh3: Double,
     val time: String,
-    val aqi: Int
+    val aqi: Double
     )

@@ -25,11 +25,18 @@ class WeatherRepository(private val weatherApi: WeatherService, private val mete
 
     suspend fun getAirPollutionForecast(lat: Double, lon: Double): AirPollutionResponse? {
         return try {
-            weatherApi.getAirPollutionForecast(lat, lon, Constants.APP_ID)
+            val response = weatherApi.getAirPollutionForecast(lat, lon, Constants.APP_ID)
+            if (response.isSuccessful) {
+                response.body()
+            } else {
+                // loglama da eklenebilir
+                null
+            }
         } catch (e: Exception) {
             null
         }
     }
+
 
     suspend fun getCurrentWeather(lat: Double, lon: Double): WeatherResponse? {
         return try {

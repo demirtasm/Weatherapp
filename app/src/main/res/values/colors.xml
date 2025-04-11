@@ -11,5 +11,9 @@
     <color name="medium_purple">#6E00B3</color>
     <color name="dark_purple">#3C0061</color>
     <color name="active_purple"> #E1B6FF</color>
+    <color name="background_content_color">#F6EEFF</color>
+    <color name="active_button_color">#E1B6FF</color>
+    <color name="default_button_color">#FFFFFF</color>
+    <color name="card_background_color">#EBDEFF</color>
 
 </resources>

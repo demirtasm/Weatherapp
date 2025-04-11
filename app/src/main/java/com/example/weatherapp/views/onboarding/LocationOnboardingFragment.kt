@@ -57,7 +57,8 @@ class LocationOnboardingFragment : Fragment() {
         val meteoApi = OpenMeteoService.create()
         val repository = WeatherRepository(weatherApi, meteoApi)
         val factory = WeatherViewModelFactory(repository)
-        weatherViewModel = ViewModelProvider(this, factory)[WeatherViewModel::class.java]
+
+        weatherViewModel = ViewModelProvider(requireActivity(), factory)[WeatherViewModel::class.java]
 
         binding?.btnNext?.setOnClickListener {
             Dexter.withContext(requireContext())
@@ -111,13 +112,14 @@ class LocationOnboardingFragment : Fragment() {
             val longitude = mLastLocation.longitude
             Log.e("TAGX", "LATİTUDE: ${latitude} ,Longıtude: ${longitude}")
             locationViewModel.setLocation(latitude, longitude)
+            Log.d("TAGX", "Calling loadWeatherData() in onboarding fragment")
             weatherViewModel.loadWeatherData(latitude, longitude)
             locationViewModel.setLocation(latitude, longitude)
             PrefsHelper.setNotFirstTime(requireContext())
 
             val viewPager = activity?.findViewById<ViewPager2>(R.id.onboardingViewPager)
 
-            viewPager?.currentItem = 2
+            viewPager?.currentItem = 3
 
             mFusedLocationClient.removeLocationUpdates(this)
             PrefsHelper.setNotFirstTime(requireContext())

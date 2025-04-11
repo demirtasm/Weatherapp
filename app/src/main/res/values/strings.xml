@@ -74,6 +74,9 @@ Start setting up your personal weather assistant in just 4 simple steps.</string
     <string name="notification_desc">Enable notifications to get timely alerts about sudden weather changes.\nWe’ll let you know if storms, rain, or heatwaves are coming your way.\n\nDon’t worry — you can always change this later in your app settings.</string>
     <string name="welcome_to_txt">WELCOME TO</string>
     <string name="splash_screen_subtext">Take your umbrella before the rain starts</string>
+    <string name="oneWeek_mostly">Mostly</string>
+    <string name="oneWeek_occasionally">occasionally</string>
+    <string name="oneWeek_forecasted_week">is forecasted for the upcoming week.</string>
 
 
 </resources>

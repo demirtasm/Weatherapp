@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">WeatherApp</string>
+    <string name="app_name">Weatherly</string>
     <string name="air_quality_index_one_text">İdeal</string>
     <string name="air_quality_index_one_desc">Hava kalitesi mükemmel, dışarıda vakit geçirmek için ideal.</string>
     <string name="air_quality_index_two_desc">Hava kalitesi iyi, hassas bünyeler hafif etkilenebilir.</string>
@@ -57,4 +57,8 @@
     <string name="notification_title">Hava Koşulları Sizi Şaşırtmasın!</string>
     <string name="notification_desc">Bildirim izni vererek ani hava değişikliklerinden haberdar olun. Fırtına, yağmur veya sıcak hava dalgası yaklaştığında size haber verelim.  Endişelenmeyin — bu izni her zaman ayarlarınızdan değiştirebilirsiniz.</string>
     <string name="splash_screen_subtext">Yağmur başlamadan önce şemsiyeni al.</string>
+    <string name="oneWeek_mostly">Genellikle</string>
+    <string name="welcome_to_txt">HOŞGELDİNİZ</string>
+    <string name="oneWeek_occasionally">zaman zaman</string>
+    <string name="oneWeek_forecasted_week">bir hafta bekleniyor.</string>
 </resources>

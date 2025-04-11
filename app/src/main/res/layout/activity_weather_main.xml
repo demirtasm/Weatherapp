@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F6EEFF"
+    android:background="@color/background_content_color"
     tools:context=".views.WeatherMainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -22,14 +22,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="#D0BCFF"
+            app:contentScrim="@color/background_content_color"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/appBarBackground"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="@dimen/toolbar_height"
                 android:background="@android:color/transparent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/header_background"
@@ -39,14 +39,14 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="16dp"
+                android:padding="@dimen/padding_medium"
                 app:layout_collapseMode="parallax">
 
 
                 <ImageView
                     android:id="@+id/searchIcon"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="@dimen/ic_size_medium"
+                    android:layout_height="@dimen/ic_size_medium"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:src="@drawable/ic_search" />
@@ -56,7 +56,8 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:gravity="end"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -71,16 +72,16 @@
                             android:fontFamily="@font/inter"
                             android:text="@string/day_txt"
                             android:textColor="@android:color/white"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/medium_text_size" />
 
                         <TextView
                             android:id="@+id/tvDayTemp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:paddingLeft="5dp"
+                            android:paddingLeft="@dimen/padding_xsmall"
                             android:textColor="@android:color/white"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/medium_text_size"
                             tools:text="3°" />
                     </LinearLayout>
 
@@ -96,16 +97,16 @@
                             android:fontFamily="@font/inter"
                             android:text="@string/night_txt"
                             android:textColor="@android:color/white"
-                            android:textSize="14sp" />
+                            android:textSize="@dimen/medium_text_size" />
 
                         <TextView
                             android:id="@+id/tvNightTemp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            android:paddingLeft="5dp"
+                            android:paddingLeft="@dimen/padding_xsmall"
                             android:textColor="@android:color/white"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/medium_text_size"
                             tools:text="-1°" />
                     </LinearLayout>
 
@@ -119,10 +120,10 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="8dp"
+                    android:layout_marginBottom="@dimen/margin_small"
                     android:fontFamily="@font/inter"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/medium_text_size"
                     tools:text="Nisan 07, 15:35" />
 
             </RelativeLayout>
@@ -138,7 +139,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="16dp"
+                    android:padding="@dimen/padding_medium"
                     app:layout_collapseMode="parallax">
 
                     <TextView
@@ -148,7 +149,7 @@
                         android:fontFamily="@font/inter"
                         android:text="Beykoz, TR"
                         android:textColor="@android:color/white"
-                        android:textSize="20sp" />
+                        android:textSize="@dimen/large_text_size" />
 
                     <TextView
                         android:id="@+id/tvTemp"
@@ -156,10 +157,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tvName"
                         android:layout_alignParentStart="true"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/margin_medium"
                         android:fontFamily="@font/inter_bold"
                         android:textColor="@android:color/white"
-                        android:textSize="64sp"
+                        android:textSize="@dimen/xxlarge_text_size"
                         tools:text="3°" />
 
                     <TextView
@@ -168,10 +169,10 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tvTemp"
                         android:layout_alignStart="@id/tvTemp"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="@dimen/margin_xsmall"
                         android:fontFamily="@font/inter"
                         android:textColor="@android:color/white"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/medium_text_size"
                         tools:text="Feels Like 2°" />
 
                     <LinearLayout
@@ -184,8 +185,8 @@
 
                         <ImageView
                             android:id="@+id/ivMain"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="@dimen/ic_size_xxlarge"
+                            android:layout_height="@dimen/ic_size_xxlarge"
                             android:layout_gravity="center"
                             tools:src="@drawable/ic_clear_day" />
 
@@ -194,15 +195,14 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
-                            android:autoSizeMaxTextSize="15sp"
-                            android:autoSizeMinTextSize="10sp"
+                            android:autoSizeMaxTextSize="@dimen/medium_text_size"
+                            android:autoSizeMinTextSize="@dimen/small_text_size"
                             android:autoSizeStepGranularity="1sp"
                             android:autoSizeTextType="uniform"
                             android:fontFamily="@font/inter"
                             android:gravity="center"
-                            android:maxLines="1"
                             android:textColor="@android:color/white"
-                            android:textSize="16sp"
+                            android:textSize="@dimen/medium_text_size"
                             tools:text="Cloud" />
                     </LinearLayout>
                 </RelativeLayout>
@@ -214,10 +214,10 @@
             android:id="@+id/weatherTabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F6EEFF"
+            android:background="@color/background_content_color"
             android:gravity="center"
             android:orientation="horizontal"
-            android:padding="8dp"
+            android:padding="@dimen/padding_small"
             app:layout_collapseMode="pin">
 
             <Button
@@ -225,29 +225,29 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#E1B6FF"
+                android:backgroundTint="@color/active_button_color"
                 android:text="@string/today_txt"
-                android:textColor="#000000" />
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/btnTomorrow"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="@dimen/margin_xsmall"
+                android:layout_marginEnd="@dimen/margin_xsmall"
                 android:layout_weight="1"
-                android:backgroundTint="#FFFFFF"
+                android:backgroundTint="@color/default_button_color"
                 android:text="@string/tomorrow_txt"
-                android:textColor="#000000" />
+                android:textColor="@color/black" />
 
             <Button
                 android:id="@+id/btn1Week"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#FFFFFF"
+                android:backgroundTint="@color/default_button_color"
                 android:text="@string/btn_one_week_txt"
-                android:textColor="#000000" />
+                android:textColor="@color/black" />
         </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>

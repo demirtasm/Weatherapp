@@ -1,5 +1,6 @@
 package com.example.weatherapp.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,9 @@ class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
 
     private val _weatherCode = MutableLiveData<String>()
     val weatherCode: LiveData<String> = _weatherCode
+
+    private val _formattedDailyDate = MutableLiveData<String>()
+    val formattedDailyDate:LiveData<String> = _formattedDailyDate
 
     private val _temperature = MutableLiveData<String>()
     val temperature: LiveData<String> = _temperature
@@ -50,6 +54,7 @@ class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
         viewModelScope.launch {
             val meteo = repository.getOpenMeteoWeather(lat, lon)
             val air = repository.getAirPollutionForecast(lat, lon)
+            Log.d("TAGX", "air response: $air")
             val current = repository.getCurrentWeather(lat, lon)
 
             meteo?.let { meteoData.postValue(it) }
@@ -61,6 +66,10 @@ class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
 
     fun setWeatherCode(code: String) {
         _weatherCode.value = code
+    }
+
+    fun setFormattedDate(code: String){
+        _formattedDailyDate.value = code
     }
 
     fun setTemperature(code: String) {

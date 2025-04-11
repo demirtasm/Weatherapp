@@ -1,25 +1,19 @@
 package com.example.weatherapp.views
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.location.Location
-import android.location.LocationManager
-import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
-import android.provider.Settings
 import android.util.Log
 import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -40,11 +34,7 @@ import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -52,6 +42,7 @@ import kotlin.math.roundToInt
 
 class WeatherMainActivity : AppCompatActivity() {
 
+    private var mostFrequentCode: String? = null
     private var navController: NavController? = null
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private var mProgressDialog: Dialog? = null
@@ -86,7 +77,6 @@ class WeatherMainActivity : AppCompatActivity() {
 
         }
 
-        setUpCurrentUI()
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
         navController = navHostFragment?.findNavController()
 
@@ -127,33 +117,58 @@ class WeatherMainActivity : AppCompatActivity() {
 
     }
 
-    private fun setUpCurrentUI() {
-
-        binding.dateTime.text = getFormattedDateTime()
-
-    }
-
     private fun setUpCurrentWeatherUI(weatherList: WeatherResponse) {
         val degree = WeatherCodeUtils.getUnit(application.resources.configuration.toString())
-        binding.tvFeelsLike.text = "${getString(R.string.feels_like_txt)} ${weatherList.main.feels_like.roundToInt()} ${degree}"
+        weatherViewModel.isTargetOneWeek.observe(this) { oneWeek ->
+            if (!oneWeek) {
+                binding.tvFeelsLike.text = "${getString(R.string.feels_like_txt)} ${weatherList.main.feels_like.roundToInt()} ${degree}"
+            }else{
+                binding.tvFeelsLike.text = ""
+            }
+        }
         binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
     }
 
     private fun setUpMeteoUI(meteo: OpenMeteoResponse?) {
         val degree = WeatherCodeUtils.getUnit(application.resources.configuration.toString())
-        weatherViewModel.temperature.observe(this) { code ->
-            binding.tvTemp.text = code + degree
-        }
-        weatherViewModel.isTargetOneWeek.observe(this) { code ->
-            if (code) {
+        var oneWeekMaxTemperature : String ?=null
+        var oneWeekMinTemperature : String ?=null
+        weatherViewModel.isTargetOneWeek.observe(this) { oneWeek ->
+            weatherViewModel.oneWeekWeatherCode.removeObservers(this)
+            weatherViewModel.weatherCode.removeObservers(this)
+            weatherViewModel.oneWeekTimes.removeObservers(this)
+            weatherViewModel.formattedDailyDate.removeObservers(this)
+            weatherViewModel.temperature.removeObservers(this)
+            if (oneWeek) {
                 weatherViewModel.oneWeekMaxTemperature.observe(this) { it ->
                     binding.tvDayTemp.text = it.average().roundToInt().toString() + degree
+                    oneWeekMaxTemperature = it.minOrNull()?.roundToInt().toString()
+
                 }
                 weatherViewModel.oneWeekMinTemperature.observe(this) {
                     binding.tvNightTemp.text = it.average().roundToInt().toString() + degree
+                    oneWeekMinTemperature = it.maxOrNull()?.roundToInt().toString()
+
                 }
                 binding.tvDayText.text = getString(R.string.daytime_weekly)
                 binding.tvNightText.text = getString(R.string.nighttime_weekly)
+                weatherViewModel.oneWeekWeatherCode.observe(this) { codeList ->
+                    if (!codeList.isNullOrEmpty()) {
+                        val summary = generateWeeklySummary(applicationContext, codeList)
+                        binding.tvMain.text = summary
+                        binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(
+                            mostFrequentCode?.toInt()!!
+                        ))
+                    }
+                }
+                weatherViewModel.oneWeekTimes.observe(this) { codeList ->
+                    if (!codeList.isNullOrEmpty()) {
+                        binding.dateTime.text = getDateRangeString(codeList)
+                    }
+                }
+                weatherViewModel.temperature.observe(this) { code ->
+                    binding.tvTemp.text = oneWeekMaxTemperature +"-"+oneWeekMinTemperature + degree
+                }
             } else {
                 weatherViewModel.temperature2mMax.observe(this) { it ->
                     binding.tvDayTemp.text = it + degree
@@ -163,18 +178,63 @@ class WeatherMainActivity : AppCompatActivity() {
                 }
                 binding.tvDayText.text = getString(R.string.day_txt)
                 binding.tvNightText.text = getString(R.string.night_txt)
+                weatherViewModel.weatherCode.observe(this) { code ->
+                    binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(code.toInt()))
+                    binding.tvMain.text =
+                        WeatherCodeUtils.getWeatherDescription(applicationContext, code.toInt())
+                }
+                weatherViewModel.formattedDailyDate.observe(this) { it ->
+                    binding.dateTime.text = it
+                }
+                weatherViewModel.temperature.observe(this) { code ->
+                    binding.tvTemp.text = code + degree
+                }
             }
         }
-        weatherViewModel.weatherCode.observe(this) { code ->
-            binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(code.toInt()))
-            binding.tvMain.text =
-                WeatherCodeUtils.getWeatherDescription(applicationContext, code.toInt())
+    }
+    fun getDateRangeString(dates: List<String>): String {
+        if (dates.isEmpty()) return ""
+
+        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val outputDayFormatter = DateTimeFormatter.ofPattern("d")
+        val outputMonthFormatter = DateTimeFormatter.ofPattern("MMMM", Locale("tr"))
+
+        val startDate = LocalDate.parse(dates.first(), inputFormatter)
+        val endDate = LocalDate.parse(dates.last(), inputFormatter)
+
+        val startDay = outputDayFormatter.format(startDate)
+        val endDay = outputDayFormatter.format(endDate)
+        val month = outputMonthFormatter.format(endDate)
+
+        return "$startDay-$endDay ${month.replaceFirstChar { it.uppercase() }}"
+    }
+
+    fun generateWeeklySummary(context: Context, codes: List<String>): String {
+        val codeCounts = codes.groupingBy { it }.eachCount()
+        val sortedByFrequency = codeCounts.toList().sortedByDescending { it.second }
+
+        mostFrequentCode = sortedByFrequency.getOrNull(0)?.first
+        val secondFrequentCode = sortedByFrequency.getOrNull(1)?.first
+
+        val mainDesc = mostFrequentCode?.toIntOrNull()?.let {
+            WeatherCodeUtils.getWeatherDescription(context, it)
+        }
+
+        val secondDesc = secondFrequentCode?.toIntOrNull()?.let {
+            WeatherCodeUtils.getWeatherDescription(context, it)
+        }
+
+        return if (secondDesc?.isNotEmpty()!!) {
+            "${getString(R.string.oneWeek_mostly)} $mainDesc, ${getString(R.string.oneWeek_occasionally)} $secondDesc."
+        } else {
+            " $mainDesc ${getString(R.string.oneWeek_forecasted_week)}"
         }
     }
 
+
     private fun updateTabSelection(selectedButtonId: Int) {
-        val selectedColor = Color.parseColor("#E1B6FF")
-        val defaultColor = Color.parseColor("#FFFFFF")
+        val selectedColor = ContextCompat.getColor(this, R.color.active_button_color)
+        val defaultColor = ContextCompat.getColor(this, R.color.default_button_color)
 
         binding.btnToday.backgroundTintList = ColorStateList.valueOf(defaultColor)
         binding.btnTomorrow.backgroundTintList = ColorStateList.valueOf(defaultColor)
@@ -205,13 +265,11 @@ class WeatherMainActivity : AppCompatActivity() {
             val mLastLocation: Location = locationResult.lastLocation!!
             val latitude = mLastLocation.latitude
             val longitude = mLastLocation.longitude
-            Log.e("TAGX", "LATİTUDE: ${latitude} ,Longıtude: ${longitude}")
+            Log.d("TAGX", "Calling loadWeatherData() in onboarding fragment")
             if (shouldUpdateLocation(latitude, longitude)) {
                 locationViewModel.setLocation(latitude, longitude)
                 weatherViewModel.loadWeatherData(latitude, longitude)
             }
-           // locationViewModel.setLocation(latitude, longitude)
-           // weatherViewModel.loadWeatherData(latitude, longitude)
             locationViewModel.setLocation(latitude, longitude)
             mFusedLocationClient.removeLocationUpdates(this)
             runOnUiThread {
@@ -237,9 +295,6 @@ class WeatherMainActivity : AppCompatActivity() {
 
         val distance = FloatArray(1)
         Location.distanceBetween(lastLat, lastLon, newLat, newLon, distance)
-
-        Log.d("TAGX", "Distance from last location: ${distance[0]}m")
-
         return distance[0] > 500 
     }
 
@@ -272,12 +327,5 @@ class WeatherMainActivity : AppCompatActivity() {
         }
     }*/
 
-    private fun getFormattedDateTime(): String {
-        val now = LocalDateTime.now()
-        val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
-        val outputFormatter = DateTimeFormatter.ofPattern("MMMM dd, HH:mm", Locale.getDefault())
-        val nowFormatted = now.format(inputFormatter)
-        val displayText = LocalDateTime.parse(nowFormatted, inputFormatter).format(outputFormatter)
-        return displayText
-    }
+
 }

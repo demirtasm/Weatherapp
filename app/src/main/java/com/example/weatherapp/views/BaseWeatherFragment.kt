@@ -2,6 +2,7 @@ package com.example.weatherapp.views
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
 import com.example.weatherapp.adapter.HourlyWeatherAdapter
-import com.example.weatherapp.databinding.FragmentTodayBinding
+import com.example.weatherapp.databinding.FragmentBaseWeatherBinding
 import com.example.weatherapp.models.AirPollution
 import com.example.weatherapp.models.AirPollutionResponse
 import com.example.weatherapp.models.HourlyWeather
@@ -44,10 +45,11 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 import kotlin.math.roundToInt
 
 abstract class BaseWeatherFragment : Fragment() {
-    private lateinit var binding: FragmentTodayBinding
+    private lateinit var binding:FragmentBaseWeatherBinding
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var weatherViewModel: WeatherViewModel
     val hourlyList = mutableListOf<HourlyWeather>()
@@ -72,7 +74,7 @@ abstract class BaseWeatherFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTodayBinding.inflate(inflater, container, false)
+        binding = FragmentBaseWeatherBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -89,8 +91,6 @@ abstract class BaseWeatherFragment : Fragment() {
         barChart = binding.barChart
         lineChart = binding.lineChart
         locationViewModel.location.observe(viewLifecycleOwner) { (lat, lon) ->
-           // getLocationOpenMeteoWeatherDetails(lat, lon)
-            //getAirPollutionForecast(lat, lon)
             weatherViewModel.loadWeatherData(lat, lon)
         }
         weatherViewModel.airPollutionData.observe(viewLifecycleOwner) { data ->
@@ -125,6 +125,9 @@ abstract class BaseWeatherFragment : Fragment() {
         val indexForDay = getIndexForTargetDate(false, response.daily?.time ?: emptyList(), getLocaleDate())
         val indexForHour = getIndexForTargetDate(true, response.hourly?.time ?: emptyList(), getLocaleDate())
 
+
+        weatherViewModel.setFormattedDate(getFormattedDateTime())
+
         indexForDay.let {
             weatherViewModel.setTemperature2mMax(daily.temperature_2m_max?.getOrNull(it)?.roundToInt().toString())
             weatherViewModel.setTemperature2mMin(daily.temperature_2m_min?.getOrNull(it)?.roundToInt().toString())
@@ -145,13 +148,21 @@ abstract class BaseWeatherFragment : Fragment() {
         weatherViewModel.setOneWeekWeatherCode(daily.weather_code)
         weatherViewModel.setOneWeekMaxTemperature(daily.temperature_2m_max)
         weatherViewModel.setOneWeekMinTemperature(daily.temperature_2m_min)
+    }
+    private fun getFormattedDateTime(): String {
+        val targetDate = if (getTargetDate() == 0) {
+            LocalDateTime.now()
+        } else {
+            LocalDateTime.now().plusDays(1)
+        }
 
-        //binding.windSpeed.text = daily.wind_gusts_10m_mean?.get(getTargetDate()).toString() + getString(R.string.kmh)
-       // binding.uvIndex.text = daily.uv_index_max?.get(getTargetDate()).toString()
-       // binding.humidty.text = daily.relative_humidity_2m_mean?.get(getTargetDate()).toString()
-       // binding.tvRainChange.text = "% ${currentHourItem?.precipitation ?: "-"}"
-       // binding.tvSunsetTime.text = unixTime(daily.sunset?.get(getTargetDate())!!)
-        //binding.tvSunriseTime.text = unixTime(daily.sunrise?.get(getTargetDate())!!)
+        val outputFormatter = if (getTargetDate() == 0) {
+            DateTimeFormatter.ofPattern("MMMM dd, HH:mm", Locale.getDefault())
+        } else {
+            DateTimeFormatter.ofPattern("MMMM dd", Locale.getDefault())
+        }
+
+        return targetDate.format(outputFormatter).replaceFirstChar { it.uppercase() }
     }
     fun getIndexForTargetDate(
         isHourly: Boolean,
@@ -279,65 +290,8 @@ abstract class BaseWeatherFragment : Fragment() {
         }
     }
 
-   /* private fun getAirPollutionForecast(lat: Double, lon: Double) {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL_OPEN_WEATHER)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service = retrofit.create(WeatherService::class.java)
-        val call = service.getAirPollutionForecast(
-            lat = lat,
-            lon = lon,
-            appid = Constants.APP_ID
-        )
-
-       /* call.enqueue(object : Callback<AirPollutionResponse> {
-            override fun onResponse(
-                call: Call<AirPollutionResponse>,
-                response: Response<AirPollutionResponse>
-            ) {
-                if (response.isSuccessful) {
-                    val airData = response.body()
-                    val targetDate = getLocaleDate().toLocalDate()
-                    val istanbulZone = ZoneId.of("Europe/Istanbul")
-                    airData?.list?.forEach { item ->
-                        val dateTime = Instant.ofEpochSecond(item.dt)
-                            .atZone(istanbulZone)
-                            .toLocalDateTime()
-
-                        if (dateTime.toLocalDate() == targetDate) {
-                            val readableTime = dateTime.format(DateTimeFormatter.ofPattern("HH:mm"))
-
-                            airPollutionList.add(
-                                AirPollution(
-                                    time = readableTime,
-                                    aqi = item.main.aqi,
-                                    pm25 = item.components.pm2_5,
-                                    co = item.components.co,
-                                    no = item.components.no,
-                                    no2 = item.components.no2,
-                                    o3 = item.components.o3,
-                                    so2 = item.components.so2,
-                                    pm10 = item.components.pm10,
-                                    nh3 = item.components.nh3
-                                )
-                            )
-                        }
-                    }
-
-                    setupAqiChart(airPollutionList)
-                }
-            }
-
-            override fun onFailure(call: Call<AirPollutionResponse>, t: Throwable) {
-                Log.e("AIR", "Hava kirliliği verisi alınamadı: ${t.message}")
-            }
-        })*/
-    }*/
-
     private fun setupAqiChartWithResponse(response: AirPollutionResponse) {
-        val istanbulZone = ZoneId.of("Europe/Istanbul")
+        val istanbulZone = ZoneId.systemDefault()
         val targetDate = getLocaleDate().toLocalDate()
         val list = response.list.mapNotNull {
             val dateTime = Instant.ofEpochSecond(it.dt).atZone(istanbulZone).toLocalDateTime()
@@ -421,7 +375,7 @@ abstract class BaseWeatherFragment : Fragment() {
             binding.textCoValue.text = coValue.roundToInt().toString()
             binding.textPM10Value.text = pm10.roundToInt().toString()
             binding.texto3Value.text = o3.roundToInt().toString()
-            binding.aqiValue.text = aqi.toString()
+            binding.aqiValue.text = aqi.roundToInt().toString()
             airPopulationIndex(it.aqi)
         }
         barChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener {
@@ -437,7 +391,7 @@ abstract class BaseWeatherFragment : Fragment() {
                         binding.textCoValue.text = coValue.roundToInt().toString()
                         binding.textPM10Value.text = pm10.roundToInt().toString()
                         binding.texto3Value.text = o3.roundToInt().toString()
-                        binding.aqiValue.text = aqi.toString()
+                        binding.aqiValue.text = aqi.roundToInt().toString()
                         airPopulationIndex(it.aqi)
                     }
                 }
@@ -451,8 +405,8 @@ abstract class BaseWeatherFragment : Fragment() {
 
     }
 
-    private fun airPopulationIndex(aqi: Int) {
-        when (aqi) {
+    private fun airPopulationIndex(aqi: Double) {
+        when (aqi.toInt()) {
             1 -> {
                 binding.qualityText.text = getString(R.string.air_quality_index_one_text)
                 binding.qualityDescription.text = getString(R.string.air_quality_index_one_text)
@@ -480,65 +434,6 @@ abstract class BaseWeatherFragment : Fragment() {
         }
 
     }
-
-
-    private fun setupWindSpeedChart(lineDataSet: LineDataSet) {
-        val lineData = LineData(lineDataSet)
-        lineChart.data = lineData
-        lineChart.setVisibleXRangeMaximum(6f)
-        if (getShouldScrollToHour()) {
-            val currentHour = getLocaleDate().hour.toFloat()
-            lineChart.moveViewToX(currentHour)
-            val selectedEntry = windSpeedList.firstOrNull { it.x.toInt().toFloat() == currentHour }
-            selectedEntry?.let {
-                lineChart.highlightValue(it.x, it.y, 0)
-            }
-        }
-        lineChart.isDragEnabled = true
-        lineChart.setScaleEnabled(false)
-        lineChart.setPinchZoom(false)
-        lineChart.description.text = "Wind Speed throughout the Day"
-        lineChart.invalidate()
-
-        lineChart.xAxis.apply {
-            valueFormatter = IndexAxisValueFormatter(timesForLabels)
-            position = XAxis.XAxisPosition.BOTTOM
-            granularity = 1f
-            isGranularityEnabled = true
-            setDrawGridLines(false)
-            textColor = Color.DKGRAY
-            textSize = 12f
-            labelRotationAngle = 0f
-            setLabelCount(6, false)
-        }
-
-
-        lineChart.xAxis.valueFormatter = object : ValueFormatter() {
-            override fun getFormattedValue(value: Float): String {
-                val hour = value.toInt().toString().padStart(2, '0')
-                return "$hour:00"
-            }
-        }
-        lineChart.axisRight.isEnabled = false
-        lineChart.axisLeft.textColor = Color.DKGRAY
-        lineChart.setTouchEnabled(true)
-        lineChart.setPinchZoom(false)
-        lineChart.setScaleEnabled(false)
-        lineChart.legend.isEnabled = false
-        lineChart.description.isEnabled = false
-
-        lineChart.invalidate()
-
-        val markerView = LineChartMarkerView(
-            requireContext(),
-            R.layout.line_chart_marker_view,
-            timesForLabels,
-            weatherWindDirection
-        )
-        markerView.chartView = lineChart
-        lineChart.marker = markerView
-    }
-
 
 
     private fun unixTime(timex: String): String? {

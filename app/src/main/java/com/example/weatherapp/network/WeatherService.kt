@@ -5,6 +5,7 @@ import com.example.weatherapp.models.AirPollutionResponse
 import com.example.weatherapp.models.OpenMeteoResponse
 import com.example.weatherapp.models.WeatherResponse
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
@@ -25,7 +26,7 @@ interface WeatherService {
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
         @Query("appid") appid: String
-    ): AirPollutionResponse
+    ): Response<AirPollutionResponse>
 
     companion object {
         fun create(): WeatherService {

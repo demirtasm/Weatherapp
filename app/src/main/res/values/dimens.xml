@@ -15,17 +15,46 @@
     <dimen name="card_view_content_padding">10dp</dimen>
     <dimen name="identification_image_size">50dp</dimen>
     <dimen name="identification_image_marginEnd">10dp</dimen>
-    <dimen name="label_text_size">18sp</dimen>
-    <dimen name="value_text_size">16sp</dimen>
+
     <dimen name="sunset_marginStart">10dp</dimen>
     <dimen name="sunrise_marginTop">10dp</dimen>
     <dimen name="divider_height">1dp</dimen>
     <dimen name="divider_margin">16dp</dimen>
+
+    <!-- Text size-->
+    <dimen name="label_text_size">18sp</dimen>
+    <dimen name="value_text_size">16sp</dimen>
+    <dimen name="small_text_size">12sp</dimen>
+    <dimen name="medium_text_size">14sp</dimen>
+    <dimen name="medium_large_text_size">15sp</dimen>
+    <dimen name="large_text_size">20sp</dimen>
+    <dimen name="xlarge_text_size">30sp</dimen>
+    <dimen name="xxlarge_text_size">60sp</dimen>
 
     <!-- Icon size-->
     <dimen name="ic_size_min">15dp</dimen>
     <dimen name="ic_size_medium">25dp</dimen>
     <dimen name="ic_size_max">30dp</dimen>
     <dimen name="ic_size_mega">40dp</dimen>
+    <dimen name="ic_size_xxlarge">100dp</dimen>
+
+
+    <dimen name="toolbar_height">300dp</dimen>
+
+
+    <!-- Padding-->
+    <dimen name="padding_medium">15dp</dimen>
+    <dimen name="padding_small">10dp</dimen>
+    <dimen name="padding_xsmall">5dp</dimen>
+
+    <!-- Margin-->
+    <dimen name="margin_small">10dp</dimen>
+    <dimen name="margin_medium">15dp</dimen>
+    <dimen name="margin_xsmall">5dp</dimen>
+
+    <!-- Card Corner Radius-->
+    <dimen name="card_radius">15dp</dimen>
+    <dimen name="card_radius_small">10dp</dimen>
+
     <!--END-->
 </resources>
