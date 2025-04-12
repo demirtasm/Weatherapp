@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_gray">#EDEDED</color>
     <color name="main_screen_content_background_color">#EFEFEF</color>
     <color name="primary_text_color">#363A43</color>
     <color name="secondary_text_color">#7A8089</color>
@@ -15,5 +16,11 @@
     <color name="active_button_color">#E1B6FF</color>
     <color name="default_button_color">#FFFFFF</color>
     <color name="card_background_color">#EBDEFF</color>
+    <color name="desc_text_color">#444444</color>
+    <color name="item_text_color">#2B0056</color>
+    <color name="onboarding_background_color">#5B3FB4</color>
+    <color name="onboarding_button_background_color">#D9C6FF</color>
+    <color name="onboarding_card_background_color">#D6B4F2</color>
+
 
 </resources>

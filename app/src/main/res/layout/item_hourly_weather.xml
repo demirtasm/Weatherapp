@@ -3,16 +3,17 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="@dimen/padding_xsmall">
     <TextView
         android:id="@+id/textTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-"
+        tools:text="-"
         android:layout_gravity="center"
         android:textColor="@color/black"
-        android:textSize="10sp"
+        android:textSize="@dimen/small_text_size"
         android:fontFamily="@font/inter" />
 
         <ImageView
@@ -27,13 +28,11 @@
             android:id="@+id/textTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="-"
+            tools:text="-"
             android:fontFamily="@font/inter"
             android:layout_gravity="center"
             android:textColor="@color/black"
-            android:textSize="14sp"/>
-
-
+            android:textSize="@dimen/medium_text_size"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -52,7 +51,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter"
             android:textColor="@color/black"
-            android:textSize="14sp"/>
+            android:textSize="@dimen/medium_text_size"/>
     </LinearLayout>
 
 </LinearLayout>

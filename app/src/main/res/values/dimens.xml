@@ -48,13 +48,20 @@
     <dimen name="padding_xsmall">5dp</dimen>
 
     <!-- Margin-->
-    <dimen name="margin_small">10dp</dimen>
     <dimen name="margin_medium">15dp</dimen>
+    <dimen name="margin_xlarge">25dp</dimen>
+    <dimen name="margin_xxlarge">30dp</dimen>
+    <dimen name="margin_small">10dp</dimen>
     <dimen name="margin_xsmall">5dp</dimen>
 
     <!-- Card Corner Radius-->
     <dimen name="card_radius">15dp</dimen>
     <dimen name="card_radius_small">10dp</dimen>
+    <dimen name="card_radius_xsmall">5dp</dimen>
+
+    <!-- Onboarding-->
+    <dimen name="onboarding_image_height">400dp</dimen>
+    <dimen name="oboarding_next_button_height">60dp</dimen>
 
     <!--END-->
 </resources>

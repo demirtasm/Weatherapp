@@ -5,15 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.onboarding.LocationOnboardingFragment"
-    android:background="#5B3FB4"
+    android:background="@color/onboarding_background_color"
     android:gravity="center_horizontal">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/onboardingImage"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="@dimen/onboarding_image_height"
         android:src="@drawable/ic_weather_location"
         android:scaleType="centerCrop"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/roundedLocationImage" />
 
     <TextView
@@ -22,13 +25,13 @@
         android:layout_height="wrap_content"
         android:text="@string/location_title"
         android:textColor="@color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textSize="@dimen/large_text_size"
+       android:fontFamily="@font/inter_bold"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/onboardingImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="@dimen/margin_medium" />
 
 
     <TextView
@@ -37,24 +40,24 @@
         android:layout_height="wrap_content"
         android:text="@string/location_desc"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/medium_text_size"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/titleText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="10dp"
-        android:layout_margin="16dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp" />
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_margin="@dimen/margin_medium"
+        android:layout_marginStart="@dimen/margin_xlarge"
+        android:layout_marginEnd="@dimen/margin_xlarge" />
 
     <ImageButton
         android:id="@+id/btnNext"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginBottom="32dp"
+        android:layout_width="@dimen/oboarding_next_button_height"
+        android:layout_height="@dimen/oboarding_next_button_height"
+        android:layout_marginBottom="@dimen/margin_xxlarge"
         android:background="@drawable/btn_circle_yellow"
         android:src="@drawable/ic_arrow_right"
-        android:tint="#000000"
+        android:tint="@color/item_text_color"
         android:contentDescription="@string/next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
