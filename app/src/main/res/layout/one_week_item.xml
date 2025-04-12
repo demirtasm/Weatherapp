@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardContent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="@dimen/margin_xsmall"
+    android:layout_margin="@dimen/margin_small"
     android:backgroundTint="@color/card_background_color"
     app:cardCornerRadius="@dimen/card_radius"
     app:cardElevation="0dp">
@@ -12,74 +13,164 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/padding_small">
+        android:padding="@dimen/padding_large">
+
+        <ImageView
+            android:id="@+id/expandToggle"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:clickable="false"
+            android:elevation="0dp"
+            android:focusable="false"
+            android:background="@drawable/bg_white_circle"
+            android:src="@drawable/ic_arrow_drop_down"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/textDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter_bold"
-            android:text="Today"
             android:textColor="#000000"
             android:textSize="@dimen/medium_text_size"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Today" />
 
         <TextView
             android:id="@+id/textWeatherDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/inter"
-            android:text="Cloudy and Sunny"
             android:textColor="@color/desc_text_color"
             android:textSize="@dimen/medium_text_size"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textDay" />
+            app:layout_constraintTop_toBottomOf="@id/textDay"
+            tools:text="Cloudy and Sunny" />
 
-        <TextView
-            android:id="@+id/textTempMax"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tempBlock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:fontFamily="@font/inter_bold"
-            tools:text="3°"
-            android:textColor="@color/item_text_color"
-            android:textSize="@dimen/medium_text_size"
-            app:layout_constraintEnd_toStartOf="@id/tempDivider"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/textTempMin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/padding_small"
-            tools:text="-2°"
-            android:textColor="@color/item_text_color"
-            android:textSize="@dimen/medium_text_size"
-            android:fontFamily="@font/inter"
-            app:layout_constraintEnd_toEndOf="@id/tempDivider"
-            app:layout_constraintStart_toStartOf="@id/textTempMax"
-            app:layout_constraintTop_toBottomOf="@id/textTempMax" />
-
-        <View
-            android:id="@+id/tempDivider"
-            android:layout_width="1dp"
-            android:layout_height="32dp"
-            android:layout_marginStart="@dimen/margin_xsmall"
-            android:layout_marginEnd="@dimen/margin_xsmall"
-            android:background="@color/item_text_color"
-            app:layout_constraintBottom_toBottomOf="@id/textTempMin"
-            app:layout_constraintEnd_toStartOf="@id/imageWeather"
-            app:layout_constraintTop_toTopOf="@id/textTempMax" />
-
-        <ImageView
-            android:id="@+id/imageWeather"
-            android:layout_width="@dimen/ic_size_mega"
-            android:layout_height="@dimen/ic_size_mega"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/tempDivider"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/margin_xxlarge">
+
+            <TextView
+                android:id="@+id/textTempMax"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/item_text_color"
+                android:textSize="@dimen/medium_text_size"
+                tools:text="3°"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/textTempMin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/inter"
+                android:textColor="@color/item_text_color"
+                android:textSize="@dimen/medium_text_size"
+                tools:text="-2°"
+                app:layout_constraintTop_toBottomOf="@id/textTempMax"
+                app:layout_constraintStart_toStartOf="@id/textTempMax" />
+
+            <View
+                android:id="@+id/tempDivider"
+                android:layout_width="1dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@color/item_text_color"
+                app:layout_constraintTop_toTopOf="@id/textTempMax"
+                app:layout_constraintBottom_toBottomOf="@id/textTempMin"
+                app:layout_constraintStart_toEndOf="@id/textTempMax" />
+
+            <ImageView
+                android:id="@+id/imageWeather"
+                android:layout_width="@dimen/ic_size_xlarge"
+                android:layout_height="@dimen/ic_size_xlarge"
+                android:layout_marginStart="8dp"
+                app:layout_constraintStart_toEndOf="@id/tempDivider"
+                app:layout_constraintTop_toTopOf="@id/tempDivider"
+                app:layout_constraintBottom_toBottomOf="@id/tempDivider" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/expandableLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/textWeatherDesc"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tempBlock">
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:background="@color/item_text_color" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/margin_small">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/feels_like_temp_txt"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <TextView
+                    android:id="@+id/textApparentTemp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    tools:text="7°C"
+                    android:layout_marginLeft="@dimen/margin_xsmall"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/medium_text_size" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    android:text="@string/humidity_txt"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/medium_text_size" />
+
+                <TextView
+                    android:id="@+id/textHumidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/inter"
+                    tools:text="65%"
+                    android:layout_marginLeft="@dimen/margin_xsmall"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/medium_text_size" />
+            </LinearLayout>
+
+
+        </LinearLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

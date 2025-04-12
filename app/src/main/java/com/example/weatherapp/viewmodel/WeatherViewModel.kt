@@ -30,6 +30,9 @@ class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
     private val _temperature2mMax = MutableLiveData<String>()
     val temperature2mMax: LiveData<String> = _temperature2mMax
 
+    private val _apperentTemperature = MutableLiveData<String>()
+    val apperentTemperature: LiveData<String> = _apperentTemperature
+
     private val _temperature2mMin = MutableLiveData<String>()
     val temperature2mMin: LiveData<String> = _temperature2mMin
 
@@ -48,6 +51,12 @@ class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
 
     private val _oneWeekMinTemperature = MutableLiveData<List<Double>>()
     val oneWeekMinTemperature : LiveData<List<Double>> = _oneWeekMinTemperature
+
+    private val _oneWeekRelativeHumidity = MutableLiveData<List<Int>>()
+    val oneWeekRelativeHumidity : LiveData<List<Int>> = _oneWeekRelativeHumidity
+
+    private val _oneWeekApparentTemperature = MutableLiveData<List<Double>>()
+    val oneWeekApparentTemperature : LiveData<List<Double>> = _oneWeekApparentTemperature
 
 
     fun loadWeatherData(lat: Double, lon: Double){
@@ -88,6 +97,10 @@ class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
         _temperature2mMax.value = code
     }
 
+    fun setApperentTemperature(code: String){
+        _apperentTemperature.value = code
+    }
+
     fun setOneWeekWeatherCode(code: List<String>){
         _oneWeekWeatherCode.value = code
     }
@@ -98,6 +111,14 @@ class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
 
     fun setOneWeekMaxTemperature(code: List<Double>){
         _oneWeekMaxTemperature.value = code
+    }
+
+    fun setOneWeekRelativeHumidity(code: List<Int>){
+        _oneWeekRelativeHumidity.value = code
+    }
+
+    fun setOneWeekApparentTemperature(code: List<Double>){
+        _oneWeekApparentTemperature.value = code
     }
 
     fun setOneWeekMinTemperature(code: List<Double>){

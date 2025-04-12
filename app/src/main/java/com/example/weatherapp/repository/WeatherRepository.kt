@@ -10,13 +10,14 @@ import com.example.weatherapp.network.WeatherService
 class WeatherRepository(private val weatherApi: WeatherService, private val meteoApi: OpenMeteoService) {
     suspend fun getOpenMeteoWeather(lat: Double, lon: Double): OpenMeteoResponse? {
         return try {
+            val localTimeZone = java.util.TimeZone.getDefault().id
             meteoApi.getOpenMeteoWeather(
                 latitude = lat,
                 longitude = lon,
                 current = "temperature_2m",
                 hourly = "temperature_2m,precipitation,weather_code,rain,precipitation_probability,wind_speed_10m,wind_direction_10m",
-                daily = "weather_code,wind_gusts_10m_mean,uv_index_max,relative_humidity_2m_mean,sunrise,sunset,temperature_2m_max,temperature_2m_min",
-                timezone = "Europe/Istanbul"
+                daily = "weather_code,wind_gusts_10m_mean,uv_index_max,relative_humidity_2m_mean,sunrise,sunset,temperature_2m_max,temperature_2m_min,precipitation_probability_mean,temperature_2m_mean,apparent_temperature_mean",
+                timezone = localTimeZone
             )
         } catch (e: Exception) {
             null
@@ -29,7 +30,6 @@ class WeatherRepository(private val weatherApi: WeatherService, private val mete
             if (response.isSuccessful) {
                 response.body()
             } else {
-                // loglama da eklenebilir
                 null
             }
         } catch (e: Exception) {

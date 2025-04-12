@@ -119,9 +119,12 @@ class WeatherMainActivity : AppCompatActivity() {
 
     private fun setUpCurrentWeatherUI(weatherList: WeatherResponse) {
         val degree = WeatherCodeUtils.getUnit(application.resources.configuration.toString())
+        weatherViewModel.apperentTemperature.removeObservers(this)
         weatherViewModel.isTargetOneWeek.observe(this) { oneWeek ->
             if (!oneWeek) {
-                binding.tvFeelsLike.text = "${getString(R.string.feels_like_txt)} ${weatherList.main.feels_like.roundToInt()} ${degree}"
+                weatherViewModel.apperentTemperature.observe(this) {apperentTemperature->
+                    binding.tvFeelsLike.text = "${getString(R.string.feels_like_txt)} ${apperentTemperature} ${degree}"
+                }
             }else{
                 binding.tvFeelsLike.text = ""
             }
@@ -142,12 +145,12 @@ class WeatherMainActivity : AppCompatActivity() {
             if (oneWeek) {
                 weatherViewModel.oneWeekMaxTemperature.observe(this) { it ->
                     binding.tvDayTemp.text = it.average().roundToInt().toString() + degree
-                    oneWeekMaxTemperature = it.minOrNull()?.roundToInt().toString()
+                    oneWeekMaxTemperature = it.maxOrNull()?.roundToInt().toString()
 
                 }
                 weatherViewModel.oneWeekMinTemperature.observe(this) {
                     binding.tvNightTemp.text = it.average().roundToInt().toString() + degree
-                    oneWeekMinTemperature = it.maxOrNull()?.roundToInt().toString()
+                    oneWeekMinTemperature = it.minOrNull()?.roundToInt().toString()
 
                 }
                 binding.tvDayText.text = getString(R.string.daytime_weekly)

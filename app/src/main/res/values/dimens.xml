@@ -36,6 +36,7 @@
     <dimen name="ic_size_medium">25dp</dimen>
     <dimen name="ic_size_max">30dp</dimen>
     <dimen name="ic_size_mega">40dp</dimen>
+    <dimen name="ic_size_xlarge">50dp</dimen>
     <dimen name="ic_size_xxlarge">100dp</dimen>
 
 
@@ -43,6 +44,7 @@
 
 
     <!-- Padding-->
+    <dimen name="padding_large">20dp</dimen>
     <dimen name="padding_medium">15dp</dimen>
     <dimen name="padding_small">10dp</dimen>
     <dimen name="padding_xsmall">5dp</dimen>

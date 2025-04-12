@@ -132,21 +132,33 @@ abstract class BaseWeatherFragment : Fragment() {
             weatherViewModel.setTemperature2mMax(daily.temperature_2m_max?.getOrNull(it)?.roundToInt().toString())
             weatherViewModel.setTemperature2mMin(daily.temperature_2m_min?.getOrNull(it)?.roundToInt().toString())
             weatherViewModel.setWeatherCode(response.daily?.weather_code?.getOrNull(it)?.toString()!!)
+            weatherViewModel.setApperentTemperature(daily?.apparent_temperature_mean?.getOrNull(it)?.roundToInt().toString())
             binding.windSpeed.text = daily.wind_gusts_10m_mean?.getOrNull(it)?.roundToInt().toString() + getString(R.string.kmh)
             binding.uvIndex.text = daily.uv_index_max?.getOrNull(it)?.roundToInt().toString()
             binding.humidty.text = daily.relative_humidity_2m_mean?.getOrNull(it).toString()
             binding.tvSunsetTime.text = unixTime(daily.sunset?.getOrNull(it).toString())
             binding.tvSunriseTime.text = unixTime(daily.sunrise?.getOrNull(it).toString())
+            binding.tvRainChange.text = "%"+daily.precipitation_probability_mean?.getOrNull(it)?.toString()
         }
-        indexForHour.let {
-            weatherViewModel.setTemperature(hourly.temperature_2m?.getOrNull(it)?.roundToInt().toString())
-            binding.tvRainChange.text = "%"+hourly.precipitation?.getOrNull(it)?.roundToInt().toString()
-
+        if (getTargetDate() == 0) {
+            indexForHour.let {
+                weatherViewModel.setTemperature(
+                    hourly.temperature_2m?.getOrNull(it)?.roundToInt().toString()
+                )
+            }
+        } else {
+            indexForDay.let {
+                weatherViewModel.setTemperature(
+                    daily.temperature_2m_mean?.getOrNull(it)?.roundToInt().toString()
+                )
+            }
         }
 
         weatherViewModel.setOneWeekTimes(daily.time)
         weatherViewModel.setOneWeekWeatherCode(daily.weather_code)
         weatherViewModel.setOneWeekMaxTemperature(daily.temperature_2m_max)
+        weatherViewModel.setOneWeekRelativeHumidity(daily.relative_humidity_2m_mean)
+        weatherViewModel.setOneWeekApparentTemperature(daily.apparent_temperature_mean)
         weatherViewModel.setOneWeekMinTemperature(daily.temperature_2m_min)
     }
     private fun getFormattedDateTime(): String {

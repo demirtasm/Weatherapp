@@ -77,6 +77,7 @@ Start setting up your personal weather assistant in just 4 simple steps.</string
     <string name="oneWeek_mostly">Mostly</string>
     <string name="oneWeek_occasionally">occasionally</string>
     <string name="oneWeek_forecasted_week">is forecasted for the upcoming week.</string>
+    <string name="feels_like_temp_txt">"Feels like temperature: "</string>
 
 
 </resources>

@@ -9,6 +9,9 @@ data class DailyData(
     val sunrise: List<String>,
     val sunset: List<String>,
     val temperature_2m_max: List<Double>,
-    val temperature_2m_min: List<Double>
+    val temperature_2m_min: List<Double>,
+    val precipitation_probability_mean: List<Int>,
+    val temperature_2m_mean: List<Double>,
+    val apparent_temperature_mean: List<Double>
 
 )

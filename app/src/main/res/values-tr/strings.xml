@@ -61,4 +61,5 @@
     <string name="welcome_to_txt">HOŞGELDİNİZ</string>
     <string name="oneWeek_occasionally">zaman zaman</string>
     <string name="oneWeek_forecasted_week">bir hafta bekleniyor.</string>
+    <string name="feels_like_temp_txt">"Hissedilen sıcaklık: "</string>
 </resources>
