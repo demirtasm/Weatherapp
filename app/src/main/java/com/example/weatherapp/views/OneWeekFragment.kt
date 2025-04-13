@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.weatherapp.WeatherApplication
 import com.example.weatherapp.adapter.OneWeekItemAdapter
 import com.example.weatherapp.databinding.FragmentOneWeekBinding
 import com.example.weatherapp.models.OneWeek
@@ -32,15 +33,9 @@ class OneWeekFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val weatherApi = WeatherService.create()
-        val meteoApi = OpenMeteoService.create()
-        val repository = WeatherRepository(weatherApi, meteoApi)
-        val factory = WeatherViewModelFactory(repository)
-
-        weatherViewModel = ViewModelProvider(requireActivity(), factory)[WeatherViewModel::class.java]
+        val app = requireActivity().application as WeatherApplication
+        weatherViewModel = ViewModelProvider(requireActivity(), app.weatherViewModelFactory)[WeatherViewModel::class.java]
         weatherViewModel.setTargetOneWeek(true)
-
-
 
         weatherViewModel.oneWeekTimes.observe(viewLifecycleOwner) { times ->
            // val times = weatherViewModel.oneWeekTimes

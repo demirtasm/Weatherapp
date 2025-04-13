@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.weatherapp.R
+import com.example.weatherapp.WeatherApplication
 import com.example.weatherapp.adapter.HourlyWeatherAdapter
 import com.example.weatherapp.databinding.FragmentBaseWeatherBinding
 import com.example.weatherapp.models.AirPollution
@@ -79,13 +80,9 @@ abstract class BaseWeatherFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        locationViewModel = ViewModelProvider(requireActivity())[LocationViewModel::class.java]
-        val weatherApi = WeatherService.create()
-        val meteoApi = OpenMeteoService.create()
-        val repository = WeatherRepository(weatherApi, meteoApi)
-        val factory = WeatherViewModelFactory(repository)
-
-        weatherViewModel = ViewModelProvider(requireActivity(), factory)[WeatherViewModel::class.java]
+        val app = requireActivity().application as WeatherApplication
+        weatherViewModel = ViewModelProvider(requireActivity(), app.weatherViewModelFactory)[WeatherViewModel::class.java]
+        locationViewModel = app.locationViewModel
 
         weatherViewModel.setTargetOneWeek(false)
         barChart = binding.barChart

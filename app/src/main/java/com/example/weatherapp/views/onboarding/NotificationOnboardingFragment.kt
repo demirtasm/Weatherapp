@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.PrefsHelper
+import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentNotificationOnboardingBinding
 import com.example.weatherapp.views.WeatherMainActivity
 
@@ -45,8 +47,7 @@ class NotificationOnboardingFragment : Fragment() {
         }
     }
     private fun navigateToMain() {
-        val intent = Intent(requireContext(), WeatherMainActivity::class.java)
-        startActivity(intent)
-        requireActivity().finish()
+        findNavController().navigate(R.id.action_viewPagerFragment_to_splashFragment)
+
     }
 }

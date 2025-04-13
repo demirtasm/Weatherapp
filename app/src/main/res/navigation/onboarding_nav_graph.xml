@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.weatherapp.views.SplashFragment"
-        android:label="fragment_splash"
-        app:startDestination="@id/splashFragment"
-        tools:layout="@layout/fragment_splash" >
+        android:name="com.example.weatherapp.views.SplashFragment">
         <action
             android:id="@+id/action_splashFragment_to_viewPagerFragment"
             app:destination="@id/viewPagerFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/viewPagerFragment"
-        android:name="com.example.weatherapp.views.onboarding.ViewPagerFragment"
-        android:label="fragment_view_pager"
-        tools:layout="@layout/fragment_view_pager" />
+        android:name="com.example.weatherapp.views.onboarding.ViewPagerFragment">
+        <action
+            android:id="@+id/action_viewPagerFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
+    </fragment>
 </navigation>

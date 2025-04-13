@@ -19,6 +19,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.PrefsHelper
 import com.example.weatherapp.R
+import com.example.weatherapp.WeatherApplication
 import com.example.weatherapp.databinding.ActivityWeatherMainBinding
 import com.example.weatherapp.models.OpenMeteoResponse
 import com.example.weatherapp.models.WeatherResponse
@@ -54,13 +55,11 @@ class WeatherMainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityWeatherMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        locationViewModel = ViewModelProvider(this)[LocationViewModel::class.java]
-        val weatherApi = WeatherService.create()
-        val meteoApi = OpenMeteoService.create()
-        val repository = WeatherRepository(weatherApi, meteoApi)
-        val factory = WeatherViewModelFactory(repository)
 
-        weatherViewModel = ViewModelProvider(this, factory)[WeatherViewModel::class.java]
+
+        val app = application as WeatherApplication
+        weatherViewModel = ViewModelProvider(this, app.weatherViewModelFactory)[WeatherViewModel::class.java]
+        locationViewModel = app.locationViewModel
 
 
         weatherViewModel.meteoData.observe(this) { meteo ->
@@ -109,11 +108,11 @@ class WeatherMainActivity : AppCompatActivity() {
             }
         }
 
-        if (PrefsHelper.isLocationGranted(this)) {
+       /* if (PrefsHelper.isLocationGranted(this)) {
             requestLocationData()
         } else {
             Log.e("TAGX", "Konum izni onboarding sırasında verilmemiş.")
-        }
+        }*/
 
     }
 
