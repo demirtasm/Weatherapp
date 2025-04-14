@@ -26,7 +26,7 @@
     <string name="today">Bugün</string>
     <string name="kmh">km/s</string>
     <string name="weather_clear">Açık hava</string>
-    <string name="weather_mainly_clear">Genellikle açık</string>
+    <string name="weather_mainly_clear">Kısmi açık</string>
     <string name="weather_partly_cloudy">Parçalı bulutlu</string>
     <string name="weather_cloudy">Kapalı</string>
     <string name="weather_fog">Sisli</string>
@@ -62,4 +62,7 @@
     <string name="oneWeek_occasionally">zaman zaman</string>
     <string name="oneWeek_forecasted_week">bir hafta bekleniyor.</string>
     <string name="feels_like_temp_txt">"Hissedilen sıcaklık: "</string>
+    <string name="sunrise_and_sunset_txt">Güneş Saati</string>
+    <string name="daily_weather">Günlük hava durumu</string>
+    <string name="no_weather_txt">Hava durumu verisi bulunamadı</string>
 </resources>

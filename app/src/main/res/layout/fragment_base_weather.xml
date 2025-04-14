@@ -54,8 +54,8 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/rain_change_txt"
                             android:fontFamily="@font/inter_bold"
+                            android:text="@string/rain_change_txt"
                             android:textSize="@dimen/medium_text_size"
                             android:textStyle="bold" />
 
@@ -64,8 +64,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            tools:text="-"
-                            android:textSize="@dimen/medium_large_text_size" />
+                            android:textSize="@dimen/medium_large_text_size"
+                            tools:text="-" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -104,8 +104,8 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/wind_speed_txt"
                             android:fontFamily="@font/inter_bold"
+                            android:text="@string/wind_speed_txt"
                             android:textSize="@dimen/medium_text_size"
                             android:textStyle="bold" />
 
@@ -114,8 +114,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/inter"
-                            tools:text="-"
-                            android:textSize="@dimen/medium_large_text_size" />
+                            android:textSize="@dimen/medium_large_text_size"
+                            tools:text="-" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -154,8 +154,8 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/humidity_txt"
                             android:fontFamily="@font/inter_bold"
+                            android:text="@string/humidity_txt"
                             android:textSize="@dimen/medium_text_size"
                             android:textStyle="bold" />
 
@@ -163,9 +163,9 @@
                             android:id="@+id/humidty"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="-"
                             android:fontFamily="@font/inter"
-                            android:textSize="@dimen/medium_large_text_size" />
+                            android:textSize="@dimen/medium_large_text_size"
+                            tools:text="-" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -203,8 +203,8 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/uv_index_txt"
                             android:fontFamily="@font/inter_bold"
+                            android:text="@string/uv_index_txt"
                             android:textSize="@dimen/medium_text_size"
                             android:textStyle="bold" />
 
@@ -212,9 +212,9 @@
                             android:id="@+id/uv_index"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="-"
                             android:fontFamily="@font/inter"
-                            android:textSize="@dimen/medium_large_text_size" />
+                            android:textSize="@dimen/medium_large_text_size"
+                            tools:text="-" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -339,20 +339,20 @@
                             android:id="@+id/qualityText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            tools:text="Good"
+                            android:fontFamily="@font/inter_bold"
                             android:textColor="@color/purple"
                             android:textSize="@dimen/xlarge_text_size"
-                            android:fontFamily="@font/inter_bold" />
+                            tools:text="Good" />
 
                         <TextView
                             android:id="@+id/qualityDescription"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_xsmall"
-                            tools:text="Air quality is satisfactory"
                             android:fontFamily="@font/inter"
                             android:textColor="@color/purple"
-                            android:textSize="@dimen/medium_text_size" />
+                            android:textSize="@dimen/medium_text_size"
+                            tools:text="Air quality is satisfactory" />
                     </LinearLayout>
 
                     <androidx.cardview.widget.CardView
@@ -373,19 +373,19 @@
                                 android:id="@+id/aqiLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
                                 android:text="@string/aqi_txt"
                                 android:textColor="@color/white"
-                                android:fontFamily="@font/inter"
                                 android:textSize="@dimen/small_text_size" />
 
                             <TextView
                                 android:id="@+id/aqiValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="4"
+                                android:fontFamily="@font/inter_bold"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/xlarge_text_size"
-                                android:fontFamily="@font/inter_bold" />
+                                tools:text="4" />
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                 </LinearLayout>
@@ -425,63 +425,27 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
                                 android:text="@string/carbonMonoxide"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
-                                android:fontFamily="@font/inter"
                                 android:textSize="@dimen/small_text_size" />
 
                             <TextView
                                 android:id="@+id/textCoValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="28"
+                                android:fontFamily="@font/inter_bold"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/large_text_size"
-                                android:fontFamily="@font/inter_bold"
-                                />
+                                tools:text="28" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="µg/m³"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/small_text_size"
-                                android:fontFamily="@font/inter"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:gravity="center_horizontal"
-                            android:orientation="vertical"
-                            android:padding="@dimen/padding_xsmall">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/pm10_txt"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/small_text_size"
-                                android:fontFamily="@font/inter"/>
-
-                            <TextView
-                                android:id="@+id/textPM10Value"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                tools:text="51"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/large_text_size"
-                                android:fontFamily="@font/inter_bold"
-                                />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="µg/m³"
-                                android:textColor="@color/white"
                                 android:fontFamily="@font/inter"
+                                android:text="µg/m³"
+                                android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
                         </LinearLayout>
 
@@ -495,28 +459,61 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
+                                android:text="@string/pm10_txt"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/small_text_size" />
+
+                            <TextView
+                                android:id="@+id/textPM10Value"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter_bold"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/large_text_size"
+                                tools:text="51" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
+                                android:text="µg/m³"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/small_text_size" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="@dimen/padding_xsmall">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
                                 android:text="@string/ozone_txt"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
-                                android:fontFamily="@font/inter"
                                 android:textSize="@dimen/small_text_size" />
 
                             <TextView
                                 android:id="@+id/texto3Value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                tools:text="51"
+                                android:fontFamily="@font/inter_bold"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/large_text_size"
-                                android:fontFamily="@font/inter_bold"
-                                />
+                                tools:text="51" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/inter"
                                 android:text="µg/m³"
                                 android:textColor="@color/white"
-                                android:fontFamily="@font/inter"
                                 android:textSize="@dimen/small_text_size" />
                         </LinearLayout>
 
@@ -527,6 +524,52 @@
 
         </androidx.cardview.widget.CardView>
 
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_xsmall"
+            android:padding="0dp"
+            app:cardBackgroundColor="#EBDEFF"
+            app:cardCornerRadius="@dimen/card_radius"
+            android:id="@+id/sunsetSunriseChart"
+            app:cardElevation="0dp"
+            app:cardUseCompatPadding="false">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:padding="@dimen/padding_small">
+
+                <ImageView
+                    android:layout_width="@dimen/ic_size_max"
+                    android:layout_height="@dimen/ic_size_max"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="@dimen/margin_xsmall"
+                    android:clipChildren="true"
+                    android:src="@drawable/ic_sunrise_and_sunset" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fontFamily="@font/inter_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/sunrise_and_sunset_txt"
+                    android:textSize="@dimen/medium_text_size" />
+            </LinearLayout>
+            <com.example.weatherapp.views.SunriseSunsetView
+                android:id="@+id/sunriseSunsetView"
+                android:layout_width="match_parent"
+                android:layoutDirection="ltr"
+                android:layout_height="50dp"
+                android:layout_margin="@dimen/margin_medium" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
         <GridLayout
             android:layout_width="match_parent"
@@ -534,6 +577,7 @@
             android:layout_marginBottom="@dimen/margin_medium"
             android:columnCount="2"
             android:columnOrderPreserved="false"
+            android:id="@+id/sunriseSunsetTextViewParent"
             android:rowCount="2">
 
             <androidx.cardview.widget.CardView
@@ -569,18 +613,17 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/sunrise_txt"
-                            android:textSize="@dimen/medium_text_size"
                             android:fontFamily="@font/inter_bold"
-                            />
+                            android:text="@string/sunrise_txt"
+                            android:textSize="@dimen/medium_text_size" />
 
                         <TextView
                             android:id="@+id/tv_sunrise_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="4:20"
+                            android:fontFamily="@font/inter"
                             android:textSize="@dimen/medium_large_text_size"
-                            android:fontFamily="@font/inter"/>
+                            tools:text="4:20" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -619,18 +662,17 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/sunset_txt"
-                            android:textSize="@dimen/medium_text_size"
                             android:fontFamily="@font/inter_bold"
-                            />
+                            android:text="@string/sunset_txt"
+                            android:textSize="@dimen/medium_text_size" />
 
                         <TextView
                             android:id="@+id/tv_sunset_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            tools:text="4:50"
+                            android:fontFamily="@font/inter"
                             android:textSize="@dimen/medium_large_text_size"
-                            android:fontFamily="@font/inter"/>
+                            tools:text="4:50" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -672,8 +714,7 @@
                         android:fontFamily="@font/inter_bold"
                         android:gravity="center_vertical"
                         android:text="@string/wind_speed_txt"
-                        android:textSize="@dimen/medium_text_size"
-                        />
+                        android:textSize="@dimen/medium_text_size" />
                 </LinearLayout>
 
                 <com.github.mikephil.charting.charts.LineChart

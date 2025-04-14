@@ -9,10 +9,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.weatherapp.PrefsHelper
 import com.example.weatherapp.R
+import com.example.weatherapp.WeatherWorker
 import com.example.weatherapp.databinding.FragmentNotificationOnboardingBinding
 import com.example.weatherapp.views.WeatherMainActivity
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 
 class NotificationOnboardingFragment : Fragment() {
@@ -42,12 +48,42 @@ class NotificationOnboardingFragment : Fragment() {
             val granted = grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED
             PrefsHelper.setNotificationPermission(requireContext(), granted)
             PrefsHelper.setNotFirstTime(requireContext())
-            PrefsHelper.setNotificationPermission(requireContext(), granted)
+            if (granted) {
+                PrefsHelper.setNotificationPermission(requireContext(), granted)
+                PrefsHelper.setNotFirstTime(requireContext())
+                scheduleWeatherWorker(9, 0)
+            }
             navigateToMain()
         }
+
     }
     private fun navigateToMain() {
         findNavController().navigate(R.id.action_viewPagerFragment_to_splashFragment)
 
     }
+
+    private fun scheduleWeatherWorker(hour: Int, minute: Int) {
+        val now = Calendar.getInstance()
+        val target = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, hour)
+            set(Calendar.MINUTE, minute)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            if (before(now)) add(Calendar.DATE, 1)
+        }
+
+        val delay = target.timeInMillis - now.timeInMillis
+
+        val request = PeriodicWorkRequestBuilder<WeatherWorker>(1, TimeUnit.DAYS)
+            .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+            .build()
+
+        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+            "daily_weather",
+            ExistingPeriodicWorkPolicy.REPLACE,
+            request
+        )
+    }
+
+
 }

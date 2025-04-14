@@ -60,17 +60,25 @@ class SplashFragment : Fragment() {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
             interval = 1000
         }
-
-        fusedLocationClient.requestLocationUpdates(locationRequest, object : LocationCallback() {
-            override fun onLocationResult(result: LocationResult) {
-                fusedLocationClient.removeLocationUpdates(this)
-                result.lastLocation?.let { location ->
-                    locationViewModel.setLocation(location.latitude, location.longitude)
-                    weatherViewModel.loadWeatherData(location.latitude, location.longitude)
-                    observeWeatherData(weatherViewModel)
-                }
+        fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+            if (location != null) {
+                locationViewModel.setLocation(location.latitude, location.longitude)
+                weatherViewModel.loadWeatherData(location.latitude, location.longitude)
+                observeWeatherData(weatherViewModel)
+            } else {
+                fusedLocationClient.requestLocationUpdates(locationRequest, object : LocationCallback() {
+                    override fun onLocationResult(result: LocationResult) {
+                        fusedLocationClient.removeLocationUpdates(this)
+                        result.lastLocation?.let { location ->
+                            locationViewModel.setLocation(location.latitude, location.longitude)
+                            weatherViewModel.loadWeatherData(location.latitude, location.longitude)
+                            observeWeatherData(weatherViewModel)
+                        }
+                    }
+                }, Looper.getMainLooper())
             }
-        }, Looper.getMainLooper())
+        }
+
     }
 
     private fun observeWeatherData(weatherViewModel: WeatherViewModel) {

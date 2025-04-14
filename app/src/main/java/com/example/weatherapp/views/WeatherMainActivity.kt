@@ -15,6 +15,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import com.example.weatherapp.PrefsHelper
@@ -30,11 +31,18 @@ import com.example.weatherapp.utils.WeatherCodeUtils
 import com.example.weatherapp.viewmodel.LocationViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModel
 import com.example.weatherapp.viewmodel.WeatherViewModelFactory
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -50,6 +58,7 @@ class WeatherMainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityWeatherMainBinding
     private lateinit var locationViewModel: LocationViewModel
     private lateinit var weatherViewModel: WeatherViewModel
+    private var mInterstitialAd: InterstitialAd? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -81,7 +90,20 @@ class WeatherMainActivity : AppCompatActivity() {
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
+        lifecycleScope.launch(Dispatchers.Main) {
+            val adRequest = AdRequest.Builder().build()
+                InterstitialAd.load(this@WeatherMainActivity,"ca-app-pub-3438221392612643/1988120079", adRequest, object : InterstitialAdLoadCallback() {
+                    override fun onAdLoaded(ad: InterstitialAd) {
+                        mInterstitialAd = ad
+                        Log.d("AD", "Interstitial loaded")
+                    }
 
+                    override fun onAdFailedToLoad(adError: LoadAdError) {
+                        mInterstitialAd = null
+                        Log.e("AD", "Failed to load interstitial: $adError")
+                    }
+            })
+        }
         binding.btnToday.setOnClickListener {
             updateTabSelection(R.id.btnToday)
             navController?.navigate(R.id.todayFragment)
@@ -96,6 +118,26 @@ class WeatherMainActivity : AppCompatActivity() {
         binding.btn1Week.setOnClickListener {
             updateTabSelection(R.id.btn1Week)
             navController?.navigate(R.id.oneWeekFragment)
+            if (mInterstitialAd != null) {
+                mInterstitialAd?.show(this)
+                mInterstitialAd?.fullScreenContentCallback = object : com.google.android.gms.ads.FullScreenContentCallback() {
+                    override fun onAdDismissedFullScreenContent() {
+                        mInterstitialAd = null
+                        navController?.navigate(R.id.oneWeekFragment)
+                        val adRequest = AdRequest.Builder().build()
+                        InterstitialAd.load(this@WeatherMainActivity,"ca-app-pub-3438221392612643/1988120079", adRequest, object : InterstitialAdLoadCallback() {
+                            override fun onAdLoaded(ad: InterstitialAd) {
+                                mInterstitialAd = ad
+                            }
+                        })
+                    }
+
+                    override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
+                        mInterstitialAd = null
+                        navController?.navigate(R.id.oneWeekFragment)
+                    }
+                }
+            }
         }
 
         binding.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
@@ -107,12 +149,6 @@ class WeatherMainActivity : AppCompatActivity() {
                 binding.toolbar.setBackgroundColor(Color.TRANSPARENT)
             }
         }
-
-       /* if (PrefsHelper.isLocationGranted(this)) {
-            requestLocationData()
-        } else {
-            Log.e("TAGX", "Konum izni onboarding sırasında verilmemiş.")
-        }*/
 
     }
 

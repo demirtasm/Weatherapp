@@ -1,8 +1,10 @@
 import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id ("androidx.navigation.safeargs.kotlin")
+    id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 }
 val localProperties = Properties().apply {
     load(rootProject.file("local.properties").inputStream())
@@ -62,21 +64,26 @@ dependencies {
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.airbnb.android:lottie:6.1.0")
+    implementation("com.airbnb.android:lottie:6.1.0")
 
-    implementation ("com.google.android.flexbox:flexbox:3.0.0")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     //admob
     implementation("com.google.android.gms:play-services-ads:23.1.0")
 
     //navigation
-    implementation ("androidx.navigation:navigation-fragment-ktx:$nav_version")
-    implementation ("androidx.navigation:navigation-ui-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
     //graph
     // Charts
-    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    //workmanager
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 
+    //firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
+    implementation("com.google.firebase:firebase-analytics")
 
 
 }

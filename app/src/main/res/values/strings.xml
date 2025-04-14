@@ -39,7 +39,7 @@
 
     <!-- Weather Description String -->
     <string name="weather_clear">Clear sky</string>
-    <string name="weather_mainly_clear">Mainly clear</string>
+    <string name="weather_mainly_clear">Partially clear</string>
     <string name="weather_partly_cloudy">Partly cloudy</string>
     <string name="weather_cloudy">Overcast</string>
     <string name="weather_fog">Foggy</string>
@@ -78,6 +78,9 @@ Start setting up your personal weather assistant in just 4 simple steps.</string
     <string name="oneWeek_occasionally">occasionally</string>
     <string name="oneWeek_forecasted_week">is forecasted for the upcoming week.</string>
     <string name="feels_like_temp_txt">"Feels like temperature: "</string>
+    <string name="sunrise_and_sunset_txt">Sundial</string>
+    <string name="daily_weather">Daily Weather</string>
+    <string name="no_weather_txt">No weather data found</string>
 
 
 </resources>

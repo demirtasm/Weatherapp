@@ -22,7 +22,7 @@ IntroOnboardingFragment(),LocationOnboardingFragment(), NotificationOnboardingFr
         )
         val adapter = ViewPagerAdapter(fragmentList, childFragmentManager, lifecycle)
         binding?.onboardingViewPager?.adapter = adapter
-
+        binding?.onboardingViewPager?.isUserInputEnabled = false
         return binding?.root
     }
 
