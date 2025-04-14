@@ -11,11 +11,11 @@ val localProperties = Properties().apply {
 }
 
 android {
-    namespace = "com.example.weatherapp"
+    namespace = "com.madkit.weatherapp"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.example.weatherapp"
+        applicationId = "com.madkit.weatherapp"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -61,6 +61,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation("com.karumi:dexter:6.2.3")
+    implementation ("com.google.gms:google-services:4.3.15")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")

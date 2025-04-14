@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/todayFragment"
-        android:name="com.example.weatherapp.views.TodayFragment"
+        android:name="com.madkit.weatherapp.views.TodayFragment"
         android:label="fragment_today"
         tools:layout="@layout/fragment_base_weather" >
 
@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/tomorrowFragment"
-        android:name="com.example.weatherapp.views.TomorrowFragment"
+        android:name="com.madkit.weatherapp.views.TomorrowFragment"
         android:label="fragment_tomorrow"
         tools:layout="@layout/fragment_tomorrow" >
         <action
@@ -26,7 +26,7 @@
     </fragment>
     <fragment
         android:id="@+id/oneWeekFragment"
-        android:name="com.example.weatherapp.views.OneWeekFragment"
+        android:name="com.madkit.weatherapp.views.OneWeekFragment"
         android:label="fragment_one_week"
         tools:layout="@layout/fragment_one_week" />
 </navigation>

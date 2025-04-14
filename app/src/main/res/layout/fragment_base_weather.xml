@@ -562,7 +562,7 @@
                     android:text="@string/sunrise_and_sunset_txt"
                     android:textSize="@dimen/medium_text_size" />
             </LinearLayout>
-            <com.example.weatherapp.views.SunriseSunsetView
+            <com.madkit.weatherapp.views.SunriseSunsetView
                 android:id="@+id/sunriseSunsetView"
                 android:layout_width="match_parent"
                 android:layoutDirection="ltr"

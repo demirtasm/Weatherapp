@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:683551638555:android:c3e30eb3f4f966434a24be",
+        "mobilesdk_app_id": "1:683551638555:android:2502c706c0e5fb0c4a24be",
         "android_client_info": {
-          "package_name": "com.example.weatherapp"
+          "package_name": "com.madkit.weatherapp"
         }
       },
       "oauth_client": [],
