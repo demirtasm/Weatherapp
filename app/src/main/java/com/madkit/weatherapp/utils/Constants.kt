@@ -1,16 +1,18 @@
-package com.madkit.weatherapp
+package com.madkit.weatherapp.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import com.madkit.weatherapp.BuildConfig
 
 object Constants {
-//https://api.open-meteo.com/v1/forecast?latitude=40.9751592&longitude=27.4933325&hourly=temperature_2m,relative_humidity_2m,precipitation,weather_code
-    const val APP_ID: String  =  BuildConfig.APP_ID
-    const val BASE_URL_OPEN_WEATHER:String = "https://api.openweathermap.org/data/"
-    const val BASE_URL_OPEN_METEO:String = "https://api.open-meteo.com/v1/"
-    const val METRIC_UNIT:String = "metric"
+    const val APP_ID: String = BuildConfig.APP_ID
+    const val BASE_URL_OPEN_WEATHER: String = "https://api.openweathermap.org/data/"
+    const val BASE_URL_OPEN_METEO: String = "https://api.open-meteo.com/v1/"
+    const val METRIC_UNIT: String = "metric"
+    const val LOCATION_PERMISSION_REQUEST_CODE = 1001
+    const val LOCATION_SETTINGS_REQUEST_CODE = 1002
 
     fun isNetworkAvailable(context: Context): Boolean {
         val connectivityManager =

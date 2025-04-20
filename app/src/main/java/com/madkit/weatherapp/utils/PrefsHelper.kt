@@ -1,4 +1,4 @@
-package com.madkit.weatherapp
+package com.madkit.weatherapp.utils
 
 import android.content.Context
 import android.content.SharedPreferences

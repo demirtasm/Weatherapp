@@ -6,15 +6,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="@dimen/padding_xsmall">
-    <TextView
+    <com.madkit.weatherapp.views.customTextViewFont.InterTextView
         android:id="@+id/textTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="-"
         android:layout_gravity="center"
-        android:textColor="@color/black"
-        android:textSize="@dimen/small_text_size"
-        android:fontFamily="@font/inter" />
+        android:textColor="@color/text_primary"
+        android:textSize="@dimen/small_text_size" />
 
         <ImageView
             android:id="@+id/iv_weather_code"
@@ -24,14 +23,13 @@
             android:clipChildren="false"
             android:contentDescription="@string/image_contentDescription"
             app:srcCompat="@drawable/ic_clear_day" />
-        <TextView
+        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
             android:id="@+id/textTemp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="-"
-            android:fontFamily="@font/inter"
             android:layout_gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/primary_text_color"
             android:textSize="@dimen/medium_text_size"/>
 
     <LinearLayout
@@ -45,12 +43,11 @@
             android:layout_gravity="center"
             android:clipChildren="false"
             app:srcCompat="@drawable/ic_union" />
-        <TextView
+        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
             android:id="@+id/textRain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/inter"
-            android:textColor="@color/black"
+            android:textColor="@color/primary_text_color"
             android:textSize="@dimen/medium_text_size"/>
     </LinearLayout>
 

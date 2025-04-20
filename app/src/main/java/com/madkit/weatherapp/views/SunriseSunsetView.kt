@@ -15,14 +15,14 @@ class SunriseSunsetView(context: Context, attrs: AttributeSet) : View(context, a
         layoutDirection = LAYOUT_DIRECTION_LTR
     }
     private val arcPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        strokeWidth = 12f
+        strokeWidth = 15f
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
         color = Color.LTGRAY
     }
 
     private val progressPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        strokeWidth = 12f
+        strokeWidth = 15f
         style = Paint.Style.STROKE
         strokeCap = Paint.Cap.ROUND
         color = Color.YELLOW
@@ -80,7 +80,7 @@ class SunriseSunsetView(context: Context, attrs: AttributeSet) : View(context, a
         // Uzun ince alt çizgi
         val thinLinePaint = Paint(arcPaint).apply {
             style = Paint.Style.STROKE
-            strokeWidth = 2f
+            strokeWidth = 8f
             color = ContextCompat.getColor(context, R.color.purple)
         }
 

@@ -21,17 +21,16 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_welcom_weatherly" />
 
-        <TextView
+        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/intro_title"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="@dimen/large_text_size"
-            android:fontFamily="@font/inter_bold" />
+            android:textSize="@dimen/large_text_size"/>
 
-        <TextView
+        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
             android:id="@+id/descriptionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

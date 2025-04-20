@@ -7,11 +7,10 @@
     android:padding="@dimen/padding_xsmall"
     android:orientation="vertical">
 
-    <TextView
+    <com.madkit.weatherapp.views.customTextViewFont.InterThinTextView
         android:id="@+id/tvLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Saat / Değer"
-        android:textColor="@android:color/white"
-        android:fontFamily="@font/inter_thin" />
+        android:textColor="@android:color/white" />
 </LinearLayout>

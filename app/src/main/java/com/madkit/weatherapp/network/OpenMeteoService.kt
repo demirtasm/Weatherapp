@@ -1,6 +1,6 @@
 package com.madkit.weatherapp.network
 
-import com.madkit.weatherapp.Constants
+import com.madkit.weatherapp.utils.Constants
 import com.madkit.weatherapp.models.OpenMeteoResponse
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

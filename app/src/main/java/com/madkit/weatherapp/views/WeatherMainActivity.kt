@@ -88,12 +88,10 @@ class WeatherMainActivity : AppCompatActivity() {
                 InterstitialAd.load(this@WeatherMainActivity,"ca-app-pub-3438221392612643/1988120079", adRequest, object : InterstitialAdLoadCallback() {
                     override fun onAdLoaded(ad: InterstitialAd) {
                         mInterstitialAd = ad
-                        Log.d("AD", "Interstitial loaded")
                     }
 
                     override fun onAdFailedToLoad(adError: LoadAdError) {
                         mInterstitialAd = null
-                        Log.e("AD", "Failed to load interstitial: $adError")
                     }
             })
         }
@@ -111,26 +109,26 @@ class WeatherMainActivity : AppCompatActivity() {
         binding.btn1Week.setOnClickListener {
             updateTabSelection(R.id.btn1Week)
             navController?.navigate(R.id.oneWeekFragment)
-            if (mInterstitialAd != null) {
-                mInterstitialAd?.show(this)
-                mInterstitialAd?.fullScreenContentCallback = object : com.google.android.gms.ads.FullScreenContentCallback() {
-                    override fun onAdDismissedFullScreenContent() {
-                        mInterstitialAd = null
-                        navController?.navigate(R.id.oneWeekFragment)
-                        val adRequest = AdRequest.Builder().build()
-                        InterstitialAd.load(this@WeatherMainActivity,"ca-app-pub-3438221392612643/1988120079", adRequest, object : InterstitialAdLoadCallback() {
-                            override fun onAdLoaded(ad: InterstitialAd) {
-                                mInterstitialAd = ad
-                            }
-                        })
-                    }
+            /* if (mInterstitialAd != null) {
+                 mInterstitialAd?.show(this)
+                 mInterstitialAd?.fullScreenContentCallback = object : com.google.android.gms.ads.FullScreenContentCallback() {
+                     override fun onAdDismissedFullScreenContent() {
+                         mInterstitialAd = null
+                         navController?.navigate(R.id.oneWeekFragment)
+                         val adRequest = AdRequest.Builder().build()
+                         InterstitialAd.load(this@WeatherMainActivity,"ca-app-pub-3438221392612643/1988120079", adRequest, object : InterstitialAdLoadCallback() {
+                             override fun onAdLoaded(ad: InterstitialAd) {
+                                 mInterstitialAd = ad
+                             }
+                         })
+                     }
 
-                    override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
-                        mInterstitialAd = null
-                        navController?.navigate(R.id.oneWeekFragment)
-                    }
-                }
-            }
+                     override fun onAdFailedToShowFullScreenContent(adError: com.google.android.gms.ads.AdError) {
+                         mInterstitialAd = null
+                         navController?.navigate(R.id.oneWeekFragment)
+                     }
+                 }
+             }*/
         }
 
         binding.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->

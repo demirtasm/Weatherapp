@@ -51,19 +51,18 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_bold"
                             android:text="@string/rain_change_txt"
-                            android:textSize="@dimen/medium_text_size"
-                            android:textStyle="bold" />
+                            android:textColor="@color/primary_text_color"
+                            android:textSize="@dimen/medium_text_size" />
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                             android:id="@+id/tvRainChange"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
+                            android:textColor="@color/primary_text_color"
                             android:textSize="@dimen/medium_large_text_size"
                             tools:text="-" />
                     </LinearLayout>
@@ -101,19 +100,19 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_bold"
+                            android:textColor="@color/primary_text_color"
                             android:text="@string/wind_speed_txt"
                             android:textSize="@dimen/medium_text_size"
-                            android:textStyle="bold" />
+                            />
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                             android:id="@+id/wind_speed"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
+                            android:textColor="@color/primary_text_color"
                             android:textSize="@dimen/medium_large_text_size"
                             tools:text="-" />
                     </LinearLayout>
@@ -151,19 +150,19 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_bold"
+                            android:textColor="@color/primary_text_color"
                             android:text="@string/humidity_txt"
                             android:textSize="@dimen/medium_text_size"
-                            android:textStyle="bold" />
+                            />
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                             android:id="@+id/humidty"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
+                            android:textColor="@color/primary_text_color"
                             android:textSize="@dimen/medium_large_text_size"
                             tools:text="-" />
                     </LinearLayout>
@@ -200,19 +199,18 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_bold"
+                            android:textColor="@color/primary_text_color"
                             android:text="@string/uv_index_txt"
-                            android:textSize="@dimen/medium_text_size"
-                            android:textStyle="bold" />
+                            android:textSize="@dimen/medium_text_size"/>
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                             android:id="@+id/uv_index"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
+                            android:textColor="@color/primary_text_color"
                             android:textSize="@dimen/medium_large_text_size"
                             tools:text="-" />
                     </LinearLayout>
@@ -252,11 +250,11 @@
                         android:clipChildren="true"
                         android:src="@drawable/ic_hourly" />
 
-                    <TextView
+                    <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/inter_bold"
                         android:gravity="center_vertical"
+                        android:textColor="@color/primary_text_color"
                         android:text="@string/hourly_forecast_txt"
                         android:textSize="@dimen/medium_text_size" />
                 </LinearLayout>
@@ -276,6 +274,7 @@
             android:id="@+id/banner_ad_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/margin_small"
@@ -313,12 +312,12 @@
                         android:clipChildren="true"
                         android:src="@drawable/ic_air" />
 
-                    <TextView
+                    <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/inter_bold"
                         android:gravity="center_vertical"
                         android:text="@string/air_forecast_txt"
+                        android:textColor="@color/primary_text_color"
                         android:textSize="@dimen/medium_text_size" />
                 </LinearLayout>
 
@@ -335,21 +334,19 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                             android:id="@+id/qualityText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_bold"
                             android:textColor="@color/purple"
                             android:textSize="@dimen/xlarge_text_size"
                             tools:text="Good" />
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                             android:id="@+id/qualityDescription"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_xsmall"
-                            android:fontFamily="@font/inter"
                             android:textColor="@color/purple"
                             android:textSize="@dimen/medium_text_size"
                             tools:text="Air quality is satisfactory" />
@@ -369,20 +366,18 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <TextView
+                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                                 android:id="@+id/aqiLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
                                 android:text="@string/aqi_txt"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
 
-                            <TextView
+                            <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                                 android:id="@+id/aqiValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter_bold"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/xlarge_text_size"
                                 tools:text="4" />
@@ -422,28 +417,25 @@
                             android:orientation="vertical"
                             android:padding="@dimen/padding_xsmall">
 
-                            <TextView
+                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
                                 android:text="@string/carbonMonoxide"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
 
-                            <TextView
+                            <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                                 android:id="@+id/textCoValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter_bold"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/large_text_size"
                                 tools:text="28" />
 
-                            <TextView
+                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
                                 android:text="µg/m³"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
@@ -456,28 +448,25 @@
                             android:orientation="vertical"
                             android:padding="@dimen/padding_xsmall">
 
-                            <TextView
+                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
                                 android:text="@string/pm10_txt"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
 
-                            <TextView
+                            <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                                 android:id="@+id/textPM10Value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter_bold"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/large_text_size"
                                 tools:text="51" />
 
-                            <TextView
+                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
                                 android:text="µg/m³"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
@@ -490,28 +479,25 @@
                             android:orientation="vertical"
                             android:padding="@dimen/padding_xsmall">
 
-                            <TextView
+                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
                                 android:text="@string/ozone_txt"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
 
-                            <TextView
+                            <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                                 android:id="@+id/texto3Value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter_bold"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/large_text_size"
                                 tools:text="51" />
 
-                            <TextView
+                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:fontFamily="@font/inter"
                                 android:text="µg/m³"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
@@ -554,11 +540,11 @@
                     android:clipChildren="true"
                     android:src="@drawable/ic_sunrise_and_sunset" />
 
-                <TextView
+                <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:fontFamily="@font/inter_bold"
                     android:gravity="center_vertical"
+                    android:textColor="@color/primary_text_color"
                     android:text="@string/sunrise_and_sunset_txt"
                     android:textSize="@dimen/medium_text_size" />
             </LinearLayout>
@@ -610,18 +596,18 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_bold"
+                            android:textColor="@color/primary_text_color"
                             android:text="@string/sunrise_txt"
                             android:textSize="@dimen/medium_text_size" />
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                             android:id="@+id/tv_sunrise_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
+                            android:textColor="@color/primary_text_color"
                             android:textSize="@dimen/medium_large_text_size"
                             tools:text="4:20" />
                     </LinearLayout>
@@ -659,18 +645,18 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter_bold"
                             android:text="@string/sunset_txt"
+                            android:textColor="@color/primary_text_color"
                             android:textSize="@dimen/medium_text_size" />
 
-                        <TextView
+                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
                             android:id="@+id/tv_sunset_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/inter"
+                            android:textColor="@color/primary_text_color"
                             android:textSize="@dimen/medium_large_text_size"
                             tools:text="4:50" />
                     </LinearLayout>
@@ -708,12 +694,12 @@
                         android:clipChildren="true"
                         android:src="@drawable/ic_wind" />
 
-                    <TextView
+                    <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="@font/inter_bold"
                         android:gravity="center_vertical"
                         android:text="@string/wind_speed_txt"
+                        android:textColor="@color/primary_text_color"
                         android:textSize="@dimen/medium_text_size" />
                 </LinearLayout>
 
@@ -732,6 +718,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/margin_small"
+            android:visibility="gone"
             ads:adSize="LARGE_BANNER"
             ads:adUnitId="ca-app-pub-3438221392612643/6858530738" />
     </LinearLayout>

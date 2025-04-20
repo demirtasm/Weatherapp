@@ -106,13 +106,13 @@ abstract class BaseWeatherFragment : Fragment() {
         } else {
             "00:00"
         }
-        lifecycleScope.launch(Dispatchers.Main) {
+        /*lifecycleScope.launch(Dispatchers.Main) {
             MobileAds.initialize(requireContext()) {
                 val adRequest = AdRequest.Builder().build()
                 binding.bannerAdView.loadAd(adRequest)
                 binding.bannerAdView2.loadAd(adRequest)
             }
-        }
+        }*/
     }
 
     private fun setupMateoUI(response: OpenMeteoResponse) {

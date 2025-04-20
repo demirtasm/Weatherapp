@@ -1,6 +1,6 @@
 package com.madkit.weatherapp.network
 
-import com.madkit.weatherapp.Constants
+import com.madkit.weatherapp.utils.Constants
 import com.madkit.weatherapp.models.AirPollutionResponse
 import com.madkit.weatherapp.models.WeatherResponse
 import retrofit2.Response
