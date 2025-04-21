@@ -65,4 +65,5 @@
     <string name="sunrise_and_sunset_txt">Güneş Saati</string>
     <string name="daily_weather">Günlük hava durumu</string>
     <string name="no_weather_txt">Hava durumu verisi bulunamadı</string>
+    <string name="required_permission_toast">Devam etmek için konum izni gereklidir.</string>
 </resources>

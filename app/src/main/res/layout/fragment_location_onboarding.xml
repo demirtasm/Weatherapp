@@ -49,17 +49,45 @@
         android:layout_marginStart="@dimen/margin_xlarge"
         android:layout_marginEnd="@dimen/margin_xlarge" />
 
-    <ImageButton
-        android:id="@+id/btnNext"
-        android:layout_width="@dimen/oboarding_next_button_height"
-        android:layout_height="@dimen/oboarding_next_button_height"
-        android:layout_marginBottom="@dimen/margin_xxlarge"
-        android:background="@drawable/btn_circle_yellow"
-        android:src="@drawable/ic_arrow_right"
-        android:tint="@color/item_text_color"
-        android:contentDescription="@string/next"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/loadingButtonWrapper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginBottom="@dimen/margin_xxlarge">
+
+        <!-- Dış halka -->
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressRing"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:indicatorColor="@color/item_text_color"
+            app:indicatorSize="65dp"
+            app:trackThickness="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnNext"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:background="@drawable/ripple_onboarding_button"
+            android:src="@drawable/ic_arrow_right"
+            android:tint="@color/item_text_color"
+            android:contentDescription="@string/next"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

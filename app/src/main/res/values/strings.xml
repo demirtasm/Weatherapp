@@ -81,6 +81,7 @@ Start setting up your personal weather assistant in just 4 simple steps.</string
     <string name="sunrise_and_sunset_txt">Sundial</string>
     <string name="daily_weather">Daily Weather</string>
     <string name="no_weather_txt">No weather data found</string>
+    <string name="required_permission_toast">Location permission is required to proceed</string>
 
 
 </resources>

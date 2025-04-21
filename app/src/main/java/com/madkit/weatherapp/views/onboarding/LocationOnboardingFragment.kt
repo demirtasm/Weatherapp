@@ -18,6 +18,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationRequest
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.viewpager2.widget.ViewPager2
 import com.madkit.weatherapp.R
 import com.madkit.weatherapp.network.OpenMeteoService
@@ -66,11 +67,12 @@ class LocationOnboardingFragment : Fragment() {
                 .withListener(object : MultiplePermissionsListener {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                         if (report.areAllPermissionsGranted()) {
+                            binding?.progressRing?.visibility = View.VISIBLE
                             requestLocationData()
                         } else {
                             Toast.makeText(
                                 requireContext(),
-                                "Location permission is required to proceed.",
+                                getString(R.string.required_permission_toast),
                                 Toast.LENGTH_SHORT
                             ).show()
                         }
@@ -107,18 +109,20 @@ class LocationOnboardingFragment : Fragment() {
             val mLastLocation: Location = locationResult.lastLocation!!
             val latitude = mLastLocation.latitude
             val longitude = mLastLocation.longitude
+
             locationViewModel.setLocation(latitude, longitude)
             weatherViewModel.loadWeatherData(latitude, longitude)
-            locationViewModel.setLocation(latitude, longitude)
+
             PrefsHelper.setNotFirstTime(requireContext())
+            PrefsHelper.setLocationGranted(requireContext())
+
+            binding?.progressRing?.visibility = View.INVISIBLE
 
             val viewPager = activity?.findViewById<ViewPager2>(R.id.onboardingViewPager)
-
             viewPager?.currentItem = 3
 
             mFusedLocationClient.removeLocationUpdates(this)
-            PrefsHelper.setNotFirstTime(requireContext())
-            PrefsHelper.setLocationGranted(requireContext())
+
         }
     }
 

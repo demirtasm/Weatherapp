@@ -24,5 +24,6 @@
 
     <color name="text_primary">#212121</color>
 
+    <color name="btn_ripple_color">#A07EF6</color>
 
 </resources>

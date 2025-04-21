@@ -73,7 +73,7 @@
         android:layout_width="@dimen/oboarding_next_button_height"
         android:layout_height="@dimen/oboarding_next_button_height"
         android:layout_marginBottom="@dimen/margin_xxlarge"
-        android:background="@drawable/btn_circle_yellow"
+        android:background="@drawable/ripple_onboarding_button"
         android:contentDescription="@string/next"
         android:src="@drawable/ic_arrow_right"
         android:tint="@color/item_text_color"

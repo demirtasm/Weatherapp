@@ -44,6 +44,7 @@
             android:id="@+id/btnGetStarted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:rippleColor="#80FFFFFF"
             android:text="@string/get_started_btn_txt"
             android:textColor="@color/item_text_color"
             android:layout_marginHorizontal="@dimen/margin_small"
