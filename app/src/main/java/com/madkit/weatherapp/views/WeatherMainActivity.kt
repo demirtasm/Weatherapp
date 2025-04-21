@@ -8,7 +8,6 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -60,7 +59,8 @@ class WeatherMainActivity : AppCompatActivity() {
         firebaseAnalytics = FirebaseAnalytics.getInstance(this)
 
         val app = application as WeatherApplication
-        weatherViewModel = ViewModelProvider(this, app.weatherViewModelFactory)[WeatherViewModel::class.java]
+        weatherViewModel =
+            ViewModelProvider(this, app.weatherViewModelFactory)[WeatherViewModel::class.java]
         locationViewModel = app.locationViewModel
 
 
@@ -85,7 +85,11 @@ class WeatherMainActivity : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.Main) {
             val adRequest = AdRequest.Builder().build()
-                InterstitialAd.load(this@WeatherMainActivity,"ca-app-pub-3438221392612643/1988120079", adRequest, object : InterstitialAdLoadCallback() {
+            InterstitialAd.load(
+                this@WeatherMainActivity,
+                "ca-app-pub-3438221392612643/1988120079",
+                adRequest,
+                object : InterstitialAdLoadCallback() {
                     override fun onAdLoaded(ad: InterstitialAd) {
                         mInterstitialAd = ad
                     }
@@ -93,7 +97,7 @@ class WeatherMainActivity : AppCompatActivity() {
                     override fun onAdFailedToLoad(adError: LoadAdError) {
                         mInterstitialAd = null
                     }
-            })
+                })
         }
         binding.btnToday.setOnClickListener {
             updateTabSelection(R.id.btnToday)
@@ -145,72 +149,62 @@ class WeatherMainActivity : AppCompatActivity() {
 
     private fun setUpCurrentWeatherUI(weatherList: WeatherResponse) {
         val degree = WeatherCodeUtils.getUnit(application.resources.configuration.toString())
-        weatherViewModel.apperentTemperature.removeObservers(this)
-        weatherViewModel.isTargetOneWeek.observe(this) { oneWeek ->
-            if (!oneWeek) {
-                weatherViewModel.apperentTemperature.observe(this) {apperentTemperature->
-                    binding.tvFeelsLike.text = "${getString(R.string.feels_like_txt)} ${apperentTemperature} ${degree}"
-                }
-            }else{
-                binding.tvFeelsLike.text = ""
-            }
-        }
+
+
         binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
     }
 
     private fun setUpMeteoUI(meteo: OpenMeteoResponse?) {
         val degree = WeatherCodeUtils.getUnit(application.resources.configuration.toString())
-        var oneWeekMaxTemperature : String ?=null
-        var oneWeekMinTemperature : String ?=null
+        var oneWeekMaxTemperature: String? = null
+        var oneWeekMinTemperature: String? = null
         weatherViewModel.isTargetOneWeek.observe(this) { oneWeek ->
-            weatherViewModel.oneWeekWeatherCode.removeObservers(this)
-            weatherViewModel.weatherCode.removeObservers(this)
-            weatherViewModel.oneWeekTimes.removeObservers(this)
+
             weatherViewModel.formattedDailyDate.removeObservers(this)
             weatherViewModel.temperature.removeObservers(this)
             if (oneWeek) {
-                weatherViewModel.oneWeekMaxTemperature.observe(this) { it ->
-                    binding.tvDayTemp.text = it.average().roundToInt().toString() + degree
-                    oneWeekMaxTemperature = it.maxOrNull()?.roundToInt().toString()
-
-                }
-                weatherViewModel.oneWeekMinTemperature.observe(this) {
-                    binding.tvNightTemp.text = it.average().roundToInt().toString() + degree
-                    oneWeekMinTemperature = it.minOrNull()?.roundToInt().toString()
-
-                }
                 binding.tvDayText.text = getString(R.string.daytime_weekly)
                 binding.tvNightText.text = getString(R.string.nighttime_weekly)
-                weatherViewModel.oneWeekWeatherCode.observe(this) { codeList ->
-                    if (!codeList.isNullOrEmpty()) {
-                        val summary = generateWeeklySummary(applicationContext, codeList)
-                        binding.tvMain.text = summary
-                        binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(
+
+                weatherViewModel.weeklyUIState.observe(this) { state ->
+                    val summary = generateWeeklySummary(applicationContext, state.weeklyWeatherCode)
+                    binding.tvMain.text = summary
+                    binding.ivMain.setImageResource(
+                        WeatherCodeUtils.getWeatherIconResId(
                             mostFrequentCode?.toInt()!!, true
-                        ))
-                    }
+                        )
+                    )
+                    binding.tvDayTemp.text = state.weeklyMaxTemperature.average().roundToInt().toString() + degree
+                    oneWeekMaxTemperature =  state.weeklyMaxTemperature.maxOrNull()?.roundToInt().toString()
+                    binding.tvNightTemp.text =  state.weeklyMinTemperature.average().roundToInt().toString() + degree
+                    oneWeekMinTemperature =  state.weeklyMinTemperature.minOrNull()?.roundToInt().toString()
+                    binding.dateTime.text = getDateRangeString(state.weeklyTimes)
+                    binding.tvTemp.text =
+                        oneWeekMaxTemperature + "-" + oneWeekMinTemperature + degree
                 }
-                weatherViewModel.oneWeekTimes.observe(this) { codeList ->
-                    if (!codeList.isNullOrEmpty()) {
-                        binding.dateTime.text = getDateRangeString(codeList)
-                    }
-                }
-                weatherViewModel.temperature.observe(this) { code ->
-                    binding.tvTemp.text = oneWeekMaxTemperature +"-"+oneWeekMinTemperature + degree
-                }
+
+                binding.tvFeelsLike.text = ""
             } else {
-                weatherViewModel.temperature2mMax.observe(this) { it ->
-                    binding.tvDayTemp.text = it + degree
-                }
-                weatherViewModel.temperature2mMin.observe(this) { it ->
-                    binding.tvNightTemp.text = it + degree
-                }
+
                 binding.tvDayText.text = getString(R.string.day_txt)
                 binding.tvNightText.text = getString(R.string.night_txt)
-                weatherViewModel.weatherCode.observe(this) { code ->
-                    binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(code.toInt(), true))
-                    binding.tvMain.text =
-                        WeatherCodeUtils.getWeatherDescription(applicationContext, code.toInt())
+
+                weatherViewModel.dailyUIState.observe(this) { state ->
+                    binding.tvMain.text = WeatherCodeUtils.getWeatherDescription(
+                        applicationContext,
+                        state.weatherCode.toInt()
+                    )
+                    binding.ivMain.setImageResource(
+                        WeatherCodeUtils.getWeatherIconResId(
+                            state.weatherCode.toInt(),
+                            true
+                        )
+                    )
+                    binding.tvDayTemp.text = state.temperature2mMax + degree
+                    binding.tvNightTemp.text = state.temperature2mMin + degree
+
+                    binding.tvFeelsLike.text =
+                        "${getString(R.string.feels_like_txt)} ${state.apparentTemperature} ${degree}"
                 }
                 weatherViewModel.formattedDailyDate.observe(this) { it ->
                     binding.dateTime.text = it
@@ -221,6 +215,7 @@ class WeatherMainActivity : AppCompatActivity() {
             }
         }
     }
+
     fun getDateRangeString(dates: List<String>): String {
         if (dates.isEmpty()) return ""
 
@@ -293,22 +288,22 @@ class WeatherMainActivity : AppCompatActivity() {
     private val mLocationCallback by lazy {
         object : LocationCallback() {
 
-        override fun onLocationResult(locationResult: LocationResult) {
-            val mLastLocation: Location = locationResult.lastLocation!!
-            val latitude = mLastLocation.latitude
-            val longitude = mLastLocation.longitude
-            firebaseAnalytics.logEvent("loadWeatherDataOnboarding",null)
-            if (shouldUpdateLocation(latitude, longitude)) {
+            override fun onLocationResult(locationResult: LocationResult) {
+                val mLastLocation: Location = locationResult.lastLocation!!
+                val latitude = mLastLocation.latitude
+                val longitude = mLastLocation.longitude
+                firebaseAnalytics.logEvent("loadWeatherDataOnboarding", null)
+                if (shouldUpdateLocation(latitude, longitude)) {
+                    locationViewModel.setLocation(latitude, longitude)
+                    weatherViewModel.loadWeatherData(latitude, longitude)
+                }
                 locationViewModel.setLocation(latitude, longitude)
-                weatherViewModel.loadWeatherData(latitude, longitude)
-            }
-            locationViewModel.setLocation(latitude, longitude)
-            mFusedLocationClient.removeLocationUpdates(this)
-            runOnUiThread {
-                binding.btnToday.performClick()
+                mFusedLocationClient.removeLocationUpdates(this)
+                runOnUiThread {
+                    binding.btnToday.performClick()
+                }
             }
         }
-    }
     }
 
     @SuppressLint("MissingPermission")
@@ -322,13 +317,14 @@ class WeatherMainActivity : AppCompatActivity() {
             Looper.myLooper()
         )
     }
+
     private fun shouldUpdateLocation(newLat: Double, newLon: Double): Boolean {
         val lastLat = locationViewModel.getLatitude() ?: return true
         val lastLon = locationViewModel.getLongitude() ?: return true
 
         val distance = FloatArray(1)
         Location.distanceBetween(lastLat, lastLon, newLat, newLon, distance)
-        return distance[0] > 500 
+        return distance[0] > 500
     }
 
     private fun showProgressDialog() {
@@ -349,16 +345,16 @@ class WeatherMainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
- /*   override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_refresh -> {
-                requestLocationData()
-                true
-            }
+    /*   override fun onOptionsItemSelected(item: MenuItem): Boolean {
+           return when (item.itemId) {
+               R.id.action_refresh -> {
+                   requestLocationData()
+                   true
+               }
 
-            else -> super.onOptionsItemSelected(item)
-        }
-    }*/
+               else -> super.onOptionsItemSelected(item)
+           }
+       }*/
 
 
 }

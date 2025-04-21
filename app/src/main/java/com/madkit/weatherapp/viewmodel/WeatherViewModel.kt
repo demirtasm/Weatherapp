@@ -1,65 +1,85 @@
 package com.madkit.weatherapp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.madkit.weatherapp.models.AirPollutionResponse
+import com.madkit.weatherapp.models.DailyData
+import com.madkit.weatherapp.models.uistate.DailyWeatherUIState
 import com.madkit.weatherapp.models.OpenMeteoResponse
 import com.madkit.weatherapp.models.WeatherResponse
+import com.madkit.weatherapp.models.uistate.WeeklyWeatherUIState
 import com.madkit.weatherapp.repository.WeatherRepository
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
-class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
+class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
 
     val meteoData = MutableLiveData<OpenMeteoResponse>()
     val airPollutionData = MutableLiveData<AirPollutionResponse>()
     val currentWeather = MutableLiveData<WeatherResponse>()
 
+    private val _dailyUIState = MutableLiveData<DailyWeatherUIState>()
+    val dailyUIState: LiveData<DailyWeatherUIState> = _dailyUIState
 
-    private val _weatherCode = MutableLiveData<String>()
-    val weatherCode: LiveData<String> = _weatherCode
+    private val _weeklyUIState = MutableLiveData<WeeklyWeatherUIState>()
+    val weeklyUIState: LiveData<WeeklyWeatherUIState> = _weeklyUIState
+
 
     private val _formattedDailyDate = MutableLiveData<String>()
-    val formattedDailyDate:LiveData<String> = _formattedDailyDate
+    val formattedDailyDate: LiveData<String> = _formattedDailyDate
 
     private val _temperature = MutableLiveData<String>()
     val temperature: LiveData<String> = _temperature
 
-    private val _temperature2mMax = MutableLiveData<String>()
-    val temperature2mMax: LiveData<String> = _temperature2mMax
-
-    private val _apperentTemperature = MutableLiveData<String>()
-    val apperentTemperature: LiveData<String> = _apperentTemperature
-
-    private val _temperature2mMin = MutableLiveData<String>()
-    val temperature2mMin: LiveData<String> = _temperature2mMin
-
-    private val _oneWeekWeatherCode = MutableLiveData<List<String>>(emptyList())
-    val oneWeekWeatherCode: LiveData<List<String>> = _oneWeekWeatherCode
 
     private val _isTargetOneWeek = MutableLiveData<Boolean>()
     val isTargetOneWeek: LiveData<Boolean> = _isTargetOneWeek
 
 
-    private val _oneWeekTimes =  MutableLiveData<List<String>>(emptyList())
-    val oneWeekTimes : LiveData<List<String>> = _oneWeekTimes
+    fun updateDailyUI(daily: DailyData, index: Int) {
+        val weatherCode = daily.weather_code?.getOrNull(index)?.toString() ?: "0"
 
-    private val _oneWeekMaxTemperature = MutableLiveData<List<Double>>()
-    val oneWeekMaxTemperature : LiveData<List<Double>> = _oneWeekMaxTemperature
+        val temperature2mMax = daily.temperature_2m_max?.getOrNull(index)?.roundToInt().toString()
+        val temperature2mMin = daily.temperature_2m_min?.getOrNull(index)?.roundToInt().toString()
+        val apparentTemperature =
+            daily?.apparent_temperature_mean?.getOrNull(index)?.roundToInt().toString()
+        val windGusts10mMean = daily.wind_gusts_10m_mean?.getOrNull(index)?.roundToInt().toString()
+        val uvIndex = daily.uv_index_max?.getOrNull(index)?.roundToInt().toString()
+        val humidity = daily.relative_humidity_2m_mean?.getOrNull(index).toString()
+        val sunset = daily.sunset?.getOrNull(index).toString()
+        val sunrise = daily.sunrise?.getOrNull(index).toString()
+        val rainChange = daily.precipitation_probability_mean.getOrNull(index).toString()
 
-    private val _oneWeekMinTemperature = MutableLiveData<List<Double>>()
-    val oneWeekMinTemperature : LiveData<List<Double>> = _oneWeekMinTemperature
+        _dailyUIState.value = DailyWeatherUIState(
+            weatherCode,
+            temperature2mMax,
+            temperature2mMin,
+            apparentTemperature,
+            windGusts10mMean,
+            uvIndex, humidity,
+            sunset, sunrise,
+            rainChange
+        )
 
-    private val _oneWeekRelativeHumidity = MutableLiveData<List<Int>>()
-    val oneWeekRelativeHumidity : LiveData<List<Int>> = _oneWeekRelativeHumidity
 
-    private val _oneWeekApparentTemperature = MutableLiveData<List<Double>>()
-    val oneWeekApparentTemperature : LiveData<List<Double>> = _oneWeekApparentTemperature
+    }
 
+    fun updateWeeklyUI(daily: DailyData) {
+        val weeklyWeatherCode = daily.weather_code
+        val weeklyMaxTemperature = daily.temperature_2m_max
+        val weeklyMinTemperature = daily.temperature_2m_min
+        val weeklyTimes = daily.time
+        val weeklyRelativeHumidity = daily.relative_humidity_2m_mean
+        val weeklyApparentTemperature = daily.apparent_temperature_mean
 
-    fun loadWeatherData(lat: Double, lon: Double){
+        _weeklyUIState.value = WeeklyWeatherUIState(
+            weeklyWeatherCode, weeklyMaxTemperature, weeklyMinTemperature, weeklyTimes, weeklyRelativeHumidity, weeklyApparentTemperature
+        )
+    }
+
+    fun loadWeatherData(lat: Double, lon: Double) {
         viewModelScope.launch {
             val meteo = repository.getOpenMeteoWeather(lat, lon)
             val air = repository.getAirPollutionForecast(lat, lon)
@@ -72,11 +92,7 @@ class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
     }
 
 
-    fun setWeatherCode(code: String) {
-        _weatherCode.value = code
-    }
-
-    fun setFormattedDate(code: String){
+    fun setFormattedDate(code: String) {
         _formattedDailyDate.value = code
     }
 
@@ -84,45 +100,8 @@ class WeatherViewModel(private val repository: WeatherRepository): ViewModel() {
         _temperature.value = code
     }
 
-    fun setTargetOneWeek(code:Boolean){
+    fun setTargetOneWeek(code: Boolean) {
         _isTargetOneWeek.value = code
     }
-
-    fun setTemperature2mMin(code: String) {
-        _temperature2mMin.value = code
-    }
-
-    fun setTemperature2mMax(code: String) {
-        _temperature2mMax.value = code
-    }
-
-    fun setApperentTemperature(code: String){
-        _apperentTemperature.value = code
-    }
-
-    fun setOneWeekWeatherCode(code: List<String>){
-        _oneWeekWeatherCode.value = code
-    }
-
-    fun setOneWeekTimes(code: List<String>){
-        _oneWeekTimes.value = code
-    }
-
-    fun setOneWeekMaxTemperature(code: List<Double>){
-        _oneWeekMaxTemperature.value = code
-    }
-
-    fun setOneWeekRelativeHumidity(code: List<Int>){
-        _oneWeekRelativeHumidity.value = code
-    }
-
-    fun setOneWeekApparentTemperature(code: List<Double>){
-        _oneWeekApparentTemperature.value = code
-    }
-
-    fun setOneWeekMinTemperature(code: List<Double>){
-        _oneWeekMinTemperature.value = code
-    }
-
 
 }

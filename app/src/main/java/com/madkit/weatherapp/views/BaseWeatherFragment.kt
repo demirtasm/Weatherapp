@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -106,13 +107,6 @@ abstract class BaseWeatherFragment : Fragment() {
         } else {
             "00:00"
         }
-        /*lifecycleScope.launch(Dispatchers.Main) {
-            MobileAds.initialize(requireContext()) {
-                val adRequest = AdRequest.Builder().build()
-                binding.bannerAdView.loadAd(adRequest)
-                binding.bannerAdView2.loadAd(adRequest)
-            }
-        }*/
     }
 
     private fun setupMateoUI(response: OpenMeteoResponse) {
@@ -121,20 +115,24 @@ abstract class BaseWeatherFragment : Fragment() {
         val indexForDay = getIndexForTargetDate(false, response.daily?.time ?: emptyList(), getLocaleDate())
         val indexForHour = getIndexForTargetDate(true, response.hourly?.time ?: emptyList(), getLocaleDate())
 
+        val index = getIndexForTargetDate(false, response.daily?.time ?: emptyList(), getLocaleDate())
+        weatherViewModel.updateDailyUI(daily, index)
+        weatherViewModel.updateWeeklyUI(daily)
 
         weatherViewModel.setFormattedDate(getFormattedDateTime())
-
+        weatherViewModel.dailyUIState.observe(requireActivity()) { state ->
+            binding.windSpeed.text = state.windGusts10mMean+ getString(R.string.kmh)
+            binding.uvIndex.text = state.uvIndex
+            binding.humidty.text =state.humidity
+            binding.tvSunsetTime.text = unixTime(state.sunsetTime)
+            binding.tvSunriseTime.text = unixTime(state.sunriseTime)
+            binding.tvRainChange.text = "%"+state.rainChange
+            binding?.sunriseSunsetView?.setSunriseSunset(
+                sunrise = state.sunriseTime,
+                sunset = state.sunsetTime
+            )
+        }
         indexForDay.let {
-            weatherViewModel.setTemperature2mMax(daily.temperature_2m_max?.getOrNull(it)?.roundToInt().toString())
-            weatherViewModel.setTemperature2mMin(daily.temperature_2m_min?.getOrNull(it)?.roundToInt().toString())
-            weatherViewModel.setWeatherCode(response.daily?.weather_code?.getOrNull(it)?.toString()!!)
-            weatherViewModel.setApperentTemperature(daily?.apparent_temperature_mean?.getOrNull(it)?.roundToInt().toString())
-            binding.windSpeed.text = daily.wind_gusts_10m_mean?.getOrNull(it)?.roundToInt().toString() + getString(R.string.kmh)
-            binding.uvIndex.text = daily.uv_index_max?.getOrNull(it)?.roundToInt().toString()
-            binding.humidty.text = daily.relative_humidity_2m_mean?.getOrNull(it).toString()
-            binding.tvSunsetTime.text = unixTime(daily.sunset?.getOrNull(it).toString())
-            binding.tvSunriseTime.text = unixTime(daily.sunrise?.getOrNull(it).toString())
-            binding.tvRainChange.text = "%"+daily.precipitation_probability_mean?.getOrNull(it)?.toString()
             val temp = daily.temperature_2m_max?.getOrNull(it)?.roundToInt()
             val code = daily.weather_code?.getOrNull(it)?.toInt() ?: 0
             val desc = WeatherCodeUtils.getWeatherDescription(requireContext(), code)
@@ -143,10 +141,7 @@ abstract class BaseWeatherFragment : Fragment() {
             val prefs = requireContext().getSharedPreferences("weather_prefs", Context.MODE_PRIVATE)
             prefs.edit().putString("weather_summary", summary).apply()
 
-            binding?.sunriseSunsetView?.setSunriseSunset(
-                sunrise = daily.sunrise?.getOrNull(it).toString(),
-                sunset = daily.sunset?.getOrNull(it).toString()
-            )
+
         }
         val handler = Handler(Looper.getMainLooper())
         val runnable = object : Runnable {
@@ -174,12 +169,6 @@ abstract class BaseWeatherFragment : Fragment() {
             binding.sunriseSunsetTextViewParent.visibility = View.VISIBLE
         }
 
-        weatherViewModel.setOneWeekTimes(daily.time)
-        weatherViewModel.setOneWeekWeatherCode(daily.weather_code)
-        weatherViewModel.setOneWeekMaxTemperature(daily.temperature_2m_max)
-        weatherViewModel.setOneWeekRelativeHumidity(daily.relative_humidity_2m_mean)
-        weatherViewModel.setOneWeekApparentTemperature(daily.apparent_temperature_mean)
-        weatherViewModel.setOneWeekMinTemperature(daily.temperature_2m_min)
     }
     private fun getFormattedDateTime(): String {
         val targetDate = if (getTargetDate() == 0) {
@@ -468,9 +457,6 @@ abstract class BaseWeatherFragment : Fragment() {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
     private fun unixTime(timex: String): String? {
         val parsed = LocalDateTime.parse(timex)
         val timeFormatted = parsed.format(DateTimeFormatter.ofPattern("HH:mm"))
