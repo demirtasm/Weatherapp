@@ -8,5 +8,6 @@ data class HourlyData(
     val rain: List<Double>,
     val precipitation_probability: List<Int>,
     val wind_speed_10m: List<Double>,
-    val wind_direction_10m: List<Double>
+    val wind_direction_10m: List<Double>,
+    val is_day:List<Int>
 )

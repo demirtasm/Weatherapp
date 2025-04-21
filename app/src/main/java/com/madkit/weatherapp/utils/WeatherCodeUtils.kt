@@ -4,22 +4,22 @@ import android.content.Context
 import com.madkit.weatherapp.R
 
 object WeatherCodeUtils {
-    fun getWeatherIconResId(weatherCode: Int): Int {
+    fun getWeatherIconResId(weatherCode: Int, isDay: Boolean): Int {
         return when (weatherCode) {
-            0 -> R.drawable.ic_clear_day
-            1 -> R.drawable.ic_mainly_clear_day
-            2, 3 -> R.drawable.ic_cloudy_day
-            45, 48 -> R.drawable.ic_haze_day
-            51,61, 80 -> R.drawable.ic_light_rainy_day
-            53, 63, 81 -> R.drawable.ic_moderate_rainy_day
-            55,65, 82  -> R.drawable.ic_dense_rainy_day
-            56 -> R.drawable.ic_light_freezing_rainy_day
-            57 -> R.drawable.ic_moderate_freezing_rainy_day
-            66, 67 -> R.drawable.ic_freezing_rain_day
-            71, 85,77 -> R.drawable.ic_light_snow
-            73-> R.drawable.ic_moderate_snow
-            75, 86 -> R.drawable.ic_heavy_snow
-            else -> R.drawable.ic_clear_day
+            0 -> if (isDay) R.drawable.ic_clear_day else R.drawable.ic_clear_night
+            1 -> if (isDay) R.drawable.ic_mainly_clear_day else R.drawable.ic_mainly_clear_night
+            2, 3 -> if (isDay) R.drawable.ic_cloudy_day else R.drawable.ic_cloudy_day
+            45, 48 -> if (isDay) R.drawable.ic_haze_day else R.drawable.ic_haze_night
+            51, 61, 80 -> if (isDay) R.drawable.ic_light_rainy_day else R.drawable.ic_light_rainy_night
+            53, 63, 81 -> if (isDay) R.drawable.ic_moderate_rainy_day else R.drawable.ic_moderate_rainy_night
+            55, 65, 82 -> if (isDay) R.drawable.ic_dense_rainy_day else R.drawable.ic_dense_rainy_night
+            56 -> if (isDay) R.drawable.ic_light_freezing_rainy_day else R.drawable.ic_light_freezing_rainy_night
+            57 -> if (isDay) R.drawable.ic_moderate_freezing_rainy_day else R.drawable.ic_moderate_freezing_rainy_night
+            66, 67 -> if (isDay) R.drawable.ic_moderate_freezing_rainy_day else R.drawable.ic_moderate_freezing_rainy_night
+            71, 85, 77 -> if (isDay) R.drawable.ic_light_snow else R.drawable.ic_light_snow
+            73 -> if (isDay) R.drawable.ic_moderate_snow else R.drawable.ic_moderate_snow
+            75, 86 -> if (isDay) R.drawable.ic_heavy_snow else R.drawable.ic_heavy_snow
+            else -> if (isDay) R.drawable.ic_clear_day else R.drawable.ic_clear_night
         }
     }
     fun getWeatherDescription(context: Context, code: Int): String {

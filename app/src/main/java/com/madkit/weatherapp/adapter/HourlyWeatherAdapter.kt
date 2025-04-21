@@ -34,8 +34,15 @@ class HourlyWeatherAdapter(private val items: List<HourlyWeather>,  private val 
         holder.rainText.text = "%${item.precipitation.toString()}"
         holder.tempText.text = "${item.temperature.roundToInt()}°C"
         holder.weatherCodeImage.setImageResource(
-            WeatherCodeUtils.getWeatherIconResId(item.weatherCode)
+            if(item.isDay){
+                WeatherCodeUtils.getWeatherIconResId(item.weatherCode,true)
+
+            }else{
+                WeatherCodeUtils.getWeatherIconResId(item.weatherCode,false)
+
+            }
         )
+
         if (item.time.startsWith(currentHour)) {
             holder.itemView.setBackgroundResource(R.drawable.bg_selected_hourly_item)
         } else {

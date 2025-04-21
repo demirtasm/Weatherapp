@@ -306,7 +306,8 @@ abstract class BaseWeatherFragment : Fragment() {
                         time = timeStr,
                         temperature = hourly.temperature_2m?.get(i) ?: 0.0,
                         precipitation = hourly.precipitation_probability?.get(i)!!,
-                        weatherCode = hourly.weather_code?.get(i) ?: 0
+                        weatherCode = hourly.weather_code?.get(i) ?: 0,
+                        isDay = hourly.is_day?.get(i) == 1
                     )
                 )
             }

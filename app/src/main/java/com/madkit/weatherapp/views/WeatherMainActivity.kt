@@ -186,7 +186,7 @@ class WeatherMainActivity : AppCompatActivity() {
                         val summary = generateWeeklySummary(applicationContext, codeList)
                         binding.tvMain.text = summary
                         binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(
-                            mostFrequentCode?.toInt()!!
+                            mostFrequentCode?.toInt()!!, true
                         ))
                     }
                 }
@@ -208,7 +208,7 @@ class WeatherMainActivity : AppCompatActivity() {
                 binding.tvDayText.text = getString(R.string.day_txt)
                 binding.tvNightText.text = getString(R.string.night_txt)
                 weatherViewModel.weatherCode.observe(this) { code ->
-                    binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(code.toInt()))
+                    binding.ivMain.setImageResource(WeatherCodeUtils.getWeatherIconResId(code.toInt(), true))
                     binding.tvMain.text =
                         WeatherCodeUtils.getWeatherDescription(applicationContext, code.toInt())
                 }
@@ -249,11 +249,13 @@ class WeatherMainActivity : AppCompatActivity() {
             WeatherCodeUtils.getWeatherDescription(context, it)
         }
 
-        val secondDesc = secondFrequentCode?.toIntOrNull()?.let {
-            WeatherCodeUtils.getWeatherDescription(context, it)
-        }
+        val secondDesc = if (sortedByFrequency.size > 1) {
+            sortedByFrequency[1].first.toIntOrNull()?.let {
+                WeatherCodeUtils.getWeatherDescription(context, it)
+            }
+        } else null
 
-        return if (secondDesc?.isNotEmpty()!!) {
+        return if (!secondDesc.isNullOrEmpty()) {
             "${getString(R.string.oneWeek_mostly)} $mainDesc, ${getString(R.string.oneWeek_occasionally)} $secondDesc."
         } else {
             " $mainDesc ${getString(R.string.oneWeek_forecasted_week)}"

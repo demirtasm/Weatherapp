@@ -73,7 +73,7 @@ class OneWeekItemAdapter(private val context: Context, private val items: List<O
             )
         }
 
-        holder.imageWeather.setImageResource(WeatherCodeUtils.getWeatherIconResId(item.weatherCode.toInt()))
+        holder.imageWeather.setImageResource(WeatherCodeUtils.getWeatherIconResId(item.weatherCode.toInt(), true))
         holder.descriptionText.text =
             WeatherCodeUtils.getWeatherDescription(context, item.weatherCode.toInt())
     }
