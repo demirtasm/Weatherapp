@@ -40,9 +40,25 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
     val targetDayType: LiveData<DayType> = _targetDayType
 
     fun updateHourlyUI(hourly: HourlyData, indexFourHourly: Int) {
-        val hourlyTemperature = hourly.temperature_2m?.getOrNull(indexFourHourly)?.roundToInt().toString()
+        val hourlyTemperature =
+            hourly.temperature_2m?.getOrNull(indexFourHourly)?.roundToInt().toString()
+        val hourlyAllTemperature = hourly.temperature_2m
+        val hourlyAllWeatherCode = hourly.weather_code
+        val hourlyIsDay = hourly.is_day
+        val hourlyPrecipitationProbability = hourly.precipitation_probability
+        val hourlyWindSpeed = hourly.wind_direction_10m
+        val hourlyWindDirection = hourly.wind_speed_10m
 
-        _hourlyUIState.value = HourlyWeatherUIState(hourlyTemperature)
+        _hourlyUIState.value =
+            HourlyWeatherUIState(
+                hourlyTemperature,
+                hourlyAllTemperature,
+                hourlyAllWeatherCode,
+                hourlyIsDay,
+                hourlyPrecipitationProbability,
+                hourlyWindSpeed,
+                hourlyWindDirection
+            )
     }
 
     fun updateDailyUI(daily: DailyData, index: Int) {
@@ -82,7 +98,12 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
         val weeklyApparentTemperature = daily.apparent_temperature_mean
 
         _weeklyUIState.value = WeeklyWeatherUIState(
-            weeklyWeatherCode, weeklyMaxTemperature, weeklyMinTemperature, weeklyTimes, weeklyRelativeHumidity, weeklyApparentTemperature
+            weeklyWeatherCode,
+            weeklyMaxTemperature,
+            weeklyMinTemperature,
+            weeklyTimes,
+            weeklyRelativeHumidity,
+            weeklyApparentTemperature
         )
     }
 

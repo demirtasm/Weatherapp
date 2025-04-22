@@ -36,6 +36,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import com.madkit.weatherapp.models.uistate.HourlyWeatherUIState
 import com.madkit.weatherapp.utils.DayType
 import java.time.Instant
 import java.time.LocalDateTime
@@ -93,10 +94,18 @@ abstract class BaseWeatherFragment : Fragment() {
         weatherViewModel.meteoData.observe(viewLifecycleOwner) { data ->
             data?.let {
                 setupMateoUI(it)
-                if (hourlyList.isEmpty()) setupHourlyList(it)
-                setupWindSpeedChartData(it)
             }
         }
+        weatherViewModel.hourlyUIState.observe(viewLifecycleOwner) { state ->
+            if (
+                state.hourlyAllTemperature.isNotEmpty() &&
+                state.hourlyWindSpeed.isNotEmpty() &&
+                hourlyList.isEmpty()
+            ) {
+                setupHourlyList(state)
+            }
+        }
+
         currentHourStr = if (getTargetDate() == 0) {
             getLocaleDate().hour.toString().padStart(2, '0') + ":00"
         } else {
@@ -271,40 +280,56 @@ abstract class BaseWeatherFragment : Fragment() {
         lineChart.marker = markerView
     }
 
-    private fun setupHourlyList(response: OpenMeteoResponse) {
+    private fun setupHourlyList(state: HourlyWeatherUIState) {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm")
-        val hourly = response.hourly ?: return
-        val size = hourly.time.size
+        val hourlyTimeList = weatherViewModel.meteoData.value?.hourly?.time ?: return
+        val targetDate = getLocaleDate().toLocalDate()
+
         windSpeedList.clear()
-        for (i in 0 until size) {
-            val dateTime = LocalDateTime.parse(hourly.time[i], formatter)
-            if (dateTime.toLocalDate() == getLocaleDate().toLocalDate()) {
+        timesForLabels.clear()
+        weatherWindDirection.clear()
+        hourlyList.clear()
+
+        for (i in hourlyTimeList.indices) {
+            val dateTime = LocalDateTime.parse(hourlyTimeList[i], formatter)
+            if (dateTime.toLocalDate() == targetDate &&
+                i < state.hourlyAllTemperature.size &&
+                i < state.hourlyAllWeatherCode.size &&
+                i < state.hourlyIsDaY.size &&
+                i < state.hourlyPrecipitationProbability.size &&
+                i < state.hourlyWindSpeed.size &&
+                i < state.hourlyWindDirection.size
+            ) {
                 val hour = dateTime.hour
                 val timeStr = hour.toString().padStart(2, '0') + ":00"
-                windSpeedList.add(Entry(hour.toFloat(), hourly.wind_speed_10m?.get(i)?.toFloat() ?: 0f))
+
+                windSpeedList.add(Entry(hour.toFloat(), state.hourlyWindSpeed[i].toFloat()))
                 timesForLabels.add(timeStr)
-                weatherWindDirection.add(hourly.wind_direction_10m?.get(i) ?: 0.0)
+                weatherWindDirection.add(state.hourlyWindDirection[i])
 
                 hourlyList.add(
                     HourlyWeather(
                         time = timeStr,
-                        temperature = hourly.temperature_2m?.get(i) ?: 0.0,
-                        precipitation = hourly.precipitation_probability?.get(i)!!,
-                        weatherCode = hourly.weather_code?.get(i) ?: 0,
-                        isDay = hourly.is_day?.get(i) == 1
+                        temperature = state.hourlyAllTemperature[i],
+                        precipitation = state.hourlyPrecipitationProbability[i],
+                        weatherCode = state.hourlyAllWeatherCode[i],
+                        isDay = state.hourlyIsDaY[i] == 1
                     )
                 )
             }
         }
 
-        val recyclerView = binding.hourlyRecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = HourlyWeatherAdapter(hourlyList, currentHourStr)
+        binding.hourlyRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            adapter = HourlyWeatherAdapter(hourlyList, currentHourStr)
+        }
 
         val selectedIndex = hourlyList.indexOfFirst { it.time.startsWith(currentHourStr) }
         if (selectedIndex != -1 && getShouldScrollToHour()) {
-            recyclerView.scrollToPosition(selectedIndex)
+            binding.hourlyRecyclerView.scrollToPosition(selectedIndex)
         }
+
+        setupWindSpeedChartData(weatherViewModel.meteoData.value!!)
     }
 
     private fun setupAqiChartWithResponse(response: AirPollutionResponse) {
