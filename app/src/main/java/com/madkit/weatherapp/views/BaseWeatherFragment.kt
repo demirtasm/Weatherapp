@@ -5,14 +5,12 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.madkit.weatherapp.R
 import com.madkit.weatherapp.WeatherApplication
@@ -38,10 +36,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.madkit.weatherapp.utils.DayType
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -84,7 +79,7 @@ abstract class BaseWeatherFragment : Fragment() {
         weatherViewModel = ViewModelProvider(requireActivity(), app.weatherViewModelFactory)[WeatherViewModel::class.java]
         locationViewModel = app.locationViewModel
 
-        weatherViewModel.setTargetOneWeek(false)
+
         barChart = binding.barChart
         lineChart = binding.lineChart
         locationViewModel.location.observe(viewLifecycleOwner) { (lat, lon) ->
@@ -115,11 +110,17 @@ abstract class BaseWeatherFragment : Fragment() {
         val indexForDay = getIndexForTargetDate(false, response.daily?.time ?: emptyList(), getLocaleDate())
         val indexForHour = getIndexForTargetDate(true, response.hourly?.time ?: emptyList(), getLocaleDate())
 
-        val index = getIndexForTargetDate(false, response.daily?.time ?: emptyList(), getLocaleDate())
-        weatherViewModel.updateDailyUI(daily, index)
+        val indexForDaily = getIndexForTargetDate(false, response.daily?.time ?: emptyList(), getLocaleDate())
+        weatherViewModel.updateDailyUI(daily, indexForDaily)
+
+        val indexFourHourly =  getIndexForTargetDate(true, response.hourly?.time ?: emptyList(), getLocaleDate())
+        weatherViewModel.updateHourlyUI(hourly, indexFourHourly)
+
         weatherViewModel.updateWeeklyUI(daily)
 
+
         weatherViewModel.setFormattedDate(getFormattedDateTime())
+
         weatherViewModel.dailyUIState.observe(requireActivity()) { state ->
             binding.windSpeed.text = state.windGusts10mMean+ getString(R.string.kmh)
             binding.uvIndex.text = state.uvIndex
@@ -152,19 +153,13 @@ abstract class BaseWeatherFragment : Fragment() {
         }
         handler.post(runnable)
         if (getTargetDate() == 0) {
-            indexForHour.let {
-                weatherViewModel.setTemperature(
-                    hourly.temperature_2m?.getOrNull(it)?.roundToInt().toString()
-                )
-            }
+            weatherViewModel.setTargetDayType(DayType.TODAY)
+
             binding.sunsetSunriseChart.visibility = View.VISIBLE
             binding.sunriseSunsetTextViewParent.visibility = View.GONE
-        } else {
-            indexForDay.let {
-                weatherViewModel.setTemperature(
-                    daily.temperature_2m_mean?.getOrNull(it)?.roundToInt().toString()
-                )
-            }
+        } else if(getTargetDate() == 1) {
+            weatherViewModel.setTargetDayType(DayType.TOMORROW)
+
             binding.sunsetSunriseChart.visibility = View.GONE
             binding.sunriseSunsetTextViewParent.visibility = View.VISIBLE
         }

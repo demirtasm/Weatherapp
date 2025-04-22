@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.madkit.weatherapp.models.AirPollutionResponse
 import com.madkit.weatherapp.models.DailyData
+import com.madkit.weatherapp.models.HourlyData
 import com.madkit.weatherapp.models.uistate.DailyWeatherUIState
 import com.madkit.weatherapp.models.OpenMeteoResponse
 import com.madkit.weatherapp.models.WeatherResponse
+import com.madkit.weatherapp.models.uistate.HourlyWeatherUIState
 import com.madkit.weatherapp.models.uistate.WeeklyWeatherUIState
 import com.madkit.weatherapp.repository.WeatherRepository
+import com.madkit.weatherapp.utils.DayType
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 
@@ -26,17 +29,21 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
     private val _weeklyUIState = MutableLiveData<WeeklyWeatherUIState>()
     val weeklyUIState: LiveData<WeeklyWeatherUIState> = _weeklyUIState
 
+    private val _hourlyUIState = MutableLiveData<HourlyWeatherUIState>()
+    val hourlyUIState: LiveData<HourlyWeatherUIState> = _hourlyUIState
 
     private val _formattedDailyDate = MutableLiveData<String>()
     val formattedDailyDate: LiveData<String> = _formattedDailyDate
 
-    private val _temperature = MutableLiveData<String>()
-    val temperature: LiveData<String> = _temperature
 
+    private val _targetDayType = MutableLiveData<DayType>()
+    val targetDayType: LiveData<DayType> = _targetDayType
 
-    private val _isTargetOneWeek = MutableLiveData<Boolean>()
-    val isTargetOneWeek: LiveData<Boolean> = _isTargetOneWeek
+    fun updateHourlyUI(hourly: HourlyData, indexFourHourly: Int) {
+        val hourlyTemperature = hourly.temperature_2m?.getOrNull(indexFourHourly)?.roundToInt().toString()
 
+        _hourlyUIState.value = HourlyWeatherUIState(hourlyTemperature)
+    }
 
     fun updateDailyUI(daily: DailyData, index: Int) {
         val weatherCode = daily.weather_code?.getOrNull(index)?.toString() ?: "0"
@@ -96,12 +103,9 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
         _formattedDailyDate.value = code
     }
 
-    fun setTemperature(code: String) {
-        _temperature.value = code
-    }
 
-    fun setTargetOneWeek(code: Boolean) {
-        _isTargetOneWeek.value = code
+    fun setTargetDayType(type: DayType) {
+        _targetDayType.value = type
     }
 
 }

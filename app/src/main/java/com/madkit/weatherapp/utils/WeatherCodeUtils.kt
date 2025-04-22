@@ -7,8 +7,7 @@ object WeatherCodeUtils {
     fun getWeatherIconResId(weatherCode: Int, isDay: Boolean): Int {
         return when (weatherCode) {
             0 -> if (isDay) R.drawable.ic_clear_day else R.drawable.ic_clear_night
-            1 -> if (isDay) R.drawable.ic_mainly_clear_day else R.drawable.ic_mainly_clear_night
-            2, 3 -> if (isDay) R.drawable.ic_cloudy_day else R.drawable.ic_cloudy_day
+            1,2,3 -> if (isDay) R.drawable.ic_mainly_clear_day else R.drawable.ic_mainly_clear_night
             45, 48 -> if (isDay) R.drawable.ic_haze_day else R.drawable.ic_haze_night
             51, 61, 80 -> if (isDay) R.drawable.ic_light_rainy_day else R.drawable.ic_light_rainy_night
             53, 63, 81 -> if (isDay) R.drawable.ic_moderate_rainy_day else R.drawable.ic_moderate_rainy_night

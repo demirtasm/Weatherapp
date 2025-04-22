@@ -11,6 +11,7 @@ import com.madkit.weatherapp.WeatherApplication
 import com.madkit.weatherapp.adapter.OneWeekItemAdapter
 import com.madkit.weatherapp.databinding.FragmentOneWeekBinding
 import com.madkit.weatherapp.models.OneWeek
+import com.madkit.weatherapp.utils.DayType
 import com.madkit.weatherapp.viewmodel.WeatherViewModel
 
 
@@ -31,8 +32,7 @@ class OneWeekFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val app = requireActivity().application as WeatherApplication
         weatherViewModel = ViewModelProvider(requireActivity(), app.weatherViewModelFactory)[WeatherViewModel::class.java]
-        weatherViewModel.setTargetOneWeek(true)
-
+        weatherViewModel.setTargetDayType(DayType.WEEKLY)
 
             weatherViewModel.weeklyUIState.observe(requireActivity()) { state ->
                 val codes = state.weeklyWeatherCode

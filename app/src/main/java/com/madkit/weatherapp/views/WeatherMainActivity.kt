@@ -33,6 +33,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.firebase.analytics.FirebaseAnalytics
+import com.madkit.weatherapp.utils.DayType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -158,62 +159,116 @@ class WeatherMainActivity : AppCompatActivity() {
         val degree = WeatherCodeUtils.getUnit(application.resources.configuration.toString())
         var oneWeekMaxTemperature: String? = null
         var oneWeekMinTemperature: String? = null
-        weatherViewModel.isTargetOneWeek.observe(this) { oneWeek ->
-
+        weatherViewModel.targetDayType.observe(this) { type ->
             weatherViewModel.formattedDailyDate.removeObservers(this)
-            weatherViewModel.temperature.removeObservers(this)
-            if (oneWeek) {
-                binding.tvDayText.text = getString(R.string.daytime_weekly)
-                binding.tvNightText.text = getString(R.string.nighttime_weekly)
+            //weatherViewModel.temperature.removeObservers(this)
+            when (type) {
+                DayType.TOMORROW -> {
 
-                weatherViewModel.weeklyUIState.observe(this) { state ->
-                    val summary = generateWeeklySummary(applicationContext, state.weeklyWeatherCode)
-                    binding.tvMain.text = summary
-                    binding.ivMain.setImageResource(
-                        WeatherCodeUtils.getWeatherIconResId(
-                            mostFrequentCode?.toInt()!!, true
+                    binding.tvDayText.text = getString(R.string.day_txt)
+                    binding.tvNightText.text = getString(R.string.night_txt)
+                    weatherViewModel.hourlyUIState.observe(this) {state->
+                        binding.tvTemp.text = state.hourlyTemperature + degree
+                    }
+                    weatherViewModel.dailyUIState.observe(this) { state ->
+                        binding.tvMain.text = WeatherCodeUtils.getWeatherDescription(
+                            applicationContext,
+                            state.weatherCode.toInt()
                         )
-                    )
-                    binding.tvDayTemp.text = state.weeklyMaxTemperature.average().roundToInt().toString() + degree
-                    oneWeekMaxTemperature =  state.weeklyMaxTemperature.maxOrNull()?.roundToInt().toString()
-                    binding.tvNightTemp.text =  state.weeklyMinTemperature.average().roundToInt().toString() + degree
-                    oneWeekMinTemperature =  state.weeklyMinTemperature.minOrNull()?.roundToInt().toString()
-                    binding.dateTime.text = getDateRangeString(state.weeklyTimes)
-                    binding.tvTemp.text =
-                        oneWeekMaxTemperature + "-" + oneWeekMinTemperature + degree
-                }
-
-                binding.tvFeelsLike.text = ""
-            } else {
-
-                binding.tvDayText.text = getString(R.string.day_txt)
-                binding.tvNightText.text = getString(R.string.night_txt)
-
-                weatherViewModel.dailyUIState.observe(this) { state ->
-                    binding.tvMain.text = WeatherCodeUtils.getWeatherDescription(
-                        applicationContext,
-                        state.weatherCode.toInt()
-                    )
-                    binding.ivMain.setImageResource(
-                        WeatherCodeUtils.getWeatherIconResId(
-                            state.weatherCode.toInt(),
-                            true
+                        binding.ivMain.setImageResource(
+                            WeatherCodeUtils.getWeatherIconResId(
+                                state.weatherCode.toInt(),
+                                true
+                            )
                         )
-                    )
-                    binding.tvDayTemp.text = state.temperature2mMax + degree
-                    binding.tvNightTemp.text = state.temperature2mMin + degree
+                        binding.tvDayTemp.text = state.temperature2mMax + degree
+                        binding.tvNightTemp.text = state.temperature2mMin + degree
 
-                    binding.tvFeelsLike.text =
-                        "${getString(R.string.feels_like_txt)} ${state.apparentTemperature} ${degree}"
+                        binding.tvFeelsLike.text =
+                            "${getString(R.string.feels_like_txt)} ${state.apparentTemperature} ${degree}"
+                    }
+                    weatherViewModel.formattedDailyDate.observe(this) { it ->
+                        binding.dateTime.text = it
+                    }
+                   /* weatherViewModel.temperature.observe(this) { code ->
+                        binding.tvTemp.text = code + degree
+                    }*/
                 }
-                weatherViewModel.formattedDailyDate.observe(this) { it ->
-                    binding.dateTime.text = it
+
+                DayType.TODAY -> {
+
+                    binding.tvDayText.text = getString(R.string.day_txt)
+                    binding.tvNightText.text = getString(R.string.night_txt)
+                    weatherViewModel.hourlyUIState.observe(this) {state->
+                        binding.tvTemp.text = state.hourlyTemperature + degree
+                    }
+                    weatherViewModel.dailyUIState.observe(this) { state ->
+                        binding.tvMain.text = WeatherCodeUtils.getWeatherDescription(
+                            applicationContext,
+                            state.weatherCode.toInt()
+                        )
+                        binding.ivMain.setImageResource(
+                            WeatherCodeUtils.getWeatherIconResId(
+                                state.weatherCode.toInt(),
+                                true
+                            )
+                        )
+                        binding.tvDayTemp.text = state.temperature2mMax + degree
+                        binding.tvNightTemp.text = state.temperature2mMin + degree
+
+                        binding.tvFeelsLike.text =
+                            "${getString(R.string.feels_like_txt)} ${state.apparentTemperature} ${degree}"
+                    }
+                    weatherViewModel.formattedDailyDate.observe(this) { it ->
+                        binding.dateTime.text = it
+                    }
+                    /*weatherViewModel.temperature.observe(this) { code ->
+                        binding.tvTemp.text = code + degree
+                    }*/
                 }
-                weatherViewModel.temperature.observe(this) { code ->
-                    binding.tvTemp.text = code + degree
+
+                DayType.WEEKLY -> {
+                    binding.tvDayText.text = getString(R.string.daytime_weekly)
+                    binding.tvNightText.text = getString(R.string.nighttime_weekly)
+
+                    weatherViewModel.weeklyUIState.observe(this) { state ->
+                        val summary =
+                            generateWeeklySummary(applicationContext, state.weeklyWeatherCode)
+                        binding.tvMain.text = summary
+                        binding.ivMain.setImageResource(
+                            WeatherCodeUtils.getWeatherIconResId(
+                                mostFrequentCode?.toInt()!!, true
+                            )
+                        )
+                        binding.tvDayTemp.text =
+                            state.weeklyMaxTemperature.average().roundToInt().toString() + degree
+                        oneWeekMaxTemperature =
+                            state.weeklyMaxTemperature.maxOrNull()?.roundToInt().toString()
+                        binding.tvNightTemp.text =
+                            state.weeklyMinTemperature.average().roundToInt().toString() + degree
+                        oneWeekMinTemperature =
+                            state.weeklyMinTemperature.minOrNull()?.roundToInt().toString()
+                        binding.dateTime.text = getDateRangeString(state.weeklyTimes)
+                        binding.tvTemp.text =
+                            oneWeekMaxTemperature + "-" + oneWeekMinTemperature + degree
+                    }
+
+                    binding.tvFeelsLike.text = ""
                 }
             }
+
         }
+
+        /* weatherViewModel.isTargetOneWeek.observe(this) { oneWeek ->
+
+             weatherViewModel.formattedDailyDate.removeObservers(this)
+             weatherViewModel.temperature.removeObservers(this)
+             if (oneWeek) {
+
+             } else {
+
+             }
+         }*/
     }
 
     fun getDateRangeString(dates: List<String>): String {
