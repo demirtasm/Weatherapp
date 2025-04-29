@@ -94,6 +94,7 @@ dependencies {
     //hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
 
     //Lifecycle
     implementation(libs.lifecycle.viewmodel.ktx)

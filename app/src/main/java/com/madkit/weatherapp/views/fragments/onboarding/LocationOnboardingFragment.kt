@@ -18,6 +18,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationRequest
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.madkit.weatherapp.R
@@ -27,6 +30,7 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.madkit.weatherapp.LocationManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,6 +39,8 @@ class LocationOnboardingFragment : Fragment() {
     private lateinit var mFusedLocationClient: FusedLocationProviderClient
     private val locationViewModel: LocationViewModel by viewModels({ requireActivity() })
     private val weatherViewModel: WeatherViewModel by viewModels({ requireActivity() })
+    private lateinit var locationManager: LocationManager
+    private lateinit var resolutionLauncher: ActivityResultLauncher<IntentSenderRequest>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,7 +49,19 @@ class LocationOnboardingFragment : Fragment() {
         binding = FragmentLocationOnboardingBinding.inflate(inflater, container, false)
         return binding?.root
     }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
+        resolutionLauncher = registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
+            if (result.resultCode == android.app.Activity.RESULT_OK) {
+                locationManager.requestLocation()
+            }
+        }
+
+        locationManager = LocationManager(requireContext()) { intentSenderRequest ->
+            resolutionLauncher.launch(intentSenderRequest)
+        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
@@ -58,7 +76,8 @@ class LocationOnboardingFragment : Fragment() {
                     override fun onPermissionsChecked(report: MultiplePermissionsReport) {
                         if (report.areAllPermissionsGranted()) {
                             binding?.progressRing?.visibility = View.VISIBLE
-                            requestLocationData()
+                            startLocationFlow()
+
                         } else {
                             Toast.makeText(
                                 requireContext(),
@@ -79,42 +98,23 @@ class LocationOnboardingFragment : Fragment() {
     }
 
 
-    @SuppressLint("MissingPermission")
-    private fun requestLocationData() {
-        val locationRequest = LocationRequest.create().apply {
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-            interval = 0
-        }
+   private fun startLocationFlow() {
+       locationManager.locationLiveData.observe(viewLifecycleOwner) { location ->
+           location?.let {
+               locationViewModel.setLocation(it.latitude, it.longitude)
+               weatherViewModel.loadWeatherData(it.latitude, it.longitude)
 
-        mFusedLocationClient.requestLocationUpdates(
-            locationRequest,
-            mLocationCallback,
-            Looper.getMainLooper()
-        )
-    }
+               PrefsHelper.setNotFirstTime(requireContext())
+               PrefsHelper.setLocationGranted(requireContext())
 
-    private val mLocationCallback = object : LocationCallback() {
+               binding?.progressRing?.visibility = View.INVISIBLE
 
-        override fun onLocationResult(locationResult: LocationResult) {
-            val mLastLocation: Location = locationResult.lastLocation!!
-            val latitude = mLastLocation.latitude
-            val longitude = mLastLocation.longitude
-
-            locationViewModel.setLocation(latitude, longitude)
-            weatherViewModel.loadWeatherData(latitude, longitude)
-
-            PrefsHelper.setNotFirstTime(requireContext())
-            PrefsHelper.setLocationGranted(requireContext())
-
-            binding?.progressRing?.visibility = View.INVISIBLE
-
-            val viewPager = activity?.findViewById<ViewPager2>(R.id.onboardingViewPager)
-            viewPager?.currentItem = 3
-
-            mFusedLocationClient.removeLocationUpdates(this)
-
-        }
-    }
+               val viewPager = activity?.findViewById<ViewPager2>(R.id.onboardingViewPager)
+               viewPager?.currentItem = 3
+           }
+       }
+       locationManager.requestLocation()
+   }
 
     override fun onDestroyView() {
         super.onDestroyView()

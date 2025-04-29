@@ -82,11 +82,17 @@ abstract class BaseWeatherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         barChart = binding.barChart
         lineChart = binding.lineChart
-       /* locationViewModel.location.observe(viewLifecycleOwner) { (lat, lon) ->
-            weatherViewModel.loadWeatherData(lat, lon)
-        }*/
+        observeWeatherData()
+
+        currentHourStr = if (getTargetDate() == 0) {
+            getLocaleDate().hour.toString().padStart(2, '0') + ":00"
+        } else {
+            "00:00"
+        }
+    }
+
+    private  fun observeWeatherData() {
         weatherViewModel.airPollutionData.observe(viewLifecycleOwner) { data ->
-            Log.e("TAGZZZ",""+data)
             data?.let {
                 setupAqiChartWithResponse(it)
             }
@@ -104,12 +110,6 @@ abstract class BaseWeatherFragment : Fragment() {
             ) {
                 setupHourlyList(state)
             }
-        }
-
-        currentHourStr = if (getTargetDate() == 0) {
-            getLocaleDate().hour.toString().padStart(2, '0') + ":00"
-        } else {
-            "00:00"
         }
     }
 
@@ -481,30 +481,6 @@ abstract class BaseWeatherFragment : Fragment() {
         val parsed = LocalDateTime.parse(timex)
         val timeFormatted = parsed.format(DateTimeFormatter.ofPattern("HH:mm"))
         return timeFormatted
-    }
-    override fun onResume() {
-        super.onResume()
-
-        weatherViewModel.airPollutionData.observe(viewLifecycleOwner) { data ->
-            Log.e("TAGZZZ", "airPollutionData geldi: $data")
-            data?.let {
-                setupAqiChartWithResponse(it)
-            }
-        }
-
-        weatherViewModel.meteoData.observe(viewLifecycleOwner) { data ->
-            Log.e("TAGZZZ", "meteoData geldi: $data")
-            data?.let {
-                setupMateoUI(it)
-            }
-        }
-
-        weatherViewModel.hourlyUIState.observe(viewLifecycleOwner) { state ->
-            Log.e("TAGZZZ", "hourlyUIState geldi: $state")
-            if (state.hourlyAllTemperature.isNotEmpty() && state.hourlyWindSpeed.isNotEmpty() && hourlyList.isEmpty()) {
-                setupHourlyList(state)
-            }
-        }
     }
 
 }
