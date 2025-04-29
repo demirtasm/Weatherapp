@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,7 +26,6 @@ import com.madkit.weatherapp.viewmodel.WeatherViewModel
 import com.madkit.weatherapp.LocationManager
 import com.madkit.weatherapp.utils.Constants.LOCATION_PERMISSION_REQUEST_CODE
 import com.madkit.weatherapp.viewmodel.LocationViewModel
-import com.madkit.weatherapp.views.activities.WeatherMainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -65,10 +65,12 @@ class SplashFragment : Fragment() {
         binding?.root?.setBackgroundResource(R.drawable.toolbar_gradient_color)
         val versionName = BuildConfig.VERSION_NAME
         binding?.versionText?.text = "v$versionName"
-        requireActivity().window.setFlags(
-            WindowManager.LayoutParams.FLAG_FULLSCREEN,
-            WindowManager.LayoutParams.FLAG_FULLSCREEN
-        )
+        requireActivity().window.decorView.systemUiVisibility =
+            (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+
+        requireActivity().window.statusBarColor = Color.TRANSPARENT
+
         if (PrefsHelper.isFirstTime(requireContext())) {
             findNavController().navigate(R.id.action_splashFragment_to_viewPagerFragment)
         } else if (!hasLocationPermission()) {
@@ -86,8 +88,6 @@ class SplashFragment : Fragment() {
             location?.let {
                 locationViewModel.setLocation(it.latitude, it.longitude)
                 weatherViewModel.loadWeatherData(it.latitude, it.longitude)
-                PrefsHelper.saveLatitude(requireContext(), it.latitude)
-                PrefsHelper.saveLongitude(requireContext(), it.longitude)
 
             }
         }
@@ -114,10 +114,15 @@ class SplashFragment : Fragment() {
     private fun tryNavigate() {
         if (meteoLoaded && currentWeatherLoaded && !isNavigated) {
             isNavigated = true
-            startActivity(Intent(requireContext(), WeatherMainActivity::class.java))
-            requireActivity().finish()
+            findNavController().navigate(R.id.action_splashFragment_to_weatherMainFragment)
         }
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        requireActivity().window.statusBarColor = ContextCompat.getColor(requireContext(), R.color.status_bar_color)
+
+    }
+
 }
 
 

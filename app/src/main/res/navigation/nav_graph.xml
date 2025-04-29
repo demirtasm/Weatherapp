@@ -2,9 +2,36 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/todayFragment">
+    android:id="@+id/onboarding_nav_graph"
+    app:startDestination="@id/splashFragment">
 
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.madkit.weatherapp.views.fragments.SplashFragment">
+        <action
+            android:id="@+id/action_splashFragment_to_viewPagerFragment"
+            app:destination="@id/viewPagerFragment" />
+        <action
+            android:id="@+id/action_splashFragment_to_weatherMainFragment"
+            app:destination="@id/weatherMainFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/viewPagerFragment"
+        android:name="com.madkit.weatherapp.views.fragments.onboarding.ViewPagerFragment">
+        <action
+            android:id="@+id/action_viewPagerFragment_to_splashFragment"
+            app:destination="@id/splashFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherMainFragment"
+        android:name="com.madkit.weatherapp.views.fragments.WeatherMainFragment"
+        android:label="fragment_weather_main"
+        tools:layout="@layout/fragment_weather_main" >
+        <action
+            android:id="@+id/action_weatherMainFragment_to_todayFragment"
+            app:destination="@id/todayFragment" />
+    </fragment>
     <fragment
         android:id="@+id/todayFragment"
         android:name="com.madkit.weatherapp.views.fragments.TodayFragment"
@@ -19,7 +46,7 @@
         android:id="@+id/tomorrowFragment"
         android:name="com.madkit.weatherapp.views.fragments.TomorrowFragment"
         android:label="fragment_tomorrow"
-        tools:layout="@layout/fragment_tomorrow" >
+        tools:layout="@layout/fragment_base_weather" >
         <action
             android:id="@+id/action_tomorrowFragment_to_oneWeekFragment"
             app:destination="@id/oneWeekFragment" />

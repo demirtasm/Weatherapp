@@ -2,6 +2,7 @@ package com.madkit.weatherapp.views.fragments.onboarding
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
@@ -64,6 +65,15 @@ class LocationOnboardingFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        requireActivity().window.apply {
+            decorView.systemUiVisibility = (
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            or View.SYSTEM_UI_FLAG_FULLSCREEN
+                    )
+            statusBarColor = Color.TRANSPARENT
+        }
+
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         binding?.btnNext?.setOnClickListener {

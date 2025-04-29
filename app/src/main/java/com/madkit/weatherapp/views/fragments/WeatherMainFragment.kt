@@ -1,21 +1,24 @@
-package com.madkit.weatherapp.views.activities
+package com.madkit.weatherapp.views.fragments
 
 import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsControllerCompat
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.madkit.weatherapp.R
-import com.madkit.weatherapp.databinding.ActivityWeatherMainBinding
 import com.madkit.weatherapp.data.model.OpenMeteoResponse
 import com.madkit.weatherapp.data.model.WeatherResponse
+import com.madkit.weatherapp.databinding.FragmentWeatherMainBinding
 import com.madkit.weatherapp.utils.DayType
-import com.madkit.weatherapp.utils.PrefsHelper
 import com.madkit.weatherapp.utils.WeatherCodeUtils
 import com.madkit.weatherapp.viewmodel.LocationViewModel
 import com.madkit.weatherapp.viewmodel.WeatherViewModel
@@ -25,60 +28,50 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.roundToInt
+import kotlin.text.compareTo
 
 @AndroidEntryPoint
-class WeatherMainActivity : AppCompatActivity() {
-
+class WeatherMainFragment : Fragment() {
+    private lateinit var binding: FragmentWeatherMainBinding
+    private val weatherViewModel: WeatherViewModel by activityViewModels()
+    private val locationViewModel: LocationViewModel by activityViewModels()
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var mostFrequentCode: String? = null
-    private var navController: NavController? = null
 
-    private lateinit var binding: ActivityWeatherMainBinding
-    private val locationViewModel: LocationViewModel by viewModels()
-    private val weatherViewModel: WeatherViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityWeatherMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this)
-
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainerView)
-        navController = navHostFragment?.findNavController()
-
-
-        observeWeatherData()
-        val lat = PrefsHelper.getLatitude(this)
-        val lon = PrefsHelper.getLongitude(this)
-
-        if (lat != null && lon != null) {
-            weatherViewModel.loadWeatherData(lat, lon)
-        }
-
-        setupUI()
-        binding.btnToday.performClick()
-
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentWeatherMainBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        firebaseAnalytics = FirebaseAnalytics.getInstance(requireContext())
+        observeWeatherData()
+        setupUI()
+        binding.btnToday.performClick()
+    }
     private fun setupUI() {
+        val nestedNavController = childFragmentManager.findFragmentById(R.id.fragmentContainerView)?.findNavController()
+
         binding.btnToday.setOnClickListener {
             weatherViewModel.setTargetDayType(DayType.TODAY)
             updateTabSelection(R.id.btnToday)
-            navController?.navigate(R.id.todayFragment)
+            nestedNavController?.navigate(R.id.todayFragment)
         }
-
 
         binding.btnTomorrow.setOnClickListener {
             weatherViewModel.setTargetDayType(DayType.TOMORROW)
             updateTabSelection(R.id.btnTomorrow)
-            navController?.navigate(R.id.tomorrowFragment)
-
+            nestedNavController?.navigate(R.id.tomorrowFragment)
         }
+
         binding.btn1Week.setOnClickListener {
             weatherViewModel.setTargetDayType(DayType.WEEKLY)
             updateTabSelection(R.id.btn1Week)
-            navController?.navigate(R.id.oneWeekFragment)
+            nestedNavController?.navigate(R.id.oneWeekFragment)
         }
         binding.appBar.addOnOffsetChangedListener { appBarLayout, verticalOffset ->
             val totalScrollRange = appBarLayout.totalScrollRange
@@ -90,43 +83,64 @@ class WeatherMainActivity : AppCompatActivity() {
             }
         }
     }
+    private fun updateTabSelection(selectedButtonId: Int) {
+        val selectedColor = ContextCompat.getColor(requireContext(), R.color.active_button_color)
+        val defaultColor = ContextCompat.getColor(requireContext(), R.color.default_button_color)
+
+        binding.btnToday.backgroundTintList = ColorStateList.valueOf(defaultColor)
+        binding.btnTomorrow.backgroundTintList = ColorStateList.valueOf(defaultColor)
+        binding.btn1Week.backgroundTintList = ColorStateList.valueOf(defaultColor)
+
+        when (selectedButtonId) {
+            R.id.btnToday -> {
+                binding.btnToday.backgroundTintList = ColorStateList.valueOf(selectedColor)
+            }
+
+            R.id.btnTomorrow -> {
+                binding.btnTomorrow.backgroundTintList = ColorStateList.valueOf(selectedColor)
+            }
+
+            R.id.btn1Week -> {
+                binding.btn1Week.backgroundTintList = ColorStateList.valueOf(selectedColor)
+
+            }
+        }
+    }
 
     private fun observeWeatherData() {
-        weatherViewModel.meteoData.observe(this) { meteo ->
+        weatherViewModel.meteoData.observe(viewLifecycleOwner) { meteo ->
             meteo?.let {
                 setUpMeteoUI(it)
             }
         }
 
-        weatherViewModel.currentWeather.observe(this) { currentWeather ->
+        weatherViewModel.currentWeather.observe(viewLifecycleOwner) { currentWeather ->
             currentWeather?.let {
                 setUpCurrentWeatherUI(it)
             }
         }
     }
-
     private fun setUpCurrentWeatherUI(weatherList: WeatherResponse) {
 
         binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
     }
-
     private fun setUpMeteoUI(meteo: OpenMeteoResponse?) {
-        val degree = WeatherCodeUtils.getUnit(application.resources.configuration.toString())
+        val degree = WeatherCodeUtils.getUnit(requireContext().resources.configuration.toString())
         var oneWeekMaxTemperature: String? = null
         var oneWeekMinTemperature: String? = null
-        weatherViewModel.targetDayType.observe(this) { type ->
+        weatherViewModel.targetDayType.observe(viewLifecycleOwner) { type ->
             weatherViewModel.formattedDailyDate.removeObservers(this)
             when (type) {
                 DayType.TOMORROW -> {
 
                     binding.tvDayText.text = getString(R.string.day_txt)
                     binding.tvNightText.text = getString(R.string.night_txt)
-                    weatherViewModel.hourlyUIState.observe(this) { state ->
+                    weatherViewModel.hourlyUIState.observe(viewLifecycleOwner) { state ->
                         binding.tvTemp.text = state.hourlyTemperature + degree
                     }
-                    weatherViewModel.dailyUIState.observe(this) { state ->
+                    weatherViewModel.dailyUIState.observe(viewLifecycleOwner) { state ->
                         binding.tvMain.text = WeatherCodeUtils.getWeatherDescription(
-                            applicationContext, state.weatherCode.toInt()
+                            requireContext(), state.weatherCode.toInt()
                         )
                         binding.ivMain.setImageResource(
                             WeatherCodeUtils.getWeatherIconResId(
@@ -139,7 +153,7 @@ class WeatherMainActivity : AppCompatActivity() {
                         binding.tvFeelsLike.text =
                             "${getString(R.string.feels_like_txt)} ${state.apparentTemperature} ${degree}"
                     }
-                    weatherViewModel.formattedDailyDate.observe(this) { it ->
+                    weatherViewModel.formattedDailyDate.observe(viewLifecycleOwner) { it ->
                         binding.dateTime.text = it
                     }
                 }
@@ -148,12 +162,12 @@ class WeatherMainActivity : AppCompatActivity() {
 
                     binding.tvDayText.text = getString(R.string.day_txt)
                     binding.tvNightText.text = getString(R.string.night_txt)
-                    weatherViewModel.hourlyUIState.observe(this) { state ->
+                    weatherViewModel.hourlyUIState.observe(viewLifecycleOwner) { state ->
                         binding.tvTemp.text = state.hourlyTemperature + degree
                     }
-                    weatherViewModel.dailyUIState.observe(this) { state ->
+                    weatherViewModel.dailyUIState.observe(viewLifecycleOwner) { state ->
                         binding.tvMain.text = WeatherCodeUtils.getWeatherDescription(
-                            applicationContext, state.weatherCode.toInt()
+                            requireContext(), state.weatherCode.toInt()
                         )
                         val currentHour = LocalTime.now().hour
 
@@ -162,8 +176,8 @@ class WeatherMainActivity : AppCompatActivity() {
 
                         val matchedIndex =
                             weatherViewModel.hourlyUIState.value?.hourlyAllTemperature?.indices?.minByOrNull { index ->
-                                    Math.abs(index - currentHour)
-                                } ?: 0
+                                Math.abs(index - currentHour)
+                            } ?: 0
 
                         val isDayNow = hourlyIsDayList.getOrNull(matchedIndex) == 1
 
@@ -180,7 +194,7 @@ class WeatherMainActivity : AppCompatActivity() {
                         binding.tvFeelsLike.text =
                             "${getString(R.string.feels_like_txt)} ${state.apparentTemperature} ${degree}"
                     }
-                    weatherViewModel.formattedDailyDate.observe(this) { it ->
+                    weatherViewModel.formattedDailyDate.observe(viewLifecycleOwner) { it ->
                         binding.dateTime.text = it
                     }
                 }
@@ -189,9 +203,9 @@ class WeatherMainActivity : AppCompatActivity() {
                     binding.tvDayText.text = getString(R.string.daytime_weekly)
                     binding.tvNightText.text = getString(R.string.nighttime_weekly)
 
-                    weatherViewModel.weeklyUIState.observe(this) { state ->
+                    weatherViewModel.weeklyUIState.observe(viewLifecycleOwner) { state ->
                         val summary =
-                            generateWeeklySummary(applicationContext, state.weeklyWeatherCode)
+                            generateWeeklySummary(requireContext(), state.weeklyWeatherCode)
                         binding.tvMain.text = summary
                         binding.ivMain.setImageResource(
                             WeatherCodeUtils.getWeatherIconResId(
@@ -218,7 +232,6 @@ class WeatherMainActivity : AppCompatActivity() {
         }
 
     }
-
     fun getDateRangeString(dates: List<String>): String {
         if (dates.isEmpty()) return ""
 
@@ -235,7 +248,6 @@ class WeatherMainActivity : AppCompatActivity() {
 
         return "$startDay-$endDay ${month.replaceFirstChar { it.uppercase() }}"
     }
-
     fun generateWeeklySummary(context: Context, codes: List<String>): String {
         val codeCounts = codes.groupingBy { it }.eachCount()
         val sortedByFrequency = codeCounts.toList().sortedByDescending { it.second }
@@ -260,29 +272,5 @@ class WeatherMainActivity : AppCompatActivity() {
         }
     }
 
-
-    private fun updateTabSelection(selectedButtonId: Int) {
-        val selectedColor = ContextCompat.getColor(this, R.color.active_button_color)
-        val defaultColor = ContextCompat.getColor(this, R.color.default_button_color)
-
-        binding.btnToday.backgroundTintList = ColorStateList.valueOf(defaultColor)
-        binding.btnTomorrow.backgroundTintList = ColorStateList.valueOf(defaultColor)
-        binding.btn1Week.backgroundTintList = ColorStateList.valueOf(defaultColor)
-
-        when (selectedButtonId) {
-            R.id.btnToday -> {
-                binding.btnToday.backgroundTintList = ColorStateList.valueOf(selectedColor)
-            }
-
-            R.id.btnTomorrow -> {
-                binding.btnTomorrow.backgroundTintList = ColorStateList.valueOf(selectedColor)
-            }
-
-            R.id.btn1Week -> {
-                binding.btn1Week.backgroundTintList = ColorStateList.valueOf(selectedColor)
-
-            }
-        }
-    }
 
 }

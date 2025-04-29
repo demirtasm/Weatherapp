@@ -26,4 +26,5 @@
 
     <color name="btn_ripple_color">#A07EF6</color>
 
+    <color name="status_bar_color">#714CD3</color>
 </resources>
