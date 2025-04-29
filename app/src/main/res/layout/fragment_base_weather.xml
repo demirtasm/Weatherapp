@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.TodayFragment">
+    tools:context=".views.fragments.TodayFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,14 +51,14 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/rain_change_txt"
                             android:textColor="@color/primary_text_color"
                             android:textSize="@dimen/medium_text_size" />
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/tvRainChange"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/primary_text_color"
@@ -108,7 +108,7 @@
                             android:textSize="@dimen/medium_text_size"
                             />
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/wind_speed"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -150,7 +150,7 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/primary_text_color"
@@ -158,7 +158,7 @@
                             android:textSize="@dimen/medium_text_size"
                             />
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/humidty"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -199,14 +199,14 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/primary_text_color"
                             android:text="@string/uv_index_txt"
                             android:textSize="@dimen/medium_text_size"/>
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/uv_index"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -250,7 +250,7 @@
                         android:clipChildren="true"
                         android:src="@drawable/ic_hourly" />
 
-                    <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                    <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -312,7 +312,7 @@
                         android:clipChildren="true"
                         android:src="@drawable/ic_air" />
 
-                    <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                    <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"
@@ -334,7 +334,7 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                             android:id="@+id/qualityText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -342,7 +342,7 @@
                             android:textSize="@dimen/xlarge_text_size"
                             tools:text="Good" />
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/qualityDescription"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -366,7 +366,7 @@
                             android:gravity="center"
                             android:orientation="vertical">
 
-                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                                 android:id="@+id/aqiLabel"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -374,7 +374,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
 
-                            <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                                 android:id="@+id/aqiValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -417,7 +417,7 @@
                             android:orientation="vertical"
                             android:padding="@dimen/padding_xsmall">
 
-                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/carbonMonoxide"
@@ -425,7 +425,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
 
-                            <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                                 android:id="@+id/textCoValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -433,7 +433,7 @@
                                 android:textSize="@dimen/large_text_size"
                                 tools:text="28" />
 
-                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="µg/m³"
@@ -448,7 +448,7 @@
                             android:orientation="vertical"
                             android:padding="@dimen/padding_xsmall">
 
-                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/pm10_txt"
@@ -456,7 +456,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
 
-                            <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                                 android:id="@+id/textPM10Value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -464,7 +464,7 @@
                                 android:textSize="@dimen/large_text_size"
                                 tools:text="51" />
 
-                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="µg/m³"
@@ -479,7 +479,7 @@
                             android:orientation="vertical"
                             android:padding="@dimen/padding_xsmall">
 
-                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/ozone_txt"
@@ -487,7 +487,7 @@
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/small_text_size" />
 
-                            <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                                 android:id="@+id/texto3Value"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -495,7 +495,7 @@
                                 android:textSize="@dimen/large_text_size"
                                 tools:text="51" />
 
-                            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="µg/m³"
@@ -540,7 +540,7 @@
                     android:clipChildren="true"
                     android:src="@drawable/ic_sunrise_and_sunset" />
 
-                <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
@@ -548,7 +548,7 @@
                     android:text="@string/sunrise_and_sunset_txt"
                     android:textSize="@dimen/medium_text_size" />
             </LinearLayout>
-            <com.madkit.weatherapp.views.SunriseSunsetView
+            <com.madkit.weatherapp.views.customViews.SunriseSunsetView
                 android:id="@+id/sunriseSunsetView"
                 android:layout_width="match_parent"
                 android:layoutDirection="ltr"
@@ -596,14 +596,14 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="@color/primary_text_color"
                             android:text="@string/sunrise_txt"
                             android:textSize="@dimen/medium_text_size" />
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/tv_sunrise_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -645,14 +645,14 @@
                         android:orientation="vertical"
                         android:padding="@dimen/padding_small">
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/sunset_txt"
                             android:textColor="@color/primary_text_color"
                             android:textSize="@dimen/medium_text_size" />
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/tv_sunset_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -694,7 +694,7 @@
                         android:clipChildren="true"
                         android:src="@drawable/ic_wind" />
 
-                    <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                    <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center_vertical"

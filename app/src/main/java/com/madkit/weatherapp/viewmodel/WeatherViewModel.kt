@@ -4,20 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.madkit.weatherapp.models.AirPollutionResponse
-import com.madkit.weatherapp.models.DailyData
-import com.madkit.weatherapp.models.HourlyData
-import com.madkit.weatherapp.models.uistate.DailyWeatherUIState
-import com.madkit.weatherapp.models.OpenMeteoResponse
-import com.madkit.weatherapp.models.WeatherResponse
-import com.madkit.weatherapp.models.uistate.HourlyWeatherUIState
-import com.madkit.weatherapp.models.uistate.WeeklyWeatherUIState
-import com.madkit.weatherapp.repository.WeatherRepository
+import com.madkit.weatherapp.data.model.AirPollutionResponse
+import com.madkit.weatherapp.domain.model.uistate.DailyWeatherUIState
+import com.madkit.weatherapp.data.model.OpenMeteoResponse
+import com.madkit.weatherapp.data.model.WeatherResponse
+import com.madkit.weatherapp.domain.model.uistate.HourlyWeatherUIState
+import com.madkit.weatherapp.domain.model.uistate.WeeklyWeatherUIState
+import com.madkit.weatherapp.domain.repository.WeatherRepository
 import com.madkit.weatherapp.utils.DayType
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() {
+@HiltViewModel
+class WeatherViewModel  @Inject constructor(private val repository: WeatherRepository) : ViewModel() {
 
     val meteoData = MutableLiveData<OpenMeteoResponse>()
     val airPollutionData = MutableLiveData<AirPollutionResponse>()
@@ -39,7 +40,7 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
     private val _targetDayType = MutableLiveData<DayType>()
     val targetDayType: LiveData<DayType> = _targetDayType
 
-    fun updateHourlyUI(hourly: HourlyData, indexFourHourly: Int) {
+    fun updateHourlyUI(hourly: OpenMeteoResponse.HourlyData, indexFourHourly: Int) {
         val hourlyTemperature =
             hourly.temperature_2m?.getOrNull(indexFourHourly)?.roundToInt().toString()
         val hourlyAllTemperature = hourly.temperature_2m
@@ -61,7 +62,7 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
             )
     }
 
-    fun updateDailyUI(daily: DailyData, index: Int) {
+    fun updateDailyUI(daily: OpenMeteoResponse.DailyData, index: Int) {
         val weatherCode = daily.weather_code?.getOrNull(index)?.toString() ?: "0"
 
         val temperature2mMax = daily.temperature_2m_max?.getOrNull(index)?.roundToInt().toString()
@@ -89,7 +90,7 @@ class WeatherViewModel(private val repository: WeatherRepository) : ViewModel() 
 
     }
 
-    fun updateWeeklyUI(daily: DailyData) {
+    fun updateWeeklyUI(daily: OpenMeteoResponse.DailyData) {
         val weeklyWeatherCode = daily.weather_code
         val weeklyMaxTemperature = daily.temperature_2m_max
         val weeklyMinTemperature = daily.temperature_2m_min

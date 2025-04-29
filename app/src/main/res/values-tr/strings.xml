@@ -28,7 +28,7 @@
     <string name="weather_clear">Açık hava</string>
     <string name="weather_mainly_clear">Kısmi açık</string>
     <string name="weather_partly_cloudy">Parçalı bulutlu</string>
-    <string name="weather_cloudy">Kapalı</string>
+    <string name="weather_cloudy">Bulutlu</string>
     <string name="weather_fog">Sisli</string>
     <string name="weather_light_rain">Hafif yağmurlu</string>
     <string name="weather_moderate_rain">Orta şiddetli yağmur</string>

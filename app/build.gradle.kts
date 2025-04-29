@@ -3,9 +3,12 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("kotlin-kapt")
+
 }
 val localProperties = Properties().apply {
     load(rootProject.file("local.properties").inputStream())
@@ -87,6 +90,14 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-crashlytics")
+
+    //hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    //Lifecycle
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.runtime.ktx)
 
 
 }

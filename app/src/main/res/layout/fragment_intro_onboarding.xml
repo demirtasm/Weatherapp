@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.onboarding.IntroOnboardingFragment">
+    tools:context=".views.fragments.onboarding.IntroOnboardingFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_welcom_weatherly" />
 
-        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
             android:id="@+id/titleText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/large_text_size"/>
 
-        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
             android:id="@+id/descriptionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

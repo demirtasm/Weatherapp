@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.madkit.weatherapp.R
-import com.madkit.weatherapp.models.HourlyWeather
+import com.madkit.weatherapp.domain.model.HourlyWeather
 import com.madkit.weatherapp.utils.WeatherCodeUtils
 import kotlin.math.roundToInt
 

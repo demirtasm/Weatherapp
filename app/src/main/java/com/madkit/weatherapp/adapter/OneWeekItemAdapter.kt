@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.madkit.weatherapp.R
-import com.madkit.weatherapp.models.OneWeek
+import com.madkit.weatherapp.domain.model.OneWeek
 import com.madkit.weatherapp.utils.WeatherCodeUtils
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

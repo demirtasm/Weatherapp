@@ -22,7 +22,7 @@
         android:theme="@style/Theme.WeatherApp"
         tools:targetApi="31">
         <activity
-            android:name=".views.WeatherMainActivity"
+            android:name=".views.activities.WeatherMainActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <meta-data
@@ -30,7 +30,7 @@
             android:value="ca-app-pub-3438221392612643~3337415676" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".views.activities.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

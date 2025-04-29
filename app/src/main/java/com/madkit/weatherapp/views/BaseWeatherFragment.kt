@@ -5,21 +5,21 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.madkit.weatherapp.R
-import com.madkit.weatherapp.WeatherApplication
 import com.madkit.weatherapp.adapter.HourlyWeatherAdapter
 import com.madkit.weatherapp.databinding.FragmentBaseWeatherBinding
-import com.madkit.weatherapp.models.AirPollution
-import com.madkit.weatherapp.models.AirPollutionResponse
-import com.madkit.weatherapp.models.HourlyWeather
-import com.madkit.weatherapp.models.OpenMeteoResponse
+import com.madkit.weatherapp.domain.model.AirPollution
+import com.madkit.weatherapp.data.model.AirPollutionResponse
+import com.madkit.weatherapp.domain.model.HourlyWeather
+import com.madkit.weatherapp.data.model.OpenMeteoResponse
 import com.madkit.weatherapp.utils.WeatherCodeUtils
 import com.madkit.weatherapp.viewmodel.LocationViewModel
 import com.madkit.weatherapp.viewmodel.WeatherViewModel
@@ -36,8 +36,10 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.ValueFormatter
 import com.github.mikephil.charting.highlight.Highlight
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener
-import com.madkit.weatherapp.models.uistate.HourlyWeatherUIState
+import com.madkit.weatherapp.domain.model.uistate.HourlyWeatherUIState
 import com.madkit.weatherapp.utils.DayType
+import com.madkit.weatherapp.views.customViews.LineChartMarkerView
+import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -45,10 +47,12 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 import kotlin.math.roundToInt
 
+@AndroidEntryPoint
 abstract class BaseWeatherFragment : Fragment() {
     private lateinit var binding:FragmentBaseWeatherBinding
-    private lateinit var locationViewModel: LocationViewModel
-    private lateinit var weatherViewModel: WeatherViewModel
+    protected val weatherViewModel: WeatherViewModel by viewModels({ requireActivity() })
+    protected val locationViewModel: LocationViewModel by viewModels({ requireActivity() })
+
     val hourlyList = mutableListOf<HourlyWeather>()
     val airPollutionList = mutableListOf<AirPollution>()
     private lateinit var barChart: BarChart
@@ -76,17 +80,13 @@ abstract class BaseWeatherFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val app = requireActivity().application as WeatherApplication
-        weatherViewModel = ViewModelProvider(requireActivity(), app.weatherViewModelFactory)[WeatherViewModel::class.java]
-        locationViewModel = app.locationViewModel
-
-
         barChart = binding.barChart
         lineChart = binding.lineChart
-        locationViewModel.location.observe(viewLifecycleOwner) { (lat, lon) ->
+       /* locationViewModel.location.observe(viewLifecycleOwner) { (lat, lon) ->
             weatherViewModel.loadWeatherData(lat, lon)
-        }
+        }*/
         weatherViewModel.airPollutionData.observe(viewLifecycleOwner) { data ->
+            Log.e("TAGZZZ",""+data)
             data?.let {
                 setupAqiChartWithResponse(it)
             }
@@ -482,4 +482,29 @@ abstract class BaseWeatherFragment : Fragment() {
         val timeFormatted = parsed.format(DateTimeFormatter.ofPattern("HH:mm"))
         return timeFormatted
     }
+    override fun onResume() {
+        super.onResume()
+
+        weatherViewModel.airPollutionData.observe(viewLifecycleOwner) { data ->
+            Log.e("TAGZZZ", "airPollutionData geldi: $data")
+            data?.let {
+                setupAqiChartWithResponse(it)
+            }
+        }
+
+        weatherViewModel.meteoData.observe(viewLifecycleOwner) { data ->
+            Log.e("TAGZZZ", "meteoData geldi: $data")
+            data?.let {
+                setupMateoUI(it)
+            }
+        }
+
+        weatherViewModel.hourlyUIState.observe(viewLifecycleOwner) { state ->
+            Log.e("TAGZZZ", "hourlyUIState geldi: $state")
+            if (state.hourlyAllTemperature.isNotEmpty() && state.hourlyWindSpeed.isNotEmpty() && hourlyList.isEmpty()) {
+                setupHourlyList(state)
+            }
+        }
+    }
+
 }

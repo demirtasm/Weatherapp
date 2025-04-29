@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_content_color"
-    tools:context=".views.WeatherMainActivity">
+    tools:context=".views.activities.WeatherMainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBar"
@@ -66,7 +66,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/tvDayText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/medium_text_size" />
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/tvDayTemp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/tvNightText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                             android:textColor="@android:color/white"
                             android:textSize="@dimen/medium_text_size" />
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/tvNightTemp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
                 </LinearLayout>
 
 
-                <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                     android:id="@+id/dateTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                     android:padding="@dimen/padding_medium"
                     app:layout_collapseMode="parallax">
 
-                    <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                    <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                         android:id="@+id/tvName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -146,7 +146,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="@dimen/large_text_size" />
 
-                    <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+                    <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                         android:id="@+id/tvTemp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -157,7 +157,7 @@
                         android:textSize="@dimen/xxlarge_text_size"
                         tools:text="3°" />
 
-                    <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                    <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                         android:id="@+id/tvFeelsLike"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -183,7 +183,7 @@
                             android:layout_gravity="center"
                             tools:src="@drawable/ic_clear_day" />
 
-                        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                             android:id="@+id/tvMain"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="#5B3FB4"
     android:padding="24dp"
-    tools:context=".views.SplashFragment">
+    tools:context=".views.fragments.SplashFragment">
 
     <ImageView
         android:id="@+id/weatherIcon"
@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+    <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
         android:id="@+id/welcomeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weatherIcon" />
 
-    <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+    <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
         android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
-    <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+    <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
         android:id="@+id/subText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appName" />
 
-    <com.madkit.weatherapp.views.LoadingDotsView
+    <com.madkit.weatherapp.views.customViews.LoadingDotsView
         android:layout_width="wrap_content"
         android:layout_height="60dp"
         android:layout_marginTop="24dp"
@@ -67,7 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subText" />
 
-    <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+    <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
         android:id="@+id/versionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

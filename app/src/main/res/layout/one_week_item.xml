@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
-        <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
             android:id="@+id/textDay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Today" />
 
-        <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+        <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
             android:id="@+id/textWeatherDesc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="@dimen/margin_xxlarge">
 
-            <com.madkit.weatherapp.views.customTextViewFont.InterBoldTextView
+            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterBoldTextView
                 android:id="@+id/textTempMax"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+            <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                 android:id="@+id/textTempMin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,14 +123,14 @@
                 android:orientation="horizontal"
                 android:layout_marginTop="@dimen/margin_small">
 
-                <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/feels_like_temp_txt"
                     android:textSize="@dimen/medium_text_size"
                     android:textColor="@color/desc_text_color"/>
 
-                <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                     android:id="@+id/textApparentTemp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -145,14 +145,14 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/humidity_txt"
                     android:textColor="@color/desc_text_color"
                     android:textSize="@dimen/medium_text_size" />
 
-                <com.madkit.weatherapp.views.customTextViewFont.InterTextView
+                <com.madkit.weatherapp.views.customViews.customTextViewFont.InterTextView
                     android:id="@+id/textHumidity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

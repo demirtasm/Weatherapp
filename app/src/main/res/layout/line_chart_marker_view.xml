@@ -7,7 +7,7 @@
     android:padding="@dimen/padding_xsmall"
     android:orientation="vertical">
 
-    <com.madkit.weatherapp.views.customTextViewFont.InterThinTextView
+    <com.madkit.weatherapp.views.customViews.customTextViewFont.InterThinTextView
         android:id="@+id/tvLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
