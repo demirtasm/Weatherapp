@@ -30,11 +30,25 @@ Open-Meteo – for hourly & daily weather forecasts
 📦 di                   → Hilt module for dependency injection
 
 📸 Screenshots
-(images/splash.jpeg)
-(images/home.jpeg)
-(images/hourlyforecast.jpeg)
-(images/aqi.jpeg)
-(images/sunrisesunset.jpeg)
-(images/windspeed.jpeg)
-(images/oneweek1jpeg)
-(images/oneweek2.jpeg)
+### 🟣 Splash Screen
+![Splash](images/splash.jpeg)
+
+### 🏠 Home Screen
+![Home](images/home.jpeg)
+
+### ⏱ Hourly Forecast
+![Hourly Forecast](images/hourlyforecast.jpeg)
+
+### 🌫 Air Quality Index
+![AQI](images/aqi.jpeg)
+
+### 🌅 Sunrise & Sunset
+![Sunrise Sunset](images/sunrisesunset.jpeg)
+
+### 🌬 Wind Speed
+![Wind Speed](images/windspeed.jpeg)
+
+### 📅 7-Day Forecast - Page 1
+![Week 1](images/oneweek1.jpeg)
+
+![Week 2](images/oneweek2.jpeg)
