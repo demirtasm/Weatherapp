@@ -31,24 +31,22 @@ Open-Meteo – for hourly & daily weather forecasts
 
 📸 Screenshots
 ### 🟣 Splash Screen
-![Splash](images/splash.jpeg)
+<img src="images/splash.jpeg" alt="Splash" width="300"/>
 
 ### 🏠 Home Screen
-![Home](images/home.jpeg)
+<img src="images/home.jpeg" alt="Home" width="300"/>
 
 ### ⏱ Hourly Forecast
-![Hourly Forecast](images/hourlyforecast.jpeg)
+<img src="images/hourlyforecast.jpeg" alt="Hourly Forecast" width="300"/>
 
 ### 🌫 Air Quality Index
-![AQI](images/aqi.jpeg)
+<img src="images/aqi.jpeg" alt="AQI" width="300"/>
 
 ### 🌅 Sunrise & Sunset
-![Sunrise Sunset](images/sunrisesunset.jpeg)
+<img src="images/sunrisesunset.jpeg" alt="Sunrise Sunset" width="300"/>
 
 ### 🌬 Wind Speed
-![Wind Speed](images/windspeed.jpeg)
+<img src="images/windspeed.jpeg" alt="Wind Speed" width="300"/>
 
 ### 📅 7-Day Forecast - Page 1
-![Week 1](images/oneweek1.jpeg)
-
-![Week 2](images/oneweek2.jpeg)
+<img src="images/oneweek1.jpeg" alt="Week 1" width="300"/> <br/> <img src="images/oneweek2.jpeg" alt="Week 2" width="300"/>
