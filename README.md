@@ -30,23 +30,4 @@ Open-Meteo – for hourly & daily weather forecasts
 📦 di                   → Hilt module for dependency injection
 
 📸 Screenshots
-### 🟣 Splash Screen
-<img src="images/splash.jpeg" alt="Splash" width="300"/>
-
-### 🏠 Home Screen
-<img src="images/home.jpeg" alt="Home" width="300"/>
-
-### ⏱ Hourly Forecast
-<img src="images/hourlyforecast.jpeg" alt="Hourly Forecast" width="300"/>
-
-### 🌫 Air Quality Index
-<img src="images/aqi.jpeg" alt="AQI" width="300"/>
-
-### 🌅 Sunrise & Sunset
-<img src="images/sunrisesunset.jpeg" alt="Sunrise Sunset" width="300"/>
-
-### 🌬 Wind Speed
-<img src="images/windspeed.jpeg" alt="Wind Speed" width="300"/>
-
-### 📅 7-Day Forecast - Page 1
-<img src="images/oneweek1.jpeg" alt="Week 1" width="300"/> <br/> <img src="images/oneweek2.jpeg" alt="Week 2" width="300"/>
+<table> <tr> <td align="center"><img src="images/splash.jpeg" alt="Splash" width="200"/></td> <td align="center"><img src="images/home.jpeg" alt="Home" width="200"/></td> <td align="center"><img src="images/hourlyforecast.jpeg" alt="Hourly" width="200"/></td> </tr> <tr> <td align="center">Splash</td> <td align="center">Home</td> <td align="center">Hourly Forecast</td> </tr> <tr> <td align="center"><img src="images/aqi.jpeg" alt="AQI" width="200"/></td> <td align="center"><img src="images/sunrisesunset.jpeg" alt="Sunrise Sunset" width="200"/></td> <td align="center"><img src="images/windspeed.jpeg" alt="Wind Speed" width="200"/></td> </tr> <tr> <td align="center">Air Quality</td> <td align="center">Sunrise/Sunset</td> <td align="center">Wind Speed</td> </tr> <tr> <td align="center"><img src="images/oneweek1.jpeg" alt="7-Day 1" width="200"/></td> <td align="center"><img src="images/oneweek2.jpeg" alt="7-Day 2" width="200"/></td> <td align="center"></td> </tr> <tr> <td align="center">7-Day Forecast (1)</td> <td align="center">7-Day Forecast (2)</td> <td align="center"></td> </tr> </table>
