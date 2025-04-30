@@ -1,4 +1,4 @@
-package com.madkit.weatherapp
+package com.madkit.weatherapp.domain.location
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -15,7 +15,6 @@ import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
-
 
 class LocationManager(private val context: Context,
                       private val onResolutionRequired: (IntentSenderRequest) -> Unit

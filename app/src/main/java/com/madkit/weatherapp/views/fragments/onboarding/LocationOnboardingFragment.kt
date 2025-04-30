@@ -31,7 +31,7 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
-import com.madkit.weatherapp.LocationManager
+import com.madkit.weatherapp.domain.location.LocationManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

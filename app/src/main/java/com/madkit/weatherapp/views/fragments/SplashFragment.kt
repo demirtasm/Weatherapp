@@ -23,7 +23,7 @@ import com.madkit.weatherapp.utils.PrefsHelper
 import com.madkit.weatherapp.R
 import com.madkit.weatherapp.databinding.FragmentSplashBinding
 import com.madkit.weatherapp.viewmodel.WeatherViewModel
-import com.madkit.weatherapp.LocationManager
+import com.madkit.weatherapp.domain.location.LocationManager
 import com.madkit.weatherapp.utils.Constants.LOCATION_PERMISSION_REQUEST_CODE
 import com.madkit.weatherapp.viewmodel.GeocodingViewModel
 import com.madkit.weatherapp.viewmodel.LocationViewModel

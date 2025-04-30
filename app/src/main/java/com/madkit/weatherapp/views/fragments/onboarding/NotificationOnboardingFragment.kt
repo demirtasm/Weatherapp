@@ -15,7 +15,7 @@ import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.madkit.weatherapp.utils.PrefsHelper
 import com.madkit.weatherapp.R
-import com.madkit.weatherapp.WeatherWorker
+import com.madkit.weatherapp.domain.worker.WeatherWorker
 import com.madkit.weatherapp.databinding.FragmentNotificationOnboardingBinding
 import java.util.Calendar
 import java.util.concurrent.TimeUnit

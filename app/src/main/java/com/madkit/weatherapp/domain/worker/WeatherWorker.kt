@@ -1,4 +1,4 @@
-package com.madkit.weatherapp
+package com.madkit.weatherapp.domain.worker
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.madkit.weatherapp.R
 
 class WeatherWorker(
     context: Context,
@@ -20,7 +21,11 @@ class WeatherWorker(
         val channelId = "weather_channel"
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(channelId, "Hava Durumu", NotificationManager.IMPORTANCE_DEFAULT)
+            val channel = NotificationChannel(
+                channelId,
+                applicationContext.getString(R.string.daily_weather),
+                NotificationManager.IMPORTANCE_DEFAULT
+            )
             notificationManager.createNotificationChannel(channel)
         }
 
