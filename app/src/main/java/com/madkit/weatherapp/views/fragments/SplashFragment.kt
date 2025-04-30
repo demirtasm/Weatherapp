@@ -25,6 +25,7 @@ import com.madkit.weatherapp.databinding.FragmentSplashBinding
 import com.madkit.weatherapp.viewmodel.WeatherViewModel
 import com.madkit.weatherapp.LocationManager
 import com.madkit.weatherapp.utils.Constants.LOCATION_PERMISSION_REQUEST_CODE
+import com.madkit.weatherapp.viewmodel.GeocodingViewModel
 import com.madkit.weatherapp.viewmodel.LocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +38,7 @@ class SplashFragment : Fragment() {
     private var currentWeatherLoaded = false
     private lateinit var resolutionLauncher: ActivityResultLauncher<IntentSenderRequest>
     private val locationViewModel: LocationViewModel by activityViewModels()
+    private val geocodingViewModel: GeocodingViewModel by activityViewModels()
     private val weatherViewModel: WeatherViewModel by activityViewModels()
     private lateinit var locationManager: LocationManager
 
@@ -88,7 +90,7 @@ class SplashFragment : Fragment() {
             location?.let {
                 locationViewModel.setLocation(it.latitude, it.longitude)
                 weatherViewModel.loadWeatherData(it.latitude, it.longitude)
-
+                geocodingViewModel.setLocation(it.latitude, it.longitude)
             }
         }
         locationManager.requestLocation()

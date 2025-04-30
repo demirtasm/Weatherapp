@@ -10,6 +10,7 @@ object Constants {
     const val APP_ID: String = BuildConfig.APP_ID
     const val BASE_URL_OPEN_WEATHER: String = "https://api.openweathermap.org/data/"
     const val BASE_URL_OPEN_METEO: String = "https://api.open-meteo.com/v1/"
+    const val BASE_URL_GEOCODING: String = "https://nominatim.openstreetmap.org/"
     const val METRIC_UNIT: String = "metric"
     const val LOCATION_PERMISSION_REQUEST_CODE = 1001
     const val LOCATION_SETTINGS_REQUEST_CODE = 1002

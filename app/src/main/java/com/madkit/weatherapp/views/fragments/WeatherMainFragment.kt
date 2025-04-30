@@ -20,6 +20,7 @@ import com.madkit.weatherapp.data.model.WeatherResponse
 import com.madkit.weatherapp.databinding.FragmentWeatherMainBinding
 import com.madkit.weatherapp.utils.DayType
 import com.madkit.weatherapp.utils.WeatherCodeUtils
+import com.madkit.weatherapp.viewmodel.GeocodingViewModel
 import com.madkit.weatherapp.viewmodel.LocationViewModel
 import com.madkit.weatherapp.viewmodel.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -35,6 +36,7 @@ class WeatherMainFragment : Fragment() {
     private lateinit var binding: FragmentWeatherMainBinding
     private val weatherViewModel: WeatherViewModel by activityViewModels()
     private val locationViewModel: LocationViewModel by activityViewModels()
+    private val geocodingViewModel: GeocodingViewModel by activityViewModels()
     private lateinit var firebaseAnalytics: FirebaseAnalytics
     private var mostFrequentCode: String? = null
 
@@ -121,8 +123,10 @@ class WeatherMainFragment : Fragment() {
         }
     }
     private fun setUpCurrentWeatherUI(weatherList: WeatherResponse) {
-
-        binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
+        geocodingViewModel.shortLocationName.observe(viewLifecycleOwner) { locationName ->
+            binding?.tvName?.text = locationName
+        }
+       // binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
     }
     private fun setUpMeteoUI(meteo: OpenMeteoResponse?) {
         val degree = WeatherCodeUtils.getUnit(requireContext().resources.configuration.toString())

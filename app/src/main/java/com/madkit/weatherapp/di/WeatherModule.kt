@@ -2,10 +2,13 @@ package com.madkit.weatherapp.di
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.madkit.weatherapp.data.network.GeocodingService
 import com.madkit.weatherapp.data.repository.WeatherRepositoryImpl
 import com.madkit.weatherapp.domain.repository.WeatherRepository
 import com.madkit.weatherapp.data.network.OpenMeteoService
 import com.madkit.weatherapp.data.network.WeatherService
+import com.madkit.weatherapp.data.repository.GeocodingRepositoryImpl
+import com.madkit.weatherapp.domain.repository.GeocodingRepository
 import com.madkit.weatherapp.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -46,6 +49,17 @@ object WeatherModule {
             .build()
     }
 
+
+    @Provides
+    @Singleton
+    @Named("geocodingRetrofit")
+    fun provideGeocodingRetrofit(gson: Gson): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(Constants.BASE_URL_GEOCODING)
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .build()
+    }
+
     @Provides
     @Singleton
     fun provideWeatherService(@Named("weatherRetrofit") retrofit: Retrofit): WeatherService {
@@ -57,6 +71,14 @@ object WeatherModule {
     fun provideOpenMeteoService(@Named("openMeteoRetrofit") retrofit: Retrofit): OpenMeteoService {
         return retrofit.create(OpenMeteoService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideGeocodingService(@Named("geocodingRetrofit") retrofit: Retrofit): GeocodingService {
+        return retrofit.create(GeocodingService::class.java)
+    }
+
+
     @Provides
     @Singleton
     fun provideWeatherRepository(
@@ -65,4 +87,14 @@ object WeatherModule {
     ): WeatherRepository {
         return WeatherRepositoryImpl(weatherService, openMeteoService)
     }
+
+    @Provides
+    @Singleton
+    fun provideGeocodingRepository(
+        geocodingService: GeocodingService
+    ): GeocodingRepository {
+        return GeocodingRepositoryImpl(geocodingService)
+    }
+
+
 }
