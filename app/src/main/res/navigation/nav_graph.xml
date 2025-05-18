@@ -31,6 +31,12 @@
         <action
             android:id="@+id/action_weatherMainFragment_to_todayFragment"
             app:destination="@id/todayFragment" />
+        <action
+            android:id="@+id/action_weatherMainFragment_to_splashFragment"
+            app:destination="@id/splashFragment"
+            app:popUpTo="@id/weatherMainFragment"
+            app:popUpToInclusive="true" />
+
     </fragment>
     <fragment
         android:id="@+id/todayFragment"
