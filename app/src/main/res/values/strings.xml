@@ -82,6 +82,17 @@ Start setting up your personal weather assistant in just 4 simple steps.</string
     <string name="daily_weather">Daily Weather</string>
     <string name="no_weather_txt">No weather data found</string>
     <string name="required_permission_toast">Location permission is required to proceed</string>
+    <string name="weather_light_drizzle">Light drizzle</string>
+    <string name="weather_moderate_drizzle">Moderate drizzle</string>
+    <string name="weather_dense_drizzle">Dense drizzle</string>
+    <string name="weather_light_rain_showers">Light rain showers</string>
+    <string name="weather_moderate_rain_showers">Moderate rain showers</string>
+    <string name="weather_heavy_rain_showers">Heavy rain showers</string>
+    <string name="weather_light_snow_showers">Light snow showers</string>
+    <string name="weather_heavy_snow_showers">Heavy snow showers</string>
+    <string name="weather_thunderstorm">Thunderstorm</string>
+    <string name="weather_thunderstorm_slight_hail">Thunderstorm with slight hail</string>
+    <string name="weather_thunderstorm_heavy_hail">Thunderstorm with heavy hail</string>
 
 
 </resources>

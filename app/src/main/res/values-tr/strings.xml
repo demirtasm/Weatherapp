@@ -36,9 +36,9 @@
     <string name="weather_light_freezing_rain">Hafif şiddetli karla karışık yağmur</string>
     <string name="weather_moderate_freezing_rain">Orta şiddetli  karla karışık yağmur</string>
     <string name="weather_freezing_rain">Karla karışık yağmur</string>
-    <string name="weather_light_snow">Hafif şiddetli kar yağışı</string>
-    <string name="weather_moderate_snow">Orta şiddetli kar yağışı</string>
-    <string name="weather_heavy_snow">Şiddetli kar yağışı</string>
+    <string name="weather_light_snow">Hafif kar</string>
+    <string name="weather_moderate_snow">Orta şiddetli kar</string>
+    <string name="weather_heavy_snow">Yoğun kar</string>
     <string name="weather_snow_grains">Kar tanecikleri</string>
     <string name="weather_unknown">Bilinmeyen hava durumu</string>
     <string name="carbonMonoxide">Karbon Monoksit</string>
@@ -66,4 +66,15 @@
     <string name="daily_weather">Günlük hava durumu</string>
     <string name="no_weather_txt">Hava durumu verisi bulunamadı</string>
     <string name="required_permission_toast">Devam etmek için konum izni gereklidir.</string>
+    <string name="weather_light_drizzle">Hafif çiseleme</string>
+    <string name="weather_moderate_drizzle">Orta şiddetli çiseleme</string>
+    <string name="weather_dense_drizzle">Yoğun çiseleme</string>
+    <string name="weather_light_rain_showers">Hafif sağanak</string>
+    <string name="weather_moderate_rain_showers">Orta şiddette sağanak</string>
+    <string name="weather_heavy_rain_showers">Şiddetli sağanak</string>
+    <string name="weather_light_snow_showers">Hafif kar yağışı</string>
+    <string name="weather_heavy_snow_showers">Yoğun kar yağışı</string>
+    <string name="weather_thunderstorm">Gök gürültülü yağış</string>
+    <string name="weather_thunderstorm_slight_hail">Gök gürültülü hafif dolu yağışı</string>
+    <string name="weather_thunderstorm_heavy_hail">Gök gürültülü şiddetli dolu yağışı</string>
 </resources>
