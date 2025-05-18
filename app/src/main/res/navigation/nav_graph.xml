@@ -56,10 +56,17 @@
         <action
             android:id="@+id/action_tomorrowFragment_to_oneWeekFragment"
             app:destination="@id/oneWeekFragment" />
+        <action
+            android:id="@+id/action_tomorrowFragment_to_todayFragment"
+            app:destination="@id/todayFragment" />
     </fragment>
     <fragment
         android:id="@+id/oneWeekFragment"
         android:name="com.madkit.weatherapp.views.fragments.OneWeekFragment"
         android:label="fragment_one_week"
-        tools:layout="@layout/fragment_one_week" />
+        tools:layout="@layout/fragment_one_week" >
+        <action
+            android:id="@+id/action_oneWeekFragment_to_tomorrowFragment"
+            app:destination="@id/tomorrowFragment" />
+    </fragment>
 </navigation>

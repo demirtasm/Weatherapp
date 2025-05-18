@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -54,9 +55,12 @@ class WeatherMainFragment : Fragment() {
         observeWeatherData()
         setupUI()
         binding.btnToday.performClick()
+
     }
+
     private fun setupUI() {
-        val nestedNavController = childFragmentManager.findFragmentById(R.id.fragmentContainerView)?.findNavController()
+        val nestedNavController =
+            childFragmentManager.findFragmentById(R.id.fragmentContainerView)?.findNavController()
 
         binding.btnToday.setOnClickListener {
             weatherViewModel.setTargetDayType(DayType.TODAY)
@@ -85,7 +89,30 @@ class WeatherMainFragment : Fragment() {
             }
         }
     }
-    private fun updateTabSelection(selectedButtonId: Int) {
+
+    fun backPressed(currentFragmentId: Int?) {
+        val nestedNavController =
+            childFragmentManager.findFragmentById(R.id.fragmentContainerView)?.findNavController()
+        when (currentFragmentId) {
+            R.id.oneWeekFragment -> {
+                weatherViewModel.setTargetDayType(DayType.TOMORROW)
+                updateTabSelection(R.id.btnTomorrow)
+                nestedNavController?.navigate(R.id.tomorrowFragment)
+            }
+
+            R.id.tomorrowFragment -> {
+                weatherViewModel.setTargetDayType(DayType.TODAY)
+                updateTabSelection(R.id.btnToday)
+                nestedNavController?.navigate(R.id.todayFragment)
+            }
+
+            R.id.todayFragment -> {
+                requireActivity().onBackPressedDispatcher.onBackPressed()
+            }
+        }
+    }
+
+    fun updateTabSelection(selectedButtonId: Int) {
         val selectedColor = ContextCompat.getColor(requireContext(), R.color.active_button_color)
         val defaultColor = ContextCompat.getColor(requireContext(), R.color.default_button_color)
 
@@ -122,12 +149,14 @@ class WeatherMainFragment : Fragment() {
             }
         }
     }
+
     private fun setUpCurrentWeatherUI(weatherList: WeatherResponse) {
         geocodingViewModel.shortLocationName.observe(viewLifecycleOwner) { locationName ->
             binding?.tvName?.text = locationName
         }
-       // binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
+        // binding.tvName.text = " ${weatherList.name}, ${weatherList.sys.country}"
     }
+
     private fun setUpMeteoUI(meteo: OpenMeteoResponse?) {
         val degree = WeatherCodeUtils.getUnit(requireContext().resources.configuration.toString())
         var oneWeekMaxTemperature: String? = null
@@ -236,6 +265,7 @@ class WeatherMainFragment : Fragment() {
         }
 
     }
+
     fun getDateRangeString(dates: List<String>): String {
         if (dates.isEmpty()) return ""
 
@@ -252,6 +282,7 @@ class WeatherMainFragment : Fragment() {
 
         return "$startDay-$endDay ${month.replaceFirstChar { it.uppercase() }}"
     }
+
     fun generateWeeklySummary(context: Context, codes: List<String>): String {
         val codeCounts = codes.groupingBy { it }.eachCount()
         val sortedByFrequency = codeCounts.toList().sortedByDescending { it.second }

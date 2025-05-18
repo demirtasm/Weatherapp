@@ -9,9 +9,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.madkit.weatherapp.R
 import com.madkit.weatherapp.adapter.HourlyWeatherAdapter
@@ -39,6 +41,9 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.madkit.weatherapp.domain.model.uistate.HourlyWeatherUIState
 import com.madkit.weatherapp.utils.DayType
 import com.madkit.weatherapp.views.customViews.LineChartMarkerView
+import com.madkit.weatherapp.views.fragments.TodayFragment
+import com.madkit.weatherapp.views.fragments.TomorrowFragment
+import com.madkit.weatherapp.views.fragments.WeatherMainFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.Instant
 import java.time.LocalDateTime
@@ -89,6 +94,14 @@ abstract class BaseWeatherFragment : Fragment() {
         } else {
             "00:00"
         }
+        requireParentFragment().requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                val currentId = findNavController().currentDestination?.id
+                val weatherMainFragment = requireParentFragment()
+                    .parentFragment as? WeatherMainFragment
+                weatherMainFragment?.backPressed(currentId)
+            }
+        })
     }
 
     private  fun observeWeatherData() {

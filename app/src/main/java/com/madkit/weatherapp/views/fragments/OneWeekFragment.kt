@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.madkit.weatherapp.adapter.OneWeekItemAdapter
 import com.madkit.weatherapp.databinding.FragmentOneWeekBinding
@@ -46,7 +48,14 @@ class OneWeekFragment : Fragment() {
                 rv.adapter = OneWeekItemAdapter(requireContext(),oneWeekItems)
             }
 
-
+        requireParentFragment().requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                val currentId = findNavController().currentDestination?.id
+                val weatherMainFragment = requireParentFragment()
+                    .parentFragment as? WeatherMainFragment
+                weatherMainFragment?.backPressed(currentId)
+            }
+        })
 
 
     }

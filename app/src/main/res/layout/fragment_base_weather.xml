@@ -6,7 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".views.fragments.TodayFragment">
-
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp"
+        android:scrollbars="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -722,5 +728,5 @@
             ads:adSize="LARGE_BANNER"
             ads:adUnitId="ca-app-pub-3438221392612643/6858530738" />
     </LinearLayout>
-
+    </androidx.core.widget.NestedScrollView>
 </FrameLayout>
