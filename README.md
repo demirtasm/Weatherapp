@@ -1,4 +1,7 @@
+
 # 🌦️ Weatherly - Android Weather App
+
+[![Play Store](https://img.shields.io/badge/Download-Play%20Store-blue?style=for-the-badge&logo=google-play)](https://play.google.com/store/apps/details?id=com.madkit.weatherapp)
 
 Weatherly is a lightweight and efficient Android weather app crafted with Kotlin and powered by a clean MVVM architecture. It delivers accurate real-time weather updates, detailed hourly and daily climate insights, and environmental air quality metrics. Leveraging the strengths of both OpenWeather and Open-Meteo APIs, Weatherly transforms raw meteorological data into meaningful information—tailored for a smooth and responsive mobile experience.
 
